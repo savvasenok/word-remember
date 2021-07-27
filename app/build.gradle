@@ -65,6 +65,8 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0-rc02"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    //noinspection GradleDependency
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "androidx.room:room-compiler:2.4.0-alpha04"
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.3"

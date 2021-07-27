@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/learnWordFragment">
-
+    app:startDestination="@id/learnWordAddWordViewPagerFragment">
     <fragment
-        android:id="@+id/learnWordFragment"
-        android:name="xyz.savvamirzoyan.wordremember.LearnWordFragment"
+        android:id="@+id/learnWordAddWordViewPagerFragment"
+        android:name="xyz.savvamirzoyan.wordremember.view.fragment.LearnWordAddWordViewPagerFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_learn_word" />
+        tools:layout="@layout/fragment_learn_word_add_word_view_pager" />
 </navigation>

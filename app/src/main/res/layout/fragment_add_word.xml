@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.LearnWordFragment">
+    tools:context=".view.fragment.AddWordFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/learn_word_fragment_title" />
+        android:text="@string/add_word_fragment_title" />
 
 </FrameLayout>
