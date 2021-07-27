@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Word Remember</string>
+
+    <!--  Learn Words  -->
+    <!--    <string name="learn_fragment_title"></string>-->
 </resources>

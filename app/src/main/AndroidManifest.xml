@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="xyz.savvamirzoyan.wordremember">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".WordRememberApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WordRemember"
         tools:ignore="AllowBackup">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
