@@ -39,9 +39,9 @@ class WordRememberApplication : Application() {
         super.onCreate()
 
         if (BuildConfig.BUILD_TYPE == debugBuildType) {
-            Timber.plant(ProductionDebugTree())
-        } else {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(ProductionDebugTree())
         }
     }
 }

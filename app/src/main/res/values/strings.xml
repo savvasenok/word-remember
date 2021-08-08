@@ -6,4 +6,39 @@
 
     <!--  Add Words  -->
     <string name="add_word_fragment_title">Add</string>
+    <string name="add_word_hint_new_word">New word</string>
+    <string name="add_word_hint_new_word_gender">Gender</string>
+    <string name="add_word_hint_is_noun">This word is verb</string>
+    <string name="add_word_hint_word_plural_form">Plural form</string>
+    <string name="add_word_hint_translation">Translation</string>
+    <string name="add_word_this_word_only_plural">This word has only plural form</string>
+    <string name="add_word_required">* Required</string>
+    <string name="add_word_not_required" />
+    <string name="add_word_word_type_hint">This word is:</string>
+    <string name="add_word_word_type_noun">Noun</string>
+    <string name="add_word_word_type_verb">Verb</string>
+    <string name="add_word_word_type_adjective">Adjective</string>
+    <string name="add_word_time_prasens">Präsens</string>
+    <string name="add_word_time_prateritum">Präteritum</string>
+    <string name="add_word_time_perfect">Perfect</string>
+    <string name="add_word_button_save">Save</string>
+    <string name="add_word_person_ich">Ich</string>
+    <string name="add_word_person_wir">Wir</string>
+    <string name="add_word_person_du">Du</string>
+    <string name="add_word_person_ihr">Ihr</string>
+    <string name="add_word_person_er_sie_es">Er/sie/es</string>
+    <string name="add_word_person_sie_sie">Sie/sie</string>
+    <string name="add_word_person_perfect_ich">Ich habe</string>
+    <string name="add_word_person_perfect_wir">Wir haben</string>
+    <string name="add_word_person_perfect_du">Du hast</string>
+    <string name="add_word_person_perfect_ihr">Ihr habt</string>
+    <string name="add_word_person_perfect_er_sie_es">Er/sie/es hat</string>
+    <string name="add_word_person_perfect_sie">Sie haben</string>
+    <string name="add_word_plural_prefix">die ⁠</string>
+
+    <!--  Input Errors  -->
+    <string name="input_error_no_gender">Word must have gender</string>
+    <string name="input_error_word_must_not_be_empty">Word must not be empty or blank</string>
+    <string name="input_error_word_must_have_plural">Word must have plural form</string>
+    <string name="input_error_word_must_have_translation">Word must have translation</string>
 </resources>
