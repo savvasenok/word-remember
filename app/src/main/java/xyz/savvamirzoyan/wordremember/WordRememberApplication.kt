@@ -1,7 +1,9 @@
 package xyz.savvamirzoyan.wordremember
 
 import android.app.Application
+import androidx.viewbinding.BuildConfig
 import timber.log.Timber
+import xyz.savvamirzoyan.wordremember.data.database.AppDatabase
 
 class WordRememberApplication : Application() {
 
@@ -43,5 +45,7 @@ class WordRememberApplication : Application() {
         } else {
             Timber.plant(ProductionDebugTree())
         }
+
+        AppDatabase.getInstance(this)
     }
 }

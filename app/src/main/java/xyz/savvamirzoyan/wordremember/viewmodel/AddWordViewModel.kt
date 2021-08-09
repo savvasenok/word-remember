@@ -3,14 +3,17 @@ package xyz.savvamirzoyan.wordremember.viewmodel
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.entity.VerbForm
+import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.state.DataInputState
+import xyz.savvamirzoyan.wordremember.data.state.VerbFormType
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.data.types.WordType
 import xyz.savvamirzoyan.wordremember.data.types.WordType.*
@@ -25,6 +28,7 @@ class AddWordViewModel(
     private var wordPluralForm: String = ""
     private var isOnlyPlural: Boolean = false
     private var translation: String = ""
+    private val verbFormHelper: VerbFormHelper = VerbFormHelper()
 
     private val initWordGenderTextInputState =
         DataInputState(true, null, R.string.add_word_required)
@@ -42,6 +46,7 @@ class AddWordViewModel(
     private val _verbFormsVisibilityStatusFlow = MutableStateFlow(View.GONE)
     private val _onlyPluralSwitchVisibilityStatusFlow = MutableStateFlow(View.VISIBLE)
     private val _saveButtonIsEnabledFlow = MutableStateFlow(false)
+    private val _clearAllInputStatusFlow = Channel<Unit>()
 
     private val isSaveEnabled: Boolean
         get() {
@@ -53,7 +58,7 @@ class AddWordViewModel(
             }
         }
 
-    val nounGenders = WordGender.values().map { it.toString().uppercase() }
+    val nounGenders = WordGender.values().map { it.toString().lowercase() }
 
     val genderStatusFlow = _genderStateFlow.asStateFlow()
     val wordStatusFlow = _wordStateFlow.asStateFlow()
@@ -62,6 +67,7 @@ class AddWordViewModel(
     val verbFormsVisibilityStatusFlow = _verbFormsVisibilityStatusFlow.asStateFlow()
     val onlyPluralSwitchVisibilityStatusFlow = _onlyPluralSwitchVisibilityStatusFlow.asStateFlow()
     val saveButtonIsEnabledFlow = _saveButtonIsEnabledFlow.asStateFlow()
+    val clearAllInputStatusFlow = _clearAllInputStatusFlow.receiveAsFlow()
 
     private fun updateSaveButtonStatus() {
         Timber.i("updateSaveButtonStatus()")
@@ -72,7 +78,7 @@ class AddWordViewModel(
     fun onGenderChange(gender: String) {
         Timber.i("onGenderChange(gender:$gender)")
 
-        if (gender.uppercase() in nounGenders) {
+        if (gender.lowercase() in nounGenders) {
             wordGender = WordGender.valueOf(gender.uppercase())
             _genderStateFlow.value =
                 DataInputState(true, null, R.string.add_word_required)
@@ -255,13 +261,37 @@ class AddWordViewModel(
         updateSaveButtonStatus()
     }
 
+    fun onVerbFormChange(form: String?, verbFormType: VerbFormType) {
+        Timber.i("onVerbFormChange(form:\"$form\", verbFormType:$verbFormType)")
+        when (verbFormType) {
+            VerbFormType.PRASENS_ICH -> verbFormHelper.prasensIch = form
+            VerbFormType.PRASENS_DU -> verbFormHelper.prasensDu = form
+            VerbFormType.PRASENS_ER_SIE_ES -> verbFormHelper.prasensErSieEs = form
+            VerbFormType.PRASENS_WIR -> verbFormHelper.prasensWir = form
+            VerbFormType.PRASENS_IHR -> verbFormHelper.prasensIhr = form
+            VerbFormType.PRASENS_SIE_SIE -> verbFormHelper.prasensSieSie = form
+            VerbFormType.PRATERITUM_ICH -> verbFormHelper.prateritumIch = form
+            VerbFormType.PRATERITUM_DU -> verbFormHelper.prateritumDu = form
+            VerbFormType.PRATERITUM_ER_SIE_ES -> verbFormHelper.prateritumErSieEs = form
+            VerbFormType.PRATERITUM_WIR -> verbFormHelper.prateritumWir = form
+            VerbFormType.PRATERITUM_IHR -> verbFormHelper.prateritumIhr = form
+            VerbFormType.PRATERITUM_SIE_SIE -> verbFormHelper.prateritumSieSie = form
+            VerbFormType.PERFEKT_ICH -> verbFormHelper.perfektIch = form
+            VerbFormType.PERFEKT_DU -> verbFormHelper.perfektDu = form
+            VerbFormType.PERFEKT_ER_SIE_ES -> verbFormHelper.perfektErSieEs = form
+            VerbFormType.PERFEKT_WIR -> verbFormHelper.perfektWir = form
+            VerbFormType.PERFEKT_IHR -> verbFormHelper.perfektIhr = form
+            VerbFormType.PERFEKT_SIE_SIE -> verbFormHelper.perfektSieSie = form
+        }
+    }
+
     fun onButtonSaveClick() {
         Timber.i("onButtonSaveClick()")
 
         _saveButtonIsEnabledFlow.value = false
 
         viewModelScope.launch {
-            _saveButtonIsEnabledFlow.emit(false)
+            _saveButtonIsEnabledFlow.value = false
 
             when (wordType) {
                 NOUN -> if (isOnlyPlural) {
@@ -269,11 +299,23 @@ class AddWordViewModel(
                 } else {
                     repository.saveWord(wordGender!!, word, wordPluralForm, translation)
                 }
-                VERB -> repository.saveWordVerb(word, VerbForm.Prasens(), translation)
+                VERB -> repository.saveWordVerb(word, translation, verbFormHelper)
                 ADJECTIVE -> repository.saveWordAdjective(word, translation)
             }
 
-            _saveButtonIsEnabledFlow.emit(true)
+            clearInput()
+
+            _saveButtonIsEnabledFlow.value = true
         }
+    }
+
+    private suspend fun clearInput() {
+        _clearAllInputStatusFlow.send(Unit)
+        _genderStateFlow.value = initWordGenderTextInputState
+        _wordStateFlow.value = initWordTextInputState
+        _translationStateFlow.value = initTranslationTextInputState
+        _wordPluralFormStateFlow.value = initPluralFormTextInputState
+        _verbFormsVisibilityStatusFlow.value = View.GONE
+        _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
     }
 }

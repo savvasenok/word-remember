@@ -1,6 +1,6 @@
 package xyz.savvamirzoyan.wordremember.contract.repository
 
-import xyz.savvamirzoyan.wordremember.data.entity.VerbForm
+import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
 interface IAddWordRepository {
@@ -28,7 +28,7 @@ interface IAddWordRepository {
     // Verb
     suspend fun saveWordVerb(
         word: String,
-        verbForm: VerbForm,
-        translation: String
+        translation: String,
+        verbForm: VerbFormHelper
     )
 }

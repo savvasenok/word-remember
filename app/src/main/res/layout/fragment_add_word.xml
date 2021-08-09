@@ -241,7 +241,6 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInput_prateritum_ich"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -249,6 +248,7 @@
                         android:hint="@string/add_word_person_ich">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInput_prateritum_ich"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
