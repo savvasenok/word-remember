@@ -297,8 +297,8 @@ class ViewModelTests {
         assertEquals(
             DataInputState(
                 true,
-                R.string.input_error_word_must_not_be_empty,
-                R.string.add_word_not_required
+                null,
+                R.string.add_word_required
             ),
             viewModel.wordStatusFlow.value
         )

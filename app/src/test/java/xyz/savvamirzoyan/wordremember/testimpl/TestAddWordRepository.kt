@@ -1,7 +1,7 @@
 package xyz.savvamirzoyan.wordremember.testimpl
 
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.entity.VerbForm
+import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
 class TestAddWordRepository : IAddWordRepository {
@@ -17,5 +17,10 @@ class TestAddWordRepository : IAddWordRepository {
 
     override suspend fun saveWordAdjective(word: String, translation: String) {}
 
-    override suspend fun saveWordVerb(word: String, verbForm: VerbForm, translation: String) {}
+    override suspend fun saveWordVerb(
+        word: String,
+        translation: String,
+        verbForm: VerbFormHelper
+    ) {
+    }
 }

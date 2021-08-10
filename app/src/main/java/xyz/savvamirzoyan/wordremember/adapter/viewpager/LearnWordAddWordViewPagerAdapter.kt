@@ -9,11 +9,15 @@ class LearnWordAddWordViewPagerAdapter(
     private val pages: Int,
     fragment: Fragment
 ) : FragmentStateAdapter(fragment) {
+
+    private val learnWordFragment = LearnWordFragment()
+    private val addWordFragment = AddWordFragment()
+
     override fun getItemCount(): Int = pages
 
     override fun createFragment(position: Int): Fragment = when (position) {
-        0 -> LearnWordFragment()
-        1 -> AddWordFragment()
+        0 -> learnWordFragment
+        1 -> addWordFragment
         else -> throw RuntimeException("Fragment #$itemCount does not exist")
     }
 }

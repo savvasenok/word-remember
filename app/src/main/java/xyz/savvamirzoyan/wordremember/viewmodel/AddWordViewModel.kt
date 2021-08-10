@@ -30,23 +30,27 @@ class AddWordViewModel(
     private var translation: String = ""
     private val verbFormHelper: VerbFormHelper = VerbFormHelper()
 
-    private val initWordGenderTextInputState =
+    private val initWordGenderTextInputState by lazy {
         DataInputState(true, null, R.string.add_word_required)
-    private val initWordTextInputState =
+    }
+    private val initWordTextInputState by lazy {
         DataInputState(true, null, R.string.add_word_required)
-    private val initPluralFormTextInputState =
+    }
+    private val initPluralFormTextInputState by lazy {
         DataInputState(true, null, R.string.add_word_not_required)
-    private val initTranslationTextInputState =
+    }
+    private val initTranslationTextInputState by lazy {
         DataInputState(true, null, R.string.add_word_required)
+    }
 
-    private val _genderStateFlow = MutableStateFlow(initWordGenderTextInputState)
-    private val _wordStateFlow = MutableStateFlow(initWordTextInputState)
-    private val _translationStateFlow = MutableStateFlow(initTranslationTextInputState)
-    private val _wordPluralFormStateFlow = MutableStateFlow(initPluralFormTextInputState)
-    private val _verbFormsVisibilityStatusFlow = MutableStateFlow(View.GONE)
-    private val _onlyPluralSwitchVisibilityStatusFlow = MutableStateFlow(View.VISIBLE)
-    private val _saveButtonIsEnabledFlow = MutableStateFlow(false)
-    private val _clearAllInputStatusFlow = Channel<Unit>()
+    private val _genderStateFlow by lazy { MutableStateFlow(initWordGenderTextInputState) }
+    private val _wordStateFlow by lazy { MutableStateFlow(initWordTextInputState) }
+    private val _translationStateFlow by lazy { MutableStateFlow(initTranslationTextInputState) }
+    private val _wordPluralFormStateFlow by lazy { MutableStateFlow(initPluralFormTextInputState) }
+    private val _verbFormsVisibilityStatusFlow by lazy { MutableStateFlow(View.GONE) }
+    private val _onlyPluralSwitchVisibilityStatusFlow by lazy { MutableStateFlow(View.VISIBLE) }
+    private val _saveButtonIsEnabledFlow by lazy { MutableStateFlow(false) }
+    private val _clearAllInputStatusFlow by lazy { Channel<Unit>() }
 
     private val isSaveEnabled: Boolean
         get() {
@@ -60,14 +64,14 @@ class AddWordViewModel(
 
     val nounGenders = WordGender.values().map { it.toString().lowercase() }
 
-    val genderStatusFlow = _genderStateFlow.asStateFlow()
-    val wordStatusFlow = _wordStateFlow.asStateFlow()
-    val translationStatusFlow = _translationStateFlow.asStateFlow()
-    val wordPluralFormStatusFlow = _wordPluralFormStateFlow.asStateFlow()
-    val verbFormsVisibilityStatusFlow = _verbFormsVisibilityStatusFlow.asStateFlow()
-    val onlyPluralSwitchVisibilityStatusFlow = _onlyPluralSwitchVisibilityStatusFlow.asStateFlow()
-    val saveButtonIsEnabledFlow = _saveButtonIsEnabledFlow.asStateFlow()
-    val clearAllInputStatusFlow = _clearAllInputStatusFlow.receiveAsFlow()
+    val genderStatusFlow by lazy { _genderStateFlow.asStateFlow() }
+    val wordStatusFlow by lazy { _wordStateFlow.asStateFlow() }
+    val translationStatusFlow by lazy { _translationStateFlow.asStateFlow() }
+    val wordPluralFormStatusFlow by lazy { _wordPluralFormStateFlow.asStateFlow() }
+    val verbFormsVisibilityStatusFlow by lazy { _verbFormsVisibilityStatusFlow.asStateFlow() }
+    val onlyPluralSwitchVisibilityStatusFlow by lazy { _onlyPluralSwitchVisibilityStatusFlow.asStateFlow() }
+    val saveButtonIsEnabledFlow by lazy { _saveButtonIsEnabledFlow.asStateFlow() }
+    val clearAllInputStatusFlow by lazy { _clearAllInputStatusFlow.receiveAsFlow() }
 
     private fun updateSaveButtonStatus() {
         Timber.i("updateSaveButtonStatus()")
@@ -263,6 +267,7 @@ class AddWordViewModel(
 
     fun onVerbFormChange(form: String?, verbFormType: VerbFormType) {
         Timber.i("onVerbFormChange(form:\"$form\", verbFormType:$verbFormType)")
+
         when (verbFormType) {
             VerbFormType.PRASENS_ICH -> verbFormHelper.prasensIch = form
             VerbFormType.PRASENS_DU -> verbFormHelper.prasensDu = form
@@ -304,12 +309,12 @@ class AddWordViewModel(
             }
 
             clearInput()
-
-            _saveButtonIsEnabledFlow.value = true
         }
     }
 
     private suspend fun clearInput() {
+        Timber.i("clearInput()")
+
         _clearAllInputStatusFlow.send(Unit)
         _genderStateFlow.value = initWordGenderTextInputState
         _wordStateFlow.value = initWordTextInputState
