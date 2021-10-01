@@ -1,6 +1,8 @@
 package xyz.savvamirzoyan.wordremember.viewmodel
 
 import android.view.View
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
@@ -10,6 +12,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
+import xyz.savvamirzoyan.wordremember.constants.Endings
+import xyz.savvamirzoyan.wordremember.constants.Person
+import xyz.savvamirzoyan.wordremember.constants.Prefix
+import xyz.savvamirzoyan.wordremember.constants.Suffix
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.state.DataInputState
@@ -48,6 +54,7 @@ class AddWordViewModel(
     private val _translationStateFlow by lazy { MutableStateFlow(initTranslationTextInputState) }
     private val _wordPluralFormStateFlow by lazy { MutableStateFlow(initPluralFormTextInputState) }
     private val _verbFormsVisibilityStatusFlow by lazy { MutableStateFlow(View.GONE) }
+    private val _verbFormsStatusFlow by lazy { MutableStateFlow(VerbFormStatus()) }
     private val _onlyPluralSwitchVisibilityStatusFlow by lazy { MutableStateFlow(View.VISIBLE) }
     private val _saveButtonIsEnabledFlow by lazy { MutableStateFlow(false) }
     private val _clearAllInputStatusFlow by lazy { Channel<Unit>() }
@@ -69,6 +76,7 @@ class AddWordViewModel(
     val translationStatusFlow by lazy { _translationStateFlow.asStateFlow() }
     val wordPluralFormStatusFlow by lazy { _wordPluralFormStateFlow.asStateFlow() }
     val verbFormsVisibilityStatusFlow by lazy { _verbFormsVisibilityStatusFlow.asStateFlow() }
+    val verbFormsStatusFlow by lazy { _verbFormsStatusFlow.asStateFlow() }
     val onlyPluralSwitchVisibilityStatusFlow by lazy { _onlyPluralSwitchVisibilityStatusFlow.asStateFlow() }
     val saveButtonIsEnabledFlow by lazy { _saveButtonIsEnabledFlow.asStateFlow() }
     val clearAllInputStatusFlow by lazy { _clearAllInputStatusFlow.receiveAsFlow() }
@@ -77,6 +85,88 @@ class AddWordViewModel(
         Timber.i("updateSaveButtonStatus()")
 
         _saveButtonIsEnabledFlow.value = isSaveEnabled
+    }
+
+    private fun processVerbForms(word: String): VerbFormStatus {
+        val prefix = Prefix.all.find { word.startsWith(it) } ?: ""
+        val wordWithoutPrefix = word.removePrefix(prefix)
+        val wordRootForm = wordWithoutPrefix.removeSuffixEn()
+        val endingTransformer = wordEndingTransformer(wordRootForm)
+
+        return VerbFormStatus(
+            "$prefix$wordRootForm${endingTransformer(Person.ICH)}",
+            "$prefix$wordRootForm${endingTransformer(Person.DU)}",
+            "$prefix$wordRootForm${endingTransformer(Person.MAN)}",
+            "$prefix$wordRootForm${endingTransformer(Person.WIR)}",
+            "$prefix$wordRootForm${endingTransformer(Person.IHR)}",
+            "$prefix$wordRootForm${endingTransformer(Person.SIE)}",
+        )
+    }
+
+    private fun wordEndingTransformer(word: String): (Person) -> String = when {
+        word.endsWith(Endings.t) -> ::prasensEndingForTD
+        word.endsWith(Endings.d) -> ::prasensEndingForTD
+        word.endsWith(Endings.m) -> ::prasensEndingForMN
+        word.endsWith(Endings.n) -> ::prasensEndingForMN
+        word.endsWith(Endings.s) -> ::prasensEndingForSSsZ
+        word.endsWith(Endings.ss) -> ::prasensEndingForSSsZ
+        word.endsWith(Endings.z) -> ::prasensEndingForSSsZ
+        word.endsWith(Endings.er) -> ::prasensEndingForErEl
+        word.endsWith(Endings.el) -> ::prasensEndingForErEl
+        else -> ::prasensEndingForUndefined
+    }
+
+    private fun prasensEndingForTD(person: Person): String = when (person) {
+        Person.ICH -> "e"
+        Person.DU -> "est"
+        Person.MAN -> "et"
+        Person.WIR -> "en"
+        Person.IHR -> "et"
+        Person.SIE -> "en"
+    }.also {
+        Timber.i("prasensEndingForTD was used")
+    }
+
+    private fun prasensEndingForMN(person: Person): String = when (person) {
+        Person.ICH -> "e"
+        Person.DU -> "est"
+        Person.MAN -> "et"
+        Person.WIR -> "en"
+        Person.IHR -> "et"
+        Person.SIE -> "en"
+    }.also {
+        Timber.i("prasensEndingForMN was used")
+    }
+
+    private fun prasensEndingForSSsZ(person: Person): String = when (person) {
+        Person.ICH -> "e"
+        Person.DU -> "t"
+        Person.MAN -> "t"
+        Person.WIR -> "en"
+        Person.IHR -> "t"
+        Person.SIE -> "en"
+    }.also {
+        Timber.i("prasensEndingForSSsZ was used")
+    }
+
+    private fun prasensEndingForErEl(person: Person): String = when (person) {
+        Person.ICH -> "e"
+        Person.DU -> "st"
+        Person.MAN -> "t"
+        Person.WIR -> "n"
+        Person.IHR -> "t"
+        Person.SIE -> "n"
+    }.also {
+        Timber.i("prasensEndingForErEl was used")
+    }
+
+    private fun prasensEndingForUndefined(person: Person): String = when (person) {
+        Person.ICH -> "e"
+        Person.DU -> "st"
+        Person.MAN -> "t"
+        Person.WIR -> "en"
+        Person.IHR -> "t"
+        Person.SIE -> "en"
     }
 
     fun onGenderChange(gender: String) {
@@ -98,16 +188,56 @@ class AddWordViewModel(
     fun onWordChange(newWord: String) {
         Timber.i("onWordChange(newWord:$newWord)")
 
-        word = newWord
-        if (newWord.isNotBlank() && !isOnlyPlural) {
-            _wordStateFlow.value = DataInputState(true, null, R.string.add_word_required)
-        } else {
-            _wordStateFlow.value = DataInputState(
-                true,
-                R.string.input_error_word_must_not_be_empty,
-                R.string.add_word_not_required
-            )
+        when (wordType) {
+            NOUN -> {
+
+                word = newWord.capitalize(Locale.current)
+
+                if (newWord.isNotBlank() && !isOnlyPlural) {
+                    _wordStateFlow.value = DataInputState(true, null, R.string.add_word_required)
+                } else {
+                    _wordStateFlow.value = DataInputState(
+                        true,
+                        R.string.input_error_word_must_not_be_empty,
+                        R.string.add_word_not_required
+                    )
+                }
+            }
+            VERB -> {
+
+                word = newWord.lowercase()
+
+                if (word.isNotBlank()) {
+                    _wordStateFlow.value = DataInputState(true, null, R.string.add_word_required)
+                    _verbFormsStatusFlow.value = processVerbForms(word)
+                } else {
+                    _wordStateFlow.value = DataInputState(
+                        true,
+                        R.string.input_error_word_must_not_be_empty,
+                        R.string.add_word_not_required
+                    )
+                }
+            }
+            ADJECTIVE -> {
+                word = newWord.capitalize(Locale.current)
+
+                if (word.isBlank()) {
+                    _wordStateFlow.value = DataInputState(
+                        true,
+                        R.string.input_error_word_must_not_be_empty,
+                        R.string.add_word_not_required
+                    )
+                } else {
+                    _wordStateFlow.value = DataInputState(
+                        true,
+                        null,
+                        R.string.add_word_required
+                    )
+                }
+            }
         }
+
+
 
         updateSaveButtonStatus()
     }
@@ -281,12 +411,7 @@ class AddWordViewModel(
             VerbFormType.PRATERITUM_WIR -> verbFormHelper.prateritumWir = form
             VerbFormType.PRATERITUM_IHR -> verbFormHelper.prateritumIhr = form
             VerbFormType.PRATERITUM_SIE_SIE -> verbFormHelper.prateritumSieSie = form
-            VerbFormType.PERFEKT_ICH -> verbFormHelper.perfektIch = form
-            VerbFormType.PERFEKT_DU -> verbFormHelper.perfektDu = form
-            VerbFormType.PERFEKT_ER_SIE_ES -> verbFormHelper.perfektErSieEs = form
-            VerbFormType.PERFEKT_WIR -> verbFormHelper.perfektWir = form
-            VerbFormType.PERFEKT_IHR -> verbFormHelper.perfektIhr = form
-            VerbFormType.PERFEKT_SIE_SIE -> verbFormHelper.perfektSieSie = form
+            VerbFormType.PERFEKT -> verbFormHelper.perfekt = form
         }
     }
 
@@ -322,5 +447,29 @@ class AddWordViewModel(
         _wordPluralFormStateFlow.value = initPluralFormTextInputState
         _verbFormsVisibilityStatusFlow.value = View.GONE
         _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
+    }
+
+    data class VerbFormStatus(
+        val prasensIch: String = "",
+        val prasensDu: String = "",
+        val prasensErSieEs: String = "",
+        val prasensWir: String = "",
+        val prasensIhr: String = "",
+        val prasensSieSie: String = "",
+
+        val prateritumIch: String = "",
+        val prateritumDu: String = "",
+        val prateritumErSieEs: String = "",
+        val prateritumWir: String = "",
+        val prateritumIhr: String = "",
+        val prateritumSieSie: String = "",
+
+        val perfekt: String = ""
+    )
+
+    private fun String.removeSuffixEn(): String = if (this.removeSuffix(Suffix.en) != this) {
+        this.removeSuffix(Suffix.en)
+    } else {
+        this.removeSuffix(Suffix.n)
     }
 }

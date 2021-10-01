@@ -12,4 +12,7 @@ data class NounWord(
     val plural: String?,
     val isOnlyPlural: Boolean,
     val translation: String
-)
+) {
+    fun wordWithGender(): String? =
+        if (isOnlyPlural) null else "${gender?.name?.lowercase()} $word".trim()
+}

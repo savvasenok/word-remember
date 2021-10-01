@@ -8,7 +8,7 @@ import xyz.savvamirzoyan.wordremember.data.database.model.VerbWord
 import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
-class AddWordRepository : Repository(), IAddWordRepository {
+object AddWordRepository : Repository(), IAddWordRepository {
 
     override suspend fun saveWord(
         gender: WordGender,
@@ -67,12 +67,7 @@ class AddWordRepository : Repository(), IAddWordRepository {
         prateritumWir = prateritumWir.stringOrNull(),
         prateritumIhr = prateritumIhr.stringOrNull(),
         prateritumSieSie = prateritumSieSie.stringOrNull(),
-        perfektIch = perfektIch.stringOrNull(),
-        perfektDu = perfektDu.stringOrNull(),
-        perfektErSieEs = perfektErSieEs.stringOrNull(),
-        perfektWir = perfektWir.stringOrNull(),
-        perfektIhr = perfektIhr.stringOrNull(),
-        perfektSieSie = perfektSieSie.stringOrNull()
+        perfekt = perfekt.stringOrNull()
     )
 
     private fun String?.stringOrNull(): String? = if (this?.isBlank() == true) null else this

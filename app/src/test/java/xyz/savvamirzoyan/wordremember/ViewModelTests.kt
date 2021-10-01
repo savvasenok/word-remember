@@ -303,4 +303,194 @@ class ViewModelTests {
             viewModel.wordStatusFlow.value
         )
     }
+
+    @Test
+    fun `verb generate GEHEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("gehen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "gehe",
+                "gehst",
+                "geht",
+                "gehen",
+                "geht",
+                "gehen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate ARBEITEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("arbeiten")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "arbeite",
+                "arbeitest",
+                "arbeitet",
+                "arbeiten",
+                "arbeitet",
+                "arbeiten"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate BILDEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("bilden")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "bilde",
+                "bildest",
+                "bildet",
+                "bilden",
+                "bildet",
+                "bilden"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate ATMEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("atmen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "atme",
+                "atmest",
+                "atmet",
+                "atmen",
+                "atmet",
+                "atmen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate RECHNEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("rechnen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "rechne",
+                "rechnest",
+                "rechnet",
+                "rechnen",
+                "rechnet",
+                "rechnen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate HEISSEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("heissen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "heisse",
+                "heisst",
+                "heisst",
+                "heissen",
+                "heisst",
+                "heissen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate HEIZEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("heizen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "heize",
+                "heizt",
+                "heizt",
+                "heizen",
+                "heizt",
+                "heizen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate REISEN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("reisen")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "reise",
+                "reist",
+                "reist",
+                "reisen",
+                "reist",
+                "reisen"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate DAUERN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("dauern")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "dauere",
+                "dauerst",
+                "dauert",
+                "dauern",
+                "dauert",
+                "dauern"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
+
+    @Test
+    fun `verb generate KLINGELN`() = runBlocking {
+        val viewModel = AddWordViewModel(testAddWordRepository)
+
+        viewModel.onWordTypeVerbChange(true)
+        viewModel.onWordChange("klingeln")
+        assertEquals(
+            AddWordViewModel.VerbFormStatus(
+                "klingele",
+                "klingelst",
+                "klingelt",
+                "klingeln",
+                "klingelt",
+                "klingeln"
+            ),
+            viewModel.verbFormsStatusFlow.value
+        )
+    }
 }

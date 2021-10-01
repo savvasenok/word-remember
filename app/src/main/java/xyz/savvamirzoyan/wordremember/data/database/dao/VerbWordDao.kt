@@ -19,6 +19,10 @@ interface VerbWordDao {
     suspend fun getWord(word: String): VerbWordWithVerbForms?
 
     @Transaction
+    @Query("SELECT * FROM words_verb")
+    suspend fun getAllWords(): List<VerbWordWithVerbForms>
+
+    @Transaction
     @Query("SELECT * FROM words_verb WHERE :translation = translation")
     suspend fun getWordByTranslation(translation: String): VerbWordWithVerbForms?
 

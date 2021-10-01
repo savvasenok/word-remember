@@ -21,7 +21,8 @@ import xyz.savvamirzoyan.wordremember.data.database.model.VerbWord
         VerbForm::class
     ],
     exportSchema = true,
-    version = 1
+    version = 1,
+    autoMigrations = []
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract val nounWordDao: NounWordDao

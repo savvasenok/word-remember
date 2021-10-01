@@ -3,6 +3,7 @@
 
     <!--  Learn Word  -->
     <string name="learn_word_fragment_title">Learn</string>
+    <string name="learn_word_question_translate">Translate this word:</string>
 
     <!--  Add Words  -->
     <string name="add_word_fragment_title">Add</string>
@@ -28,12 +29,7 @@
     <string name="add_word_person_ihr">Ihr</string>
     <string name="add_word_person_er_sie_es">Er/sie/es</string>
     <string name="add_word_person_sie_sie">Sie/sie</string>
-    <string name="add_word_person_perfect_ich">Ich habe</string>
-    <string name="add_word_person_perfect_wir">Wir haben</string>
-    <string name="add_word_person_perfect_du">Du hast</string>
-    <string name="add_word_person_perfect_ihr">Ihr habt</string>
-    <string name="add_word_person_perfect_er_sie_es">Er/sie/es hat</string>
-    <string name="add_word_person_perfect_sie">Sie haben</string>
+    <string name="add_word_person_perfect">Perfect</string>
     <string name="add_word_plural_prefix">die ⁠</string>
 
     <!--  Input Errors  -->
@@ -41,4 +37,8 @@
     <string name="input_error_word_must_not_be_empty">Word must not be empty or blank</string>
     <string name="input_error_word_must_have_plural">Word must have plural form</string>
     <string name="input_error_word_must_have_translation">Word must have translation</string>
+
+    <!--  Output error  -->
+    <string name="output_error_not_enough_words">Not enough words to start 😿</string>
+    <string name="generated_content_consider_check">Generated content. Consider checking</string>
 </resources>

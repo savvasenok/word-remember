@@ -6,5 +6,5 @@ import androidx.room.Relation
 data class VerbWordWithVerbForms(
     @Embedded val verb: VerbWord,
     @Relation(parentColumn = "verbId", entityColumn = "verbWordId")
-    val prasens: VerbForm
+    val verbForm: VerbForm
 )

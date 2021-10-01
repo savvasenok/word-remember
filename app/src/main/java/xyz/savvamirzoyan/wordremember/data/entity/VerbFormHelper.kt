@@ -15,10 +15,5 @@ data class VerbFormHelper(
     var prateritumIhr: String? = null,
     var prateritumSieSie: String? = null,
 
-    var perfektIch: String? = null,
-    var perfektDu: String? = null,
-    var perfektErSieEs: String? = null,
-    var perfektWir: String? = null,
-    var perfektIhr: String? = null,
-    var perfektSieSie: String? = null,
+    var perfekt: String? = null,
 )

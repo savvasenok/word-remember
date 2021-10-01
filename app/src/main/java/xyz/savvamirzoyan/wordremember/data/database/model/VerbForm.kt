@@ -22,10 +22,5 @@ data class VerbForm(
     val prateritumIhr: String?,
     val prateritumSieSie: String?,
 
-    val perfektIch: String?,
-    val perfektDu: String?,
-    val perfektErSieEs: String?,
-    val perfektWir: String?,
-    val perfektIhr: String?,
-    val perfektSieSie: String?,
+    val perfekt: String?
 )

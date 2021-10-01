@@ -6,8 +6,10 @@
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/activity_list_item.xml" value="0.24114583333333334" />
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/list_content.xml" value="0.24114583333333334" />
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/simple_list_item_1.xml" value="0.24114583333333334" />
-        <entry key="app/src/main/res/layout/fragment_add_word.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/fragment_learn_word.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/fragment_add_word.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_answers_3_button.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/fragment_answers_4_button.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/fragment_learn_word.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_learn_word_add_word_view_pager.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/widget_text_input.xml" value="0.35572916666666665" />
       </map>

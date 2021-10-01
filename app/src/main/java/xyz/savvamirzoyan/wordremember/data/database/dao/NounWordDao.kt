@@ -11,6 +11,9 @@ interface NounWordDao {
     @Query("SELECT * FROM words_noun WHERE :id = id")
     suspend fun getWord(id: Long): NounWord?
 
+    @Query("SELECT * FROM words_noun")
+    suspend fun getAllWords(): List<NounWord>
+
     @Query("SELECT * FROM words_noun WHERE :word = word")
     suspend fun getWord(word: String): NounWord?
 

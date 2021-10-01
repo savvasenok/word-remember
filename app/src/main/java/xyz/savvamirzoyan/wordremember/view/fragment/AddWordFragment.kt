@@ -8,17 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.data.repository.AddWordRepository
 import xyz.savvamirzoyan.wordremember.data.state.VerbFormType
 import xyz.savvamirzoyan.wordremember.databinding.FragmentAddWordBinding
+import xyz.savvamirzoyan.wordremember.extension.flowListen
 import xyz.savvamirzoyan.wordremember.factory.AddWordViewModelFactory
 import xyz.savvamirzoyan.wordremember.viewmodel.AddWordViewModel
 
@@ -35,9 +32,7 @@ class AddWordFragment : Fragment() {
         binding = FragmentAddWordBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(
             this,
-            AddWordViewModelFactory(
-                AddWordRepository()
-            )
+            AddWordViewModelFactory(AddWordRepository)
         ).get(AddWordViewModel::class.java)
 
         setNounGenderOptions(viewModel.nounGenders)
@@ -50,29 +45,20 @@ class AddWordFragment : Fragment() {
         setOnButtonSaveClickListener()
         setOnVerbFormsChangeListeners()
 
+
         lifecycleScope
-            .flowListen(::setOnNounGenderStatusChangeListener)
-            .flowListen(::setOnWordStatusChangeListener)
-            .flowListen(::setOnVerbFormsVisibilityStatusChangeListener)
-            .flowListen(::setOnWordPluralFormStatusChangeListener)
-            .flowListen(::setOnTranslationStatusChangeListener)
-            .flowListen(::setOnSaveButtonIsEnabledChangeListener)
-            .flowListen(::setOnSwitchOnlyPluralVisibilityListener)
-            .flowListen(::setOnClearAllInputStatusChangeListener)
+            .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnWordStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnVerbFormsVisibilityStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnVerbFormsStatusFlowChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnWordPluralFormStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnTranslationStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnSaveButtonIsEnabledChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnSwitchOnlyPluralVisibilityListener, viewLifecycleOwner)
+            .flowListen(::setOnClearAllInputStatusChangeListener, viewLifecycleOwner)
 
         return binding.root
-    }
-
-    private fun CoroutineScope.flowListen(function: suspend () -> Unit): CoroutineScope {
-        Timber.i("flowListen()")
-
-        launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                function()
-            }
-        }
-
-        return this
     }
 
     private fun setNounGenderOptions(items: List<String>) {
@@ -164,6 +150,28 @@ class AddWordFragment : Fragment() {
         viewModel.verbFormsVisibilityStatusFlow.collect { visibility ->
             Timber.i("setOnVerbFormsVisibilityStatusChangeListener() -> collect:$visibility")
             binding.linearLayoutVerbForms.visibility = visibility
+        }
+    }
+
+    private suspend fun setOnVerbFormsStatusFlowChangeListener() {
+        Timber.i("setOnVerbFormsStatusFlowChangeListener()")
+
+        viewModel.verbFormsStatusFlow.collect { status ->
+            Timber.i("setOnVerbFormsStatusFlowChangeListener() -> collect:$status")
+
+            binding.textInputPrasensIch.setText(status.prasensIch)
+            binding.textInputPrasensDu.setText(status.prasensDu)
+            binding.textInputPrasensErSieEs.setText(status.prasensErSieEs)
+            binding.textInputPrasensWir.setText(status.prasensWir)
+            binding.textInputPrasensIhr.setText(status.prasensIhr)
+            binding.textInputPrasensSieSie.setText(status.prasensSieSie)
+            binding.textInputPrateritumIch.setText(status.prateritumIch)
+            binding.textInputPrateritumDu.setText(status.prateritumDu)
+            binding.textInputPrateritumErSieEs.setText(status.prateritumErSieEs)
+            binding.textInputPrateritumWir.setText(status.prateritumWir)
+            binding.textInputPrateritumIhr.setText(status.prateritumIhr)
+            binding.textInputPrateritumSieSie.setText(status.prateritumSieSie)
+            binding.textInputPerfect.setText(status.perfekt)
         }
     }
 
@@ -283,12 +291,7 @@ class AddWordFragment : Fragment() {
             binding.textInputPrateritumWir.text = null
             binding.textInputPrateritumIhr.text = null
             binding.textInputPrateritumSieSie.text = null
-            binding.textInputPerfectIch.text = null
-            binding.textInputPerfectDu.text = null
-            binding.textInputPerfectErSieEs.text = null
-            binding.textInputPerfectWir.text = null
-            binding.textInputPerfectIhr.text = null
-            binding.textInputPerfectSieSie.text = null
+            binding.textInputPerfect.text = null
         }
     }
 
@@ -309,12 +312,7 @@ class AddWordFragment : Fragment() {
         binding.textInputPrateritumIhr.addTextChangedListener(textWatcher(VerbFormType.PRATERITUM_IHR))
         binding.textInputPrateritumSieSie.addTextChangedListener(textWatcher(VerbFormType.PRATERITUM_SIE_SIE))
 
-        binding.textInputPerfectIch.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_ICH))
-        binding.textInputPerfectDu.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_DU))
-        binding.textInputPerfectErSieEs.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_ER_SIE_ES))
-        binding.textInputPerfectWir.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_WIR))
-        binding.textInputPerfectIhr.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_IHR))
-        binding.textInputPerfectSieSie.addTextChangedListener(textWatcher(VerbFormType.PERFEKT_SIE_SIE))
+        binding.textInputPerfect.addTextChangedListener(textWatcher(VerbFormType.PERFEKT))
     }
 
     private fun textWatcher(forType: VerbFormType) = object : TextWatcher {
