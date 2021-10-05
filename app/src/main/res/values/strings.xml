@@ -31,6 +31,10 @@
     <string name="add_word_person_sie_sie">Sie/sie</string>
     <string name="add_word_person_perfect">Perfect</string>
     <string name="add_word_plural_prefix">die ⁠</string>
+    <string name="add_word_generated_content_consider_check">Generated content. Consider checking</string>
+
+    <!--  Words List  -->
+    <string name="words_list">Words list</string>
 
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>
@@ -40,5 +44,4 @@
 
     <!--  Output error  -->
     <string name="output_error_not_enough_words">Not enough words to start 😿</string>
-    <string name="generated_content_consider_check">Generated content. Consider checking</string>
 </resources>

@@ -45,7 +45,6 @@ class AddWordFragment : Fragment() {
         setOnButtonSaveClickListener()
         setOnVerbFormsChangeListeners()
 
-
         lifecycleScope
             .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
             .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)

@@ -1,10 +1,9 @@
 package xyz.savvamirzoyan.wordremember.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
@@ -15,18 +14,20 @@ private const val PAGES = 2
 
 class LearnWordAddWordViewPagerFragment : Fragment() {
 
-    private lateinit var binding: FragmentLearnWordAddWordViewPagerBinding
+    private var _binding: FragmentLearnWordAddWordViewPagerBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentLearnWordAddWordViewPagerBinding.inflate(inflater, container, false)
+        _binding = FragmentLearnWordAddWordViewPagerBinding.inflate(inflater, container, false)
 
         binding.viewPager.adapter = LearnWordAddWordViewPagerAdapter(PAGES, this)
 
         setTabLayoutMediator()
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -45,5 +46,20 @@ class LearnWordAddWordViewPagerFragment : Fragment() {
                 else -> throw RuntimeException("Fragment #$position does not have a name")
             }
         }.attach()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_words_list -> {
+                val action = LearnWordAddWordViewPagerFragmentDirections.toWordsListFragment()
+                Navigation.findNavController(binding.root).navigate(action)
+                true
+            }
+            else -> false
+        }
     }
 }

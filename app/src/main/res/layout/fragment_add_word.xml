@@ -120,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/generated_content_consider_check" />
+                        android:text="@string/add_word_generated_content_consider_check" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -260,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/generated_content_consider_check" />
+                        android:text="@string/add_word_generated_content_consider_check" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -399,7 +399,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/generated_content_consider_check" />
+                        android:text="@string/add_word_generated_content_consider_check" />
                 </LinearLayout>
 
                 <LinearLayout
