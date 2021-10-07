@@ -29,14 +29,13 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            minifyEnabled true
+            minifyEnabled false
             debuggable = true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         release {
             debuggable = false
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
