@@ -95,7 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -260,7 +261,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/add_word_generated_content_consider_check" />
+                        android:text="@string/add_word_generated_content_consider_check"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -399,7 +401,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/add_word_generated_content_consider_check" />
+                        android:text="@string/add_word_generated_content_consider_check"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -429,7 +432,8 @@
             android:id="@+id/linearLayout_pluralForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -461,6 +465,46 @@
                 android:textColor="@color/mtrl_indicator_text_color" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linearLayout_adjectiveForms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_komparativ"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/add_word_komparativ">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInput_komparativ"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="match_parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_superlativ"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/add_word_superlativ"
+                app:prefixText="@string/add_word_superlativ_prefix">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInput_superlativ"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout_translation"

@@ -39,11 +39,18 @@ object AddWordRepository : Repository(), IAddWordRepository {
         )
     }
 
-    override suspend fun saveWordAdjective(word: String, translation: String) {
+    override suspend fun saveWordAdjective(
+        word: String,
+        translation: String,
+        komparativ: String,
+        superlativ: String
+    ) {
         db.adjectiveWordDao.saveWord(
             AdjectiveWord(
                 word = word,
-                translation = translation
+                translation = translation,
+                komparativ = komparativ,
+                superlativ = superlativ
             )
         )
     }

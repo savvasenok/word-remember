@@ -22,7 +22,9 @@ interface IAddWordRepository {
     // Adjective
     suspend fun saveWordAdjective(
         word: String,
-        translation: String
+        translation: String,
+        komparativ: String,
+        superlativ: String
     )
 
     // Verb

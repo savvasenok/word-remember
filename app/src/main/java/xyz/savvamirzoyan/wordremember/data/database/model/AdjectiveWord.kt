@@ -7,5 +7,7 @@ import androidx.room.PrimaryKey
 data class AdjectiveWord(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val word: String,
-    val translation: String
+    val translation: String,
+    val komparativ: String,
+    val superlativ: String
 )

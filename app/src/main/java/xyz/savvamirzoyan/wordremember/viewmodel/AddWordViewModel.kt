@@ -33,8 +33,10 @@ class AddWordViewModel(
     private var wordType: WordType = NOUN
     private var wordPluralForm: String = ""
     private var isOnlyPlural: Boolean = false
-    private var translation: String = ""
     private val verbFormHelper: VerbFormHelper = VerbFormHelper()
+    private var komparativ: String = ""
+    private var superlativ: String = ""
+    private var translation: String = ""
 
     private val initWordGenderTextInputState by lazy {
         DataInputState(true, null, R.string.add_word_required)
@@ -58,6 +60,7 @@ class AddWordViewModel(
     private val _onlyPluralSwitchVisibilityStatusFlow by lazy { MutableStateFlow(View.VISIBLE) }
     private val _saveButtonIsEnabledFlow by lazy { MutableStateFlow(false) }
     private val _clearAllInputStatusFlow by lazy { Channel<Unit>() }
+    private val _adjectiveFormsVisibilityStatusFlow by lazy { MutableStateFlow(View.GONE) }
 
     private val isSaveEnabled: Boolean
         get() {
@@ -80,6 +83,7 @@ class AddWordViewModel(
     val onlyPluralSwitchVisibilityStatusFlow by lazy { _onlyPluralSwitchVisibilityStatusFlow.asStateFlow() }
     val saveButtonIsEnabledFlow by lazy { _saveButtonIsEnabledFlow.asStateFlow() }
     val clearAllInputStatusFlow by lazy { _clearAllInputStatusFlow.receiveAsFlow() }
+    val adjectiveFormsVisibilityStatusFlow by lazy { _adjectiveFormsVisibilityStatusFlow.asStateFlow() }
 
     private fun updateSaveButtonStatus() {
         Timber.i("updateSaveButtonStatus()")
@@ -255,6 +259,7 @@ class AddWordViewModel(
             _wordPluralFormStateFlow.value =
                 DataInputState(true, null, R.string.add_word_not_required)
             _verbFormsVisibilityStatusFlow.value = View.GONE
+            _adjectiveFormsVisibilityStatusFlow.value = View.GONE
             _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
 
             updateSaveButtonStatus()
@@ -277,6 +282,7 @@ class AddWordViewModel(
             _wordPluralFormStateFlow.value =
                 DataInputState(false, null, R.string.add_word_not_required, View.GONE)
             _verbFormsVisibilityStatusFlow.value = View.VISIBLE
+            _adjectiveFormsVisibilityStatusFlow.value = View.GONE
             _onlyPluralSwitchVisibilityStatusFlow.value = View.GONE
             updateSaveButtonStatus()
         }
@@ -291,6 +297,7 @@ class AddWordViewModel(
                 DataInputState(false, null, R.string.add_word_not_required, View.GONE)
             _wordPluralFormStateFlow.value =
                 DataInputState(false, null, R.string.add_word_not_required, View.GONE)
+            _adjectiveFormsVisibilityStatusFlow.value = View.VISIBLE
             _verbFormsVisibilityStatusFlow.value = View.GONE
             _onlyPluralSwitchVisibilityStatusFlow.value = View.GONE
             updateSaveButtonStatus()
@@ -415,6 +422,18 @@ class AddWordViewModel(
         }
     }
 
+    fun onKomparativChange(newKomparativ: String?) {
+        Timber.i("onKomparativChange(newKomparativ:\"$newKomparativ\")")
+
+        komparativ = newKomparativ ?: ""
+    }
+
+    fun onSuperlativChange(newSuperlativ: String?) {
+        Timber.i("newSuperlativ(newSuperlativ:\"$newSuperlativ\")")
+
+        superlativ = newSuperlativ ?: ""
+    }
+
     fun onButtonSaveClick() {
         Timber.i("onButtonSaveClick()")
 
@@ -430,7 +449,7 @@ class AddWordViewModel(
                     repository.saveWord(wordGender!!, word, wordPluralForm, translation)
                 }
                 VERB -> repository.saveWordVerb(word, translation, verbFormHelper)
-                ADJECTIVE -> repository.saveWordAdjective(word, translation)
+                ADJECTIVE -> repository.saveWordAdjective(word, translation, komparativ, superlativ)
             }
 
             clearInput()

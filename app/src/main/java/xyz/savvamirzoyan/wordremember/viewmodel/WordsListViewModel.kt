@@ -46,24 +46,29 @@ class WordsListViewModel(
                     .sortedBy { it.word }
     }
 
-    private fun NounWord.toWordsListItem(): WordsListItem {
-        return WordsListItem(
+    private fun NounWord.toWordsListItem(): WordsListItem.WordsListItemNoun {
+        return WordsListItem.WordsListItemNoun(
             this.word ?: this.plural ?: "",
-            this.translation
+            this.translation,
+            this.gender
         )
     }
 
-    private fun VerbWordWithVerbForms.toWordsListItem(): WordsListItem {
-        return WordsListItem(
+    private fun VerbWordWithVerbForms.toWordsListItem(): WordsListItem.WordsListItemVerb {
+        return WordsListItem.WordsListItemVerb(
             verb.word,
-            verb.translation
+            verb.translation,
+            verbForm.prateritumSieSie ?: "",
+            verbForm.perfekt ?: "",
         )
     }
 
-    private fun AdjectiveWord.toWordsListItem(): WordsListItem {
-        return WordsListItem(
+    private fun AdjectiveWord.toWordsListItem(): WordsListItem.WordsListItemAdjective {
+        return WordsListItem.WordsListItemAdjective(
             word,
-            translation
+            translation,
+            komparativ,
+            superlativ
         )
     }
 }

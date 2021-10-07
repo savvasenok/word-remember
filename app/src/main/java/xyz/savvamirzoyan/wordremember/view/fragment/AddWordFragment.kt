@@ -44,6 +44,7 @@ class AddWordFragment : Fragment() {
         setOnTranslationChangeListener()
         setOnButtonSaveClickListener()
         setOnVerbFormsChangeListeners()
+        setOnAdjectiveFormsChangeListener()
 
         lifecycleScope
             .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
@@ -56,6 +57,7 @@ class AddWordFragment : Fragment() {
             .flowListen(::setOnSaveButtonIsEnabledChangeListener, viewLifecycleOwner)
             .flowListen(::setOnSwitchOnlyPluralVisibilityListener, viewLifecycleOwner)
             .flowListen(::setOnClearAllInputStatusChangeListener, viewLifecycleOwner)
+            .flowListen(::setOnAdjectiveFormsVisibilityChangeListener, viewLifecycleOwner)
 
         return binding.root
     }
@@ -312,6 +314,42 @@ class AddWordFragment : Fragment() {
         binding.textInputPrateritumSieSie.addTextChangedListener(textWatcher(VerbFormType.PRATERITUM_SIE_SIE))
 
         binding.textInputPerfect.addTextChangedListener(textWatcher(VerbFormType.PERFEKT))
+    }
+
+    private fun setOnAdjectiveFormsChangeListener() {
+        Timber.i("setOnAdjectiveFormsChangeListener()")
+
+        binding.textInputKomparativ.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                Timber.i("textInputKomparativ TextWatcher() afterTextChanged(s:$s)")
+
+                viewModel.onKomparativChange(s?.toString())
+            }
+        })
+
+        binding.textInputSuperlativ.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                Timber.i("textInputSuperlativ TextWatcher() afterTextChanged(s:$s)")
+
+                viewModel.onSuperlativChange(s?.toString())
+            }
+        })
+    }
+
+    private suspend fun setOnAdjectiveFormsVisibilityChangeListener() {
+        Timber.i("setOnAdjectiveFormsVisibilityChangeListener()")
+
+        viewModel.adjectiveFormsVisibilityStatusFlow.collect {
+            Timber.i("setOnAdjectiveFormsVisibilityChangeListener() -> collect:$it")
+
+            binding.linearLayoutAdjectiveForms.visibility = it
+        }
     }
 
     private fun textWatcher(forType: VerbFormType) = object : TextWatcher {

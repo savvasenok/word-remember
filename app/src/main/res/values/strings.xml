@@ -32,9 +32,17 @@
     <string name="add_word_person_perfect">Perfect</string>
     <string name="add_word_plural_prefix">die ⁠</string>
     <string name="add_word_generated_content_consider_check">Generated content. Consider checking</string>
+    <string name="add_word_komparativ">Komparativ</string>
+    <string name="add_word_superlativ">Superlativ</string>
+    <string name="add_word_superlativ_prefix">am ⁠</string>
 
     <!--  Words List  -->
     <string name="words_list">Words list</string>
+    <string name="words_list_subtitle_prateritum">Präteritum</string>
+    <string name="words_list_subtitle_perfect">Perfect</string>
+    <string name="words_list_subtitle_komparativ">Komparativ</string>
+    <string name="words_list_subtitle_superlativ">Superlativ</string>
+    <string name="words_list_superlativ_prefix">am ⁠</string>
 
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>
@@ -44,4 +52,7 @@
 
     <!--  Output error  -->
     <string name="output_error_not_enough_words">Not enough words to start 😿</string>
+
+    <!-- Content Description -->
+    <string name="content_description_translates_to">Translates to</string>
 </resources>
