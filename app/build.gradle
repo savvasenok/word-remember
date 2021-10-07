@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -28,8 +29,9 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            minifyEnabled false
+            minifyEnabled true
             debuggable = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         release {
@@ -73,6 +75,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     //noinspection GradleDependency
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kapt "androidx.room:room-compiler:2.4.0-alpha04"
@@ -80,4 +83,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.navigation:navigation-testing:2.3.5"
+
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
 }
