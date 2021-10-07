@@ -402,8 +402,11 @@ class AddWordViewModel(
         updateSaveButtonStatus()
     }
 
-    fun onVerbFormChange(form: String?, verbFormType: VerbFormType) {
-        Timber.i("onVerbFormChange(form:\"$form\", verbFormType:$verbFormType)")
+    fun onVerbFormChange(_form: String?, verbFormType: VerbFormType) {
+        Timber.i("onVerbFormChange(form:\"$_form\", verbFormType:$verbFormType)")
+
+        val form = _form
+            ?.lowercase(java.util.Locale.GERMAN)
 
         when (verbFormType) {
             VerbFormType.PRASENS_ICH -> verbFormHelper.prasensIch = form
@@ -444,12 +447,29 @@ class AddWordViewModel(
 
             when (wordType) {
                 NOUN -> if (isOnlyPlural) {
-                    repository.saveWordPlural(wordPluralForm, translation)
+                    repository.saveWordPlural(
+                        wordPluralForm.asGermanNounString(),
+                        translation.asNounString()
+                    )
                 } else {
-                    repository.saveWord(wordGender!!, word, wordPluralForm, translation)
+                    repository.saveWord(
+                        wordGender!!,
+                        word.asGermanNounString(),
+                        wordPluralForm.asGermanNounString(),
+                        translation.asNounString()
+                    )
                 }
-                VERB -> repository.saveWordVerb(word, translation, verbFormHelper)
-                ADJECTIVE -> repository.saveWordAdjective(word, translation, komparativ, superlativ)
+                VERB -> repository.saveWordVerb(
+                    word.lowercaseGerman(),
+                    translation.asNounString(),
+                    verbFormHelper
+                )
+                ADJECTIVE -> repository.saveWordAdjective(
+                    word.lowercaseGerman(),
+                    translation.lowercase(),
+                    komparativ.lowercaseGerman(),
+                    superlativ.lowercaseGerman()
+                )
             }
 
             clearInput()
@@ -491,4 +511,14 @@ class AddWordViewModel(
     } else {
         this.removeSuffix(Suffix.n)
     }
+
+    private fun String.asGermanNounString(): String = this
+        .lowercase(java.util.Locale.GERMAN)
+        .replaceFirstChar { it.uppercase() }
+
+    private fun String.asNounString(): String = this
+        .lowercase()
+        .replaceFirstChar { it.uppercase() }
+
+    private fun String.lowercaseGerman(): String = this.lowercase(java.util.Locale.GERMAN)
 }
