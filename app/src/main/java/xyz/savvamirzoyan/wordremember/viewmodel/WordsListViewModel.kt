@@ -39,7 +39,9 @@ class WordsListViewModel(
         repository.adjectivesList,
         searchQueryFlow
     ) { nouns, verbs, adjectives, searchQuery ->
-        (nouns.map { it.toWordsListItem() } +
+        (nouns
+            .map { it.toWordsListItem() }
+            .sortedBy { it.gender } +
                 verbs.map { it.toWordsListItem() } +
                 adjectives.map { it.toWordsListItem() })
             .filter {

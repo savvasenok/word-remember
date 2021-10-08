@@ -293,6 +293,8 @@ class AddWordFragment : Fragment() {
             binding.textInputPrateritumIhr.text = null
             binding.textInputPrateritumSieSie.text = null
             binding.textInputPerfect.text = null
+            binding.textInputKomparativ.text = null
+            binding.textInputSuperlativ.text = null
         }
     }
 

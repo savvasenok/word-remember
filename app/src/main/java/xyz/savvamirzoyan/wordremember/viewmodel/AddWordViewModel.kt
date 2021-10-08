@@ -485,6 +485,7 @@ class AddWordViewModel(
         _translationStateFlow.value = initTranslationTextInputState
         _wordPluralFormStateFlow.value = initPluralFormTextInputState
         _verbFormsVisibilityStatusFlow.value = View.GONE
+        _adjectiveFormsVisibilityStatusFlow.value = View.GONE
         _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
     }
 

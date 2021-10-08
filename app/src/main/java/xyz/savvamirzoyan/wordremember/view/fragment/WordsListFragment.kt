@@ -80,7 +80,6 @@ class WordsListFragment : Fragment() {
             Timber.i("Collected words: ${words.size}")
 
             wordsListRecyclerViewAdapter.updateWords(words)
-            binding.recyclerViewWordsList.smoothScrollToPosition(0)
         }
     }
 }

@@ -130,7 +130,11 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
+
+            val old = oldList[oldItemPosition]
+            val new = newList[newItemPosition]
+
+            return (old.word == new.word) && (old.translation == new.translation)
         }
     }
 }
