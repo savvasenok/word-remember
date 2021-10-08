@@ -43,6 +43,9 @@
     <string name="words_list_subtitle_komparativ">Komparativ</string>
     <string name="words_list_subtitle_superlativ">Superlativ</string>
     <string name="words_list_superlativ_prefix">am ⁠</string>
+    <string name="words_list_menu_search">Search</string>
+    <string name="words_list_menu_filter">Filter</string>
+    <string name="words_list_search_hint">Search word</string>
 
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>

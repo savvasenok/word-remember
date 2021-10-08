@@ -19,6 +19,7 @@ class WordsListViewModel(
     private val repository: IWordsListRepository
 ) : ViewModel() {
 
+    private val searchQueryFlow by lazy { MutableStateFlow("") }
     private val _wordsListFlow by lazy { MutableStateFlow(listOf<WordsListItem>()) }
 
     val wordsListFlow by lazy { _wordsListFlow.asStateFlow() }
@@ -35,15 +36,15 @@ class WordsListViewModel(
     private fun receiveWordsFlow() = combine(
         repository.wordsList,
         repository.verbsList,
-        repository.adjectivesList
-    ) { nouns, verbs, adjectives ->
-
-        Timber.i("Got all 3!")
-
-        nouns.map { it.toWordsListItem() } +
+        repository.adjectivesList,
+        searchQueryFlow
+    ) { nouns, verbs, adjectives, searchQuery ->
+        (nouns.map { it.toWordsListItem() } +
                 verbs.map { it.toWordsListItem() } +
-                adjectives.map { it.toWordsListItem() }
-                    .sortedBy { it.word }
+                adjectives.map { it.toWordsListItem() })
+            .filter {
+                it.word.search(searchQuery)
+            }
     }
 
     private fun NounWord.toWordsListItem(): WordsListItem.WordsListItemNoun {
@@ -70,5 +71,15 @@ class WordsListViewModel(
             komparativ,
             superlativ
         )
+    }
+
+    private fun String.search(query: String): Boolean {
+        return this.lowercase().contains(query.lowercase())
+    }
+
+    fun performSearch(search: String) {
+        Timber.i("performSearch(search:\"$search\")")
+
+        viewModelScope.launch { searchQueryFlow.emit(search) }
     }
 }

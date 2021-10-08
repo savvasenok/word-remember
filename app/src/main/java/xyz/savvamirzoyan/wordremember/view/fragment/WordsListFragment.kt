@@ -1,15 +1,15 @@
 package xyz.savvamirzoyan.wordremember.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.adapter.WordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.data.repository.WordsListRepository
 import xyz.savvamirzoyan.wordremember.databinding.FragmentWordsListBinding
@@ -24,6 +24,8 @@ class WordsListFragment : Fragment() {
 
     private var _viewModel: WordsListViewModel? = null
     private val viewModel get() = _viewModel!!
+
+    private var menuSearchView: SearchView? = null
 
     private var wordsListRecyclerViewAdapter =
         WordsListRecyclerViewAdapter()
@@ -46,9 +48,29 @@ class WordsListFragment : Fragment() {
         binding.recyclerViewWordsList.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWordsList.adapter = wordsListRecyclerViewAdapter
 
-//        viewModel.foo()
+        setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.words_list_menu, menu)
+
+        menuSearchView = (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
+            isIconified = true
+            maxWidth = Int.MAX_VALUE
+            queryHint = getString(R.string.words_list_search_hint)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = true
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    viewModel.performSearch(newText ?: "")
+
+                    return true
+                }
+            })
+        }
     }
 
     private suspend fun updateWordsList() {
@@ -58,14 +80,7 @@ class WordsListFragment : Fragment() {
             Timber.i("Collected words: ${words.size}")
 
             wordsListRecyclerViewAdapter.updateWords(words)
-
-//            binding.textInputLayoutWordGender.apply {
-//                isEnabled = status.isEnabled
-//                error = status.error?.let { getString(it) }
-//                helperText = getString(status.helperText)
-//                visibility = status.visibility
-//            }
+            binding.recyclerViewWordsList.smoothScrollToPosition(0)
         }
-//        wordsListRecyclerViewAdapter.updateWords()
     }
 }
