@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewAdapter
+import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
 import xyz.savvamirzoyan.wordremember.data.entity.WordsListItem
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.databinding.LayoutWordsListItemAdjectiveBinding
@@ -58,7 +60,7 @@ class WordsListAdjectiveViewHolder(
 }
 
 class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    IWordsListRecyclerViewAdapter {
+    IWordsListRecyclerViewAdapter, IWordsListRecyclerViewSwipeGetWord {
 
     private val words = mutableListOf<WordsListItem>()
 
@@ -104,6 +106,8 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
     override fun getItemCount(): Int = words.size
 
     override fun updateWords(newWords: List<WordsListItem>) {
+        Timber.i("updateWords(newWords: ${newWords.joinToString(", ")})")
+
         val callback = WordsListDiffCallback(words, newWords)
         val differentWords = DiffUtil.calculateDiff(callback)
         words.clear()
@@ -116,6 +120,8 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         is WordsListItem.WordsListItemNoun -> ITEM_NOUN
         is WordsListItem.WordsListItemVerb -> ITEM_VERB
     }
+
+    override fun getWordByPosition(position: Int): WordsListItem = words[position]
 
     private class WordsListDiffCallback(
         private val oldList: List<WordsListItem>,
@@ -130,7 +136,6 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-
             val old = oldList[oldItemPosition]
             val new = newList[newItemPosition]
 

@@ -46,6 +46,12 @@
     <string name="words_list_menu_search">Search</string>
     <string name="words_list_menu_filter">Filter</string>
     <string name="words_list_search_hint">Search word</string>
+    <string name="words_list_snackbar_word_is_deleted">Word is deleted</string>
+    <string name="words_list_snackbar_undo">Undo</string>
+    <!--    <string name="words_list_filter_all">All types</string>
+    <string name="words_list_filter_nouns">Nouns</string>
+    <string name="words_list_filter_verbs">Verbs</string>
+    <string name="words_list_filter_adjectives">Adjectives</string>-->
 
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>

@@ -26,4 +26,7 @@ interface AdjectiveWordDao {
 
     @Insert
     suspend fun saveWord(word: AdjectiveWord)
+
+    @Query("DELETE FROM words_adjective WHERE :wordId == id")
+    suspend fun deleteWord(wordId: Long)
 }

@@ -26,4 +26,7 @@ interface NounWordDao {
 
     @Insert
     suspend fun saveWord(word: NounWord)
+
+    @Query("DELETE FROM words_noun WHERE :wordId == id")
+    suspend fun deleteWord(wordId: Long)
 }

@@ -33,4 +33,7 @@ interface VerbWordDao {
 
     @Insert
     suspend fun saveWord(word: VerbWord): Long
+
+    @Query("DELETE FROM words_verb WHERE :wordId == verbId")
+    suspend fun deleteWord(wordId: Long)
 }

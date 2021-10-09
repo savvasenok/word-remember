@@ -26,7 +26,44 @@ object WordsListRepository : Repository(), IWordsListRepository {
         }
     }
 
-    override suspend fun addItem(item: NounWord) {
-        db.nounWordDao.saveWord(item)
+    override suspend fun getNoun(nounId: Long): NounWord? {
+        return db.nounWordDao.getWord(nounId)
+    }
+
+    override suspend fun getVerb(verbId: Long): VerbWordWithVerbForms? {
+        return db.verbWordDao.getWord(verbId)
+    }
+
+    override suspend fun getAdjective(verbId: Long): AdjectiveWord? {
+        return db.adjectiveWordDao.getWord(verbId)
+    }
+
+    override suspend fun deleteAdjective(id: Long) {
+        db.adjectiveWordDao.deleteWord(id)
+    }
+
+    override suspend fun deleteNoun(id: Long) {
+        db.nounWordDao.deleteWord(id)
+    }
+
+    override suspend fun deleteVerb(id: Long) {
+        db.verbWordDao.deleteWord(id)
+    }
+
+    override suspend fun deleteVerbForm(id: Long) {
+        db.verbFormDao.deleteWord(id)
+    }
+
+    override suspend fun addNoun(nounWord: NounWord) {
+        db.nounWordDao.saveWord(nounWord)
+    }
+
+    override suspend fun addVerb(verbForms: VerbWordWithVerbForms) {
+        db.verbFormDao.saveForm(verbForms.verbForm)
+        db.verbWordDao.saveWord(verbForms.verb)
+    }
+
+    override suspend fun addAdjective(adjectiveWord: AdjectiveWord) {
+        db.adjectiveWordDao.saveWord(adjectiveWord)
     }
 }

@@ -9,9 +9,31 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
-    <item
-        android:id="@+id/menu_filter"
+    <!--<item
         android:icon="@drawable/icon_filter"
         android:title="@string/words_list_menu_filter"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_filter_all"
+                    android:checked="true"
+                    android:title="@string/words_list_filter_all" />
+
+                <item
+                    android:id="@+id/menu_filter_nouns"
+                    android:title="@string/words_list_filter_nouns" />
+
+                <item
+                    android:id="@+id/menu_filter_verbs"
+                    android:title="@string/words_list_filter_verbs" />
+
+                <item
+                    android:id="@+id/menu_filter_adjectives"
+                    android:title="@string/words_list_filter_adjectives" />
+            </group>
+        </menu>
+    </item>-->
 </menu>
