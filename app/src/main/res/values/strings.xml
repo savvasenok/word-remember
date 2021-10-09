@@ -1,3 +1,67 @@
 <resources>
     <string name="app_name">Word Remember</string>
+
+    <!--  Learn Word  -->
+    <string name="learn_word_fragment_title">Learn</string>
+    <string name="learn_word_question_translate">Translate this word:</string>
+
+    <!--  Add Words  -->
+    <string name="add_word_fragment_title">Add</string>
+    <string name="add_word_hint_new_word">New word</string>
+    <string name="add_word_hint_new_word_gender">Gender</string>
+    <string name="add_word_hint_is_noun">This word is verb</string>
+    <string name="add_word_hint_word_plural_form">Plural form</string>
+    <string name="add_word_hint_translation">Translation</string>
+    <string name="add_word_this_word_only_plural">This word has only plural form</string>
+    <string name="add_word_required">* Required</string>
+    <string name="add_word_not_required" />
+    <string name="add_word_word_type_hint">This word is:</string>
+    <string name="add_word_word_type_noun">Noun</string>
+    <string name="add_word_word_type_verb">Verb</string>
+    <string name="add_word_word_type_adjective">Adjective</string>
+    <string name="add_word_time_prasens">Präsens</string>
+    <string name="add_word_time_prateritum">Präteritum</string>
+    <string name="add_word_time_perfect">Perfect</string>
+    <string name="add_word_button_save">Save</string>
+    <string name="add_word_person_ich">Ich</string>
+    <string name="add_word_person_wir">Wir</string>
+    <string name="add_word_person_du">Du</string>
+    <string name="add_word_person_ihr">Ihr</string>
+    <string name="add_word_person_er_sie_es">Er/sie/es</string>
+    <string name="add_word_person_sie_sie">Sie/sie</string>
+    <string name="add_word_person_perfect">Perfect</string>
+    <string name="add_word_plural_prefix">die ⁠</string>
+    <string name="add_word_generated_content_consider_check">Generated content. Consider checking</string>
+    <string name="add_word_komparativ">Komparativ</string>
+    <string name="add_word_superlativ">Superlativ</string>
+    <string name="add_word_superlativ_prefix">am ⁠</string>
+
+    <!--  Words List  -->
+    <string name="words_list">Words list</string>
+    <string name="words_list_subtitle_prateritum">Präteritum</string>
+    <string name="words_list_subtitle_perfect">Perfect</string>
+    <string name="words_list_subtitle_komparativ">Komparativ</string>
+    <string name="words_list_subtitle_superlativ">Superlativ</string>
+    <string name="words_list_superlativ_prefix">am ⁠</string>
+    <string name="words_list_menu_search">Search</string>
+    <string name="words_list_menu_filter">Filter</string>
+    <string name="words_list_search_hint">Search word</string>
+    <string name="words_list_snackbar_word_is_deleted">Word is deleted</string>
+    <string name="words_list_snackbar_undo">Undo</string>
+    <!--    <string name="words_list_filter_all">All types</string>
+    <string name="words_list_filter_nouns">Nouns</string>
+    <string name="words_list_filter_verbs">Verbs</string>
+    <string name="words_list_filter_adjectives">Adjectives</string>-->
+
+    <!--  Input Errors  -->
+    <string name="input_error_no_gender">Word must have gender</string>
+    <string name="input_error_word_must_not_be_empty">Word must not be empty or blank</string>
+    <string name="input_error_word_must_have_plural">Word must have plural form</string>
+    <string name="input_error_word_must_have_translation">Word must have translation</string>
+
+    <!--  Output error  -->
+    <string name="output_error_not_enough_words">Not enough words to start 😿</string>
+
+    <!-- Content Description -->
+    <string name="content_description_translates_to">Translates to</string>
 </resources>
