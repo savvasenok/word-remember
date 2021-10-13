@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Word Remember</string>
+    <string name="learn_word_fragment_title">Учить</string>
+    <string name="learn_word_question_translate">Переведите это слово:</string>
+    <string name="add_word_fragment_title">Добавить</string>
+    <string name="add_word_hint_new_word">Новое слово</string>
+    <string name="add_word_hint_new_word_gender">Род</string>
+    <string name="add_word_hint_word_plural_form">Форма множ. числа</string>
+    <string name="add_word_hint_translation">Перевод</string>
+    <string name="add_word_this_word_only_plural">У этого слова только множественная форма</string>
+    <string name="add_word_required">* Обязательно</string>
+    <string name="add_word_word_type_hint">Это слово:</string>
+    <string name="add_word_word_type_noun">Существительное</string>
+    <string name="add_word_word_type_verb">Глагол</string>
+    <string name="add_word_word_type_adjective">Имя прилагательное</string>
+    <string name="add_word_button_save">Сохранить</string>
+    <string name="add_word_generated_content_consider_check">Создано автоматически. Рекомендуется проверка</string>
+    <string name="words_list">Список слов</string>
+    <string name="words_list_menu_search">Поиск</string>
+    <string name="words_list_menu_filter">Фильтр</string>
+    <string name="words_list_search_hint">Найти слово</string>
+    <string name="words_list_snackbar_word_is_deleted">Слово удалено</string>
+    <string name="words_list_snackbar_undo">Отменить</string>
+    <string name="input_error_no_gender">У слова должен быть род</string>
+    <string name="input_error_word_must_not_be_empty">Слово не должно быть пустым</string>
+    <string name="input_error_word_must_have_plural">Слово должно иметь форму множ. числа</string>
+    <string name="input_error_word_must_have_translation">У слова должен быть перевод</string>
+    <string name="output_error_not_enough_words">Недостаточно слов, чтобы начать 😿</string>
+    <string name="content_description_translates_to">Переводится как</string>
+</resources>

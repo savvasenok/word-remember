@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Word Remember</string>
+    <string name="learn_word_fragment_title">Вчити</string>
+    <string name="learn_word_question_translate">Перекладіть це слово:</string>
+    <string name="add_word_fragment_title">Додати</string>
+    <string name="add_word_hint_new_word">Нове слово</string>
+    <string name="add_word_hint_new_word_gender">Рід</string>
+    <string name="add_word_hint_word_plural_form">Форма множини</string>
+    <string name="add_word_hint_translation">Переклад</string>
+    <string name="add_word_this_word_only_plural">Це слово має лише форму множини</string>
+    <string name="add_word_required">* Обов\'язково</string>
+    <string name="add_word_word_type_hint">Це слово:</string>
+    <string name="add_word_word_type_noun">Іменник</string>
+    <string name="add_word_word_type_verb">Дієслово</string>
+    <string name="add_word_word_type_adjective">Прикметник</string>
+    <string name="add_word_button_save">Зберегти</string>
+    <string name="add_word_generated_content_consider_check">Створено автоматично. Перевірка рекомендована</string>
+    <string name="words_list">Список слів</string>
+    <string name="words_list_menu_search">Пошук</string>
+    <string name="words_list_menu_filter">Фільтр</string>
+    <string name="words_list_search_hint">Знайти слово</string>
+    <string name="words_list_snackbar_word_is_deleted">Слово видалено</string>
+    <string name="words_list_snackbar_undo">Скасувати</string>
+    <string name="input_error_no_gender">Слово повинно мати рід</string>
+    <string name="input_error_word_must_not_be_empty">Слово не повинно бути порожнім</string>
+    <string name="input_error_word_must_have_plural">Слово повинно мати форму множини</string>
+    <string name="input_error_word_must_have_translation">Слово повинно мати переклад</string>
+    <string name="output_error_not_enough_words">Недостатньо слів, щоб почати 😿</string>
+    <string name="content_description_translates_to">Перекладається як</string>
+</resources>

@@ -15,7 +15,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -24,18 +24,33 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+        signingConfig signingConfigs.debug
+
+        resConfigs "en", "ru", "uk"
     }
 
     buildTypes {
+
         debug {
             applicationIdSuffix ".debug"
+            versionNameSuffix '-debug'
             minifyEnabled false
+            debuggable = true
+        }
+
+        staging {
+            applicationIdSuffix ".staging"
+            versionNameSuffix '-staging'
+            minifyEnabled true
+            shrinkResources true
             debuggable = true
         }
 
         release {
             debuggable = false
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

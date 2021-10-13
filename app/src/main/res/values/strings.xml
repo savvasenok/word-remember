@@ -9,40 +9,38 @@
     <string name="add_word_fragment_title">Add</string>
     <string name="add_word_hint_new_word">New word</string>
     <string name="add_word_hint_new_word_gender">Gender</string>
-    <string name="add_word_hint_is_noun">This word is verb</string>
     <string name="add_word_hint_word_plural_form">Plural form</string>
     <string name="add_word_hint_translation">Translation</string>
     <string name="add_word_this_word_only_plural">This word has only plural form</string>
     <string name="add_word_required">* Required</string>
-    <string name="add_word_not_required" />
+    <string name="add_word_not_required" translatable="false" />
     <string name="add_word_word_type_hint">This word is:</string>
     <string name="add_word_word_type_noun">Noun</string>
     <string name="add_word_word_type_verb">Verb</string>
     <string name="add_word_word_type_adjective">Adjective</string>
-    <string name="add_word_time_prasens">Präsens</string>
-    <string name="add_word_time_prateritum">Präteritum</string>
-    <string name="add_word_time_perfect">Perfect</string>
+    <string name="add_word_time_prasens" translatable="false">Präsens</string>
+    <string name="add_word_time_prateritum" translatable="false">Präteritum</string>
+    <string name="add_word_time_perfect" translatable="false">Perfect</string>
     <string name="add_word_button_save">Save</string>
-    <string name="add_word_person_ich">Ich</string>
-    <string name="add_word_person_wir">Wir</string>
-    <string name="add_word_person_du">Du</string>
-    <string name="add_word_person_ihr">Ihr</string>
-    <string name="add_word_person_er_sie_es">Er/sie/es</string>
-    <string name="add_word_person_sie_sie">Sie/sie</string>
-    <string name="add_word_person_perfect">Perfect</string>
-    <string name="add_word_plural_prefix">die ⁠</string>
+    <string name="add_word_person_ich" translatable="false">Ich</string>
+    <string name="add_word_person_wir" translatable="false">Wir</string>
+    <string name="add_word_person_du" translatable="false">Du</string>
+    <string name="add_word_person_ihr" translatable="false">Ihr</string>
+    <string name="add_word_person_sie_sie" translatable="false">Sie</string>
+    <string name="add_word_person_perfect" translatable="false">Perfect</string>
+    <string name="add_word_plural_prefix" translatable="false">die ⁠</string>
     <string name="add_word_generated_content_consider_check">Generated content. Consider checking</string>
-    <string name="add_word_komparativ">Komparativ</string>
-    <string name="add_word_superlativ">Superlativ</string>
-    <string name="add_word_superlativ_prefix">am ⁠</string>
+    <string name="add_word_komparativ" translatable="false">Komparativ</string>
+    <string name="add_word_superlativ" translatable="false">Superlativ</string>
+    <string name="add_word_superlativ_prefix" translatable="false">am ⁠</string>
 
     <!--  Words List  -->
     <string name="words_list">Words list</string>
-    <string name="words_list_subtitle_prateritum">Präteritum</string>
-    <string name="words_list_subtitle_perfect">Perfect</string>
-    <string name="words_list_subtitle_komparativ">Komparativ</string>
-    <string name="words_list_subtitle_superlativ">Superlativ</string>
-    <string name="words_list_superlativ_prefix">am ⁠</string>
+    <string name="words_list_subtitle_prateritum" translatable="false">Präteritum</string>
+    <string name="words_list_subtitle_perfect" translatable="false">Perfect</string>
+    <string name="words_list_subtitle_komparativ" translatable="false">Komparativ</string>
+    <string name="words_list_subtitle_superlativ" translatable="false">Superlativ</string>
+    <string name="words_list_superlativ_prefix" translatable="false">am ⁠</string>
     <string name="words_list_menu_search">Search</string>
     <string name="words_list_menu_filter">Filter</string>
     <string name="words_list_search_hint">Search word</string>
@@ -64,4 +62,5 @@
 
     <!-- Content Description -->
     <string name="content_description_translates_to">Translates to</string>
+    <string name="add_word_person_er_sie_es" translatable="false">man</string>
 </resources>
