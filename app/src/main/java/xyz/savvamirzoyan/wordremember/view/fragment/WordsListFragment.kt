@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.adapter.WordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
 import xyz.savvamirzoyan.wordremember.contract.viewmodel.IViewModelDeleteSwipedItem
 import xyz.savvamirzoyan.wordremember.data.repository.WordsListRepository
+import xyz.savvamirzoyan.wordremember.data.status.WordsListStatus
 import xyz.savvamirzoyan.wordremember.databinding.FragmentWordsListBinding
-import xyz.savvamirzoyan.wordremember.extension.flowListen
 import xyz.savvamirzoyan.wordremember.extension.snackbar
 import xyz.savvamirzoyan.wordremember.factory.WordsListViewModelFactory
 import xyz.savvamirzoyan.wordremember.viewmodel.WordsListViewModel
@@ -47,9 +50,11 @@ class WordsListFragment : Fragment() {
             WordsListViewModelFactory(WordsListRepository)
         ).get(WordsListViewModel::class.java)
 
-        lifecycleScope
-            .flowListen(::updateWordsList, viewLifecycleOwner)
-            .flowListen(::showUndoSnackbarFlow, viewLifecycleOwner)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                wordsListStatusListener()
+            }
+        }
 
         binding.recyclerViewWordsList.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWordsList.adapter = wordsListRecyclerViewAdapter
@@ -64,6 +69,36 @@ class WordsListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private suspend fun wordsListStatusListener() {
+        Timber.i("wordsListStatusListener()")
+
+        viewModel.wordsListStatusFlow.collect { status ->
+            when (status) {
+                is WordsListStatus.Words -> {
+                    wordsListRecyclerViewAdapter.updateWords(status.value)
+                }
+                is WordsListStatus.ReturnBack -> {
+                    snackbar(
+                        R.string.words_list_snackbar_word_is_deleted,
+                        R.string.words_list_snackbar_undo,
+                        Snackbar.LENGTH_SHORT
+                    ) {
+                        when (status) {
+                            is WordsListStatus.ReturnBack.Adjective ->
+                                viewModel.returnAdjectiveToDB(status.adjectiveWord)
+                            is WordsListStatus.ReturnBack.Noun ->
+                                viewModel.returnNounToDB(status.nounWord)
+                            is WordsListStatus.ReturnBack.Verb ->
+                                viewModel.returnVerbToDB(status.verb)
+                            is WordsListStatus.Words -> {
+                            } // bug in intellij idea
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -85,39 +120,6 @@ class WordsListFragment : Fragment() {
                     return true
                 }
             })
-        }
-    }
-
-    private suspend fun updateWordsList() {
-        Timber.i("updateWordsList() called")
-
-        viewModel.wordsListFlow.collect { words ->
-            Timber.i("Collected words: ${words.size}")
-
-            wordsListRecyclerViewAdapter.updateWords(words)
-        }
-    }
-
-    private suspend fun showUndoSnackbarFlow() {
-        Timber.i("showUndoSnackbarFlow()")
-
-        viewModel.showUndoSnackbarFlow.collect { event ->
-            Timber.i("showUndoSnackbarFlow() -> collect: $event")
-
-            snackbar(
-                R.string.words_list_snackbar_word_is_deleted,
-                R.string.words_list_snackbar_undo,
-                Snackbar.LENGTH_SHORT
-            ) {
-                when (event) {
-                    is WordsListViewModel.WordsListEvent.ReturnBackAdjective ->
-                        viewModel.returnAdjectiveToDB(event.adjectiveWord)
-                    is WordsListViewModel.WordsListEvent.ReturnBackNoun ->
-                        viewModel.returnNounToDB(event.nounWord)
-                    is WordsListViewModel.WordsListEvent.ReturnBackVerb ->
-                        viewModel.returnVerbToDB(event.verb)
-                }
-            }
         }
     }
 

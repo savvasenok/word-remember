@@ -6,8 +6,6 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,6 +18,7 @@ import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.state.DataInputState
 import xyz.savvamirzoyan.wordremember.data.state.VerbFormType
+import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.data.types.WordType
 import xyz.savvamirzoyan.wordremember.data.types.WordType.*
@@ -51,17 +50,6 @@ class AddWordViewModel(
         DataInputState(true, null, R.string.add_word_required)
     }
 
-    private val _genderStateFlow by lazy { MutableStateFlow(initWordGenderTextInputState) }
-    private val _wordStateFlow by lazy { MutableStateFlow(initWordTextInputState) }
-    private val _translationStateFlow by lazy { MutableStateFlow(initTranslationTextInputState) }
-    private val _wordPluralFormStateFlow by lazy { MutableStateFlow(initPluralFormTextInputState) }
-    private val _verbFormsVisibilityStatusFlow by lazy { MutableStateFlow(View.GONE) }
-    private val _verbFormsStatusFlow by lazy { MutableStateFlow(VerbFormStatus()) }
-    private val _onlyPluralSwitchVisibilityStatusFlow by lazy { MutableStateFlow(View.VISIBLE) }
-    private val _saveButtonIsEnabledFlow by lazy { MutableStateFlow(false) }
-    private val _clearAllInputStatusFlow by lazy { Channel<Unit>() }
-    private val _adjectiveFormsVisibilityStatusFlow by lazy { MutableStateFlow(View.GONE) }
-
     private val isSaveEnabled: Boolean
         get() {
             return when (wordType) {
@@ -74,21 +62,13 @@ class AddWordViewModel(
 
     val nounGenders = WordGender.values().map { it.toString().lowercase() }
 
-    val genderStatusFlow by lazy { _genderStateFlow.asStateFlow() }
-    val wordStatusFlow by lazy { _wordStateFlow.asStateFlow() }
-    val translationStatusFlow by lazy { _translationStateFlow.asStateFlow() }
-    val wordPluralFormStatusFlow by lazy { _wordPluralFormStateFlow.asStateFlow() }
-    val verbFormsVisibilityStatusFlow by lazy { _verbFormsVisibilityStatusFlow.asStateFlow() }
-    val verbFormsStatusFlow by lazy { _verbFormsStatusFlow.asStateFlow() }
-    val onlyPluralSwitchVisibilityStatusFlow by lazy { _onlyPluralSwitchVisibilityStatusFlow.asStateFlow() }
-    val saveButtonIsEnabledFlow by lazy { _saveButtonIsEnabledFlow.asStateFlow() }
-    val clearAllInputStatusFlow by lazy { _clearAllInputStatusFlow.receiveAsFlow() }
-    val adjectiveFormsVisibilityStatusFlow by lazy { _adjectiveFormsVisibilityStatusFlow.asStateFlow() }
+    private val _addWordStatusFlow by lazy { Channel<AddWordStatus>() }
+    val addWordStatusFlow by lazy { _addWordStatusFlow.receiveAsFlow() }
 
     private fun updateSaveButtonStatus() {
         Timber.i("updateSaveButtonStatus()")
 
-        _saveButtonIsEnabledFlow.value = isSaveEnabled
+        sendStatus(AddWordStatus.Repeatable.SaveButtonIsEnabled(isSaveEnabled))
     }
 
     private fun processVerbForms(word: String): VerbFormStatus {
@@ -178,12 +158,26 @@ class AddWordViewModel(
 
         if (gender.lowercase() in nounGenders) {
             wordGender = WordGender.valueOf(gender.uppercase())
-            _genderStateFlow.value =
-                DataInputState(true, null, R.string.add_word_required)
+            sendStatus(
+                AddWordStatus.Repeatable.Gender(
+                    DataInputState(
+                        true,
+                        null,
+                        R.string.add_word_required
+                    )
+                )
+            )
         } else {
             wordGender = null
-            _genderStateFlow.value =
-                DataInputState(true, R.string.input_error_no_gender, R.string.add_word_not_required)
+            sendStatus(
+                AddWordStatus.Repeatable.Gender(
+                    DataInputState(
+                        true,
+                        R.string.input_error_no_gender,
+                        R.string.add_word_not_required
+                    )
+                )
+            )
         }
 
         updateSaveButtonStatus()
@@ -198,27 +192,50 @@ class AddWordViewModel(
                 word = newWord.capitalize(Locale.current)
 
                 if (newWord.isNotBlank() && !isOnlyPlural) {
-                    _wordStateFlow.value = DataInputState(true, null, R.string.add_word_required)
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                null,
+                                R.string.add_word_required
+                            )
+                        )
+                    )
                 } else {
-                    _wordStateFlow.value = DataInputState(
-                        true,
-                        R.string.input_error_word_must_not_be_empty,
-                        R.string.add_word_not_required
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                R.string.input_error_word_must_not_be_empty,
+                                R.string.add_word_not_required
+                            )
+                        )
                     )
                 }
             }
             VERB -> {
-
                 word = newWord.lowercase()
 
                 if (word.isNotBlank()) {
-                    _wordStateFlow.value = DataInputState(true, null, R.string.add_word_required)
-                    _verbFormsStatusFlow.value = processVerbForms(word)
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                null,
+                                R.string.add_word_required
+                            )
+                        )
+                    )
+                    sendStatus(AddWordStatus.Repeatable.VerbForms(processVerbForms(word)))
                 } else {
-                    _wordStateFlow.value = DataInputState(
-                        true,
-                        R.string.input_error_word_must_not_be_empty,
-                        R.string.add_word_not_required
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                R.string.input_error_word_must_not_be_empty,
+                                R.string.add_word_not_required
+                            )
+                        )
                     )
                 }
             }
@@ -226,22 +243,28 @@ class AddWordViewModel(
                 word = newWord.capitalize(Locale.current)
 
                 if (word.isBlank()) {
-                    _wordStateFlow.value = DataInputState(
-                        true,
-                        R.string.input_error_word_must_not_be_empty,
-                        R.string.add_word_not_required
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                R.string.input_error_word_must_not_be_empty,
+                                R.string.add_word_not_required
+                            )
+                        )
                     )
                 } else {
-                    _wordStateFlow.value = DataInputState(
-                        true,
-                        null,
-                        R.string.add_word_required
+                    sendStatus(
+                        AddWordStatus.Repeatable.Word(
+                            DataInputState(
+                                true,
+                                null,
+                                R.string.add_word_required
+                            )
+                        )
                     )
                 }
             }
         }
-
-
 
         updateSaveButtonStatus()
     }
@@ -251,16 +274,27 @@ class AddWordViewModel(
 
         if (isChecked) {
             wordType = NOUN
-            _genderStateFlow.value = DataInputState(
-                true,
-                if (wordGender == null) R.string.input_error_no_gender else null,
-                if (wordGender == null) R.string.add_word_not_required else R.string.add_word_required
+            sendStatus(
+                AddWordStatus.Repeatable.Gender(
+                    DataInputState(
+                        true,
+                        if (wordGender == null) R.string.input_error_no_gender else null,
+                        if (wordGender == null) R.string.add_word_not_required else R.string.add_word_required
+                    )
+                )
             )
-            _wordPluralFormStateFlow.value =
-                DataInputState(true, null, R.string.add_word_not_required)
-            _verbFormsVisibilityStatusFlow.value = View.GONE
-            _adjectiveFormsVisibilityStatusFlow.value = View.GONE
-            _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
+            sendStatus(
+                AddWordStatus.Repeatable.Word(
+                    DataInputState(
+                        true,
+                        null,
+                        R.string.add_word_not_required
+                    )
+                )
+            )
+            sendStatus(AddWordStatus.Repeatable.VerbFormsVisibility(View.GONE))
+            sendStatus(AddWordStatus.Repeatable.AdjectiveFormsVisibility(View.GONE))
+            sendStatus(AddWordStatus.Repeatable.OnlyPluralSwitchVisibility(View.VISIBLE))
 
             updateSaveButtonStatus()
         }
@@ -271,19 +305,39 @@ class AddWordViewModel(
 
         if (isChecked) {
             wordType = VERB
-            _wordStateFlow.value =
-                DataInputState(
-                    true,
-                    if (word.isBlank()) R.string.input_error_word_must_not_be_empty else null,
-                    if (word.isBlank()) R.string.add_word_not_required else R.string.add_word_required
+            sendStatus(
+                AddWordStatus.Repeatable.Word(
+                    DataInputState(
+                        true,
+                        if (word.isBlank()) R.string.input_error_word_must_not_be_empty else null,
+                        if (word.isBlank()) R.string.add_word_not_required else R.string.add_word_required
+                    )
                 )
-            _genderStateFlow.value =
-                DataInputState(false, null, R.string.add_word_not_required, View.GONE)
-            _wordPluralFormStateFlow.value =
-                DataInputState(false, null, R.string.add_word_not_required, View.GONE)
-            _verbFormsVisibilityStatusFlow.value = View.VISIBLE
-            _adjectiveFormsVisibilityStatusFlow.value = View.GONE
-            _onlyPluralSwitchVisibilityStatusFlow.value = View.GONE
+            )
+            sendStatus(
+                AddWordStatus.Repeatable.Gender(
+                    DataInputState(
+                        false,
+                        null,
+                        R.string.add_word_not_required,
+                        View.GONE
+                    )
+                )
+            )
+            sendStatus(
+                AddWordStatus.Repeatable.Plural(
+                    DataInputState(
+                        false,
+                        null,
+                        R.string.add_word_not_required,
+                        View.GONE
+                    )
+                )
+            )
+            sendStatus(AddWordStatus.Repeatable.VerbFormsVisibility(View.VISIBLE))
+            sendStatus(AddWordStatus.Repeatable.AdjectiveFormsVisibility(View.GONE))
+            sendStatus(AddWordStatus.Repeatable.OnlyPluralSwitchVisibility(View.GONE))
+
             updateSaveButtonStatus()
         }
     }
@@ -293,13 +347,19 @@ class AddWordViewModel(
 
         if (isChecked) {
             wordType = ADJECTIVE
-            _genderStateFlow.value =
-                DataInputState(false, null, R.string.add_word_not_required, View.GONE)
-            _wordPluralFormStateFlow.value =
-                DataInputState(false, null, R.string.add_word_not_required, View.GONE)
-            _adjectiveFormsVisibilityStatusFlow.value = View.VISIBLE
-            _verbFormsVisibilityStatusFlow.value = View.GONE
-            _onlyPluralSwitchVisibilityStatusFlow.value = View.GONE
+            sendStatus(
+                AddWordStatus.Repeatable.Gender(
+                    DataInputState(false, null, R.string.add_word_not_required, View.GONE)
+                )
+            )
+            sendStatus(
+                AddWordStatus.Repeatable.Plural(
+                    DataInputState(false, null, R.string.add_word_not_required, View.GONE)
+                )
+            )
+            sendStatus(AddWordStatus.Repeatable.AdjectiveFormsVisibility(View.VISIBLE))
+            sendStatus(AddWordStatus.Repeatable.VerbFormsVisibility(View.GONE))
+            sendStatus(AddWordStatus.Repeatable.OnlyPluralSwitchVisibility(View.GONE))
             updateSaveButtonStatus()
         }
     }
@@ -311,21 +371,33 @@ class AddWordViewModel(
 
         when {
             isOnlyPlural && newWordPluralForm.isBlank() -> {
-                _wordPluralFormStateFlow.value = DataInputState(
-                    true,
-                    R.string.input_error_word_must_have_plural,
-                    R.string.add_word_not_required
+                sendStatus(
+                    AddWordStatus.Repeatable.Plural(
+                        DataInputState(
+                            true,
+                            R.string.input_error_word_must_have_plural,
+                            R.string.add_word_not_required
+                        )
+                    )
                 )
             }
             isOnlyPlural -> {
                 wordPluralForm = newWordPluralForm
-                _wordPluralFormStateFlow.value = DataInputState(
-                    true, null, R.string.add_word_required
+                sendStatus(
+                    AddWordStatus.Repeatable.Plural(
+                        DataInputState(
+                            true, null, R.string.add_word_required
+                        )
+                    )
                 )
             }
             else -> {
-                _wordPluralFormStateFlow.value = DataInputState(
-                    true, null, R.string.add_word_not_required
+                sendStatus(
+                    AddWordStatus.Repeatable.Plural(
+                        DataInputState(
+                            true, null, R.string.add_word_not_required
+                        )
+                    )
                 )
             }
         }
@@ -338,7 +410,7 @@ class AddWordViewModel(
 
         isOnlyPlural = isChecked
 
-        _wordStateFlow.value = if (isOnlyPlural) {
+        val wordState = if (isOnlyPlural) {
             DataInputState(false, null, R.string.add_word_not_required)
         } else {
             if (word.isBlank()) {
@@ -352,7 +424,7 @@ class AddWordViewModel(
             }
         }
 
-        _genderStateFlow.value = if (isOnlyPlural) {
+        val genderState = if (isOnlyPlural) {
             DataInputState(false, null, R.string.add_word_not_required)
         } else {
             if (wordGender == null) {
@@ -366,7 +438,7 @@ class AddWordViewModel(
             }
         }
 
-        _wordPluralFormStateFlow.value = when {
+        val pluralState = when {
             isOnlyPlural && wordPluralForm.isBlank() -> DataInputState(
                 true, R.string.input_error_word_must_have_plural, R.string.add_word_not_required
             )
@@ -378,6 +450,10 @@ class AddWordViewModel(
             )
         }
 
+        sendStatus(AddWordStatus.Repeatable.Word(wordState))
+        sendStatus(AddWordStatus.Repeatable.Gender(genderState))
+        sendStatus(AddWordStatus.Repeatable.Plural(pluralState))
+
         updateSaveButtonStatus()
     }
 
@@ -386,16 +462,24 @@ class AddWordViewModel(
 
         translation = newTranslation
         if (newTranslation.isNotBlank()) {
-            _translationStateFlow.value = DataInputState(
-                true,
-                null,
-                R.string.add_word_required
+            sendStatus(
+                AddWordStatus.Repeatable.Translation(
+                    DataInputState(
+                        true,
+                        null,
+                        R.string.add_word_required
+                    )
+                )
             )
         } else {
-            _translationStateFlow.value = DataInputState(
-                true,
-                R.string.input_error_word_must_have_translation,
-                R.string.add_word_not_required
+            sendStatus(
+                AddWordStatus.Repeatable.Translation(
+                    DataInputState(
+                        true,
+                        R.string.input_error_word_must_have_translation,
+                        R.string.add_word_not_required
+                    )
+                )
             )
         }
 
@@ -440,11 +524,9 @@ class AddWordViewModel(
     fun onButtonSaveClick() {
         Timber.i("onButtonSaveClick()")
 
-        _saveButtonIsEnabledFlow.value = false
+        sendStatus(AddWordStatus.Repeatable.SaveButtonIsEnabled(false))
 
         viewModelScope.launch {
-            _saveButtonIsEnabledFlow.value = false
-
             when (wordType) {
                 NOUN -> if (isOnlyPlural) {
                     repository.saveWordPlural(
@@ -476,17 +558,17 @@ class AddWordViewModel(
         }
     }
 
-    private suspend fun clearInput() {
+    private fun clearInput() {
         Timber.i("clearInput()")
 
-        _clearAllInputStatusFlow.send(Unit)
-        _genderStateFlow.value = initWordGenderTextInputState
-        _wordStateFlow.value = initWordTextInputState
-        _translationStateFlow.value = initTranslationTextInputState
-        _wordPluralFormStateFlow.value = initPluralFormTextInputState
-        _verbFormsVisibilityStatusFlow.value = View.GONE
-        _adjectiveFormsVisibilityStatusFlow.value = View.GONE
-        _onlyPluralSwitchVisibilityStatusFlow.value = View.VISIBLE
+        sendStatus(AddWordStatus.Unrepeatable.ClearAllInput)
+        sendStatus(AddWordStatus.Repeatable.Gender(initWordGenderTextInputState))
+        sendStatus(AddWordStatus.Repeatable.Word(initWordTextInputState))
+        sendStatus(AddWordStatus.Repeatable.Translation(initTranslationTextInputState))
+        sendStatus(AddWordStatus.Repeatable.Plural(initPluralFormTextInputState))
+        sendStatus(AddWordStatus.Repeatable.VerbFormsVisibility(View.GONE))
+        sendStatus(AddWordStatus.Repeatable.AdjectiveFormsVisibility(View.GONE))
+        sendStatus(AddWordStatus.Repeatable.OnlyPluralSwitchVisibility(View.VISIBLE))
     }
 
     data class VerbFormStatus(
@@ -522,4 +604,10 @@ class AddWordViewModel(
         .replaceFirstChar { it.uppercase() }
 
     private fun String.lowercaseGerman(): String = this.lowercase(java.util.Locale.GERMAN)
+
+    private fun sendStatus(status: AddWordStatus) {
+        viewModelScope.launch {
+            _addWordStatusFlow.send(status)
+        }
+    }
 }

@@ -12,7 +12,7 @@ import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWord
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWord
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbForms
 import xyz.savvamirzoyan.wordremember.data.entity.QuestionAnswer
-import xyz.savvamirzoyan.wordremember.data.state.LearnWordStatus
+import xyz.savvamirzoyan.wordremember.data.status.LearnWordStatus
 import kotlin.math.min
 
 class LearnWordViewModel(
@@ -23,13 +23,17 @@ class LearnWordViewModel(
     private val verbs = runBlocking { repository.getAllVerbs() }
     private val adjectives = runBlocking { repository.getAllAdjectives() }
 
-    private val _wordStateFlow: MutableStateFlow<LearnWordStatus?> by lazy { MutableStateFlow(null) }
+    private val _learnWordStatusFlow: MutableStateFlow<LearnWordStatus?> by lazy {
+        MutableStateFlow(
+            null
+        )
+    }
 
-    val taskStateFlow by lazy { _wordStateFlow.asStateFlow() }
+    val learnWordStatusFlow by lazy { _learnWordStatusFlow.asStateFlow() }
 
     init {
         viewModelScope.launch {
-            _wordStateFlow.value = getRandomWord()
+            _learnWordStatusFlow.value = getRandomWord()
         }
     }
 
@@ -110,7 +114,7 @@ class LearnWordViewModel(
     fun onAnswerButtonClick(isCorrect: Boolean) {
         if (isCorrect) {
             viewModelScope.launch {
-                _wordStateFlow.value = getRandomWord()
+                _learnWordStatusFlow.value = getRandomWord()
             }
         }
     }

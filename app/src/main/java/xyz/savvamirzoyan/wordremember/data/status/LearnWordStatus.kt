@@ -1,4 +1,4 @@
-package xyz.savvamirzoyan.wordremember.data.state
+package xyz.savvamirzoyan.wordremember.data.status
 
 import androidx.annotation.StringRes
 import xyz.savvamirzoyan.wordremember.data.entity.QuestionAnswer
@@ -10,4 +10,5 @@ sealed class LearnWordStatus {
         val word: String,
         val answers: List<QuestionAnswer>
     ) : LearnWordStatus()
+
 }
