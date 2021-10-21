@@ -10,10 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
-import xyz.savvamirzoyan.wordremember.constants.Endings
 import xyz.savvamirzoyan.wordremember.constants.Person
-import xyz.savvamirzoyan.wordremember.constants.Prefix
-import xyz.savvamirzoyan.wordremember.constants.Suffix
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.state.DataInputState
@@ -22,6 +19,7 @@ import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.data.types.WordType
 import xyz.savvamirzoyan.wordremember.data.types.WordType.*
+import xyz.savvamirzoyan.wordremember.domain.VerbAnalyzer
 
 class AddWordViewModel(
     private val repository: IAddWordRepository
@@ -72,85 +70,20 @@ class AddWordViewModel(
     }
 
     private fun processVerbForms(word: String): VerbFormStatus {
-        val prefix = Prefix.all.find { word.startsWith(it) } ?: ""
-        val wordWithoutPrefix = word.removePrefix(prefix)
-        val wordRootForm = wordWithoutPrefix.removeSuffixEn()
-        val endingTransformer = wordEndingTransformer(wordRootForm)
+        Timber.i("processVerbForms(word: $word)")
+
+        val prefix = VerbAnalyzer.prefix(word)
+        val wordWithoutPrefix = VerbAnalyzer.removePrefix(word)
+        val wordRootForm = VerbAnalyzer.removeSuffixEn(wordWithoutPrefix)
 
         return VerbFormStatus(
-            "$prefix$wordRootForm${endingTransformer(Person.ICH)}",
-            "$prefix$wordRootForm${endingTransformer(Person.DU)}",
-            "$prefix$wordRootForm${endingTransformer(Person.MAN)}",
-            "$prefix$wordRootForm${endingTransformer(Person.WIR)}",
-            "$prefix$wordRootForm${endingTransformer(Person.IHR)}",
-            "$prefix$wordRootForm${endingTransformer(Person.SIE)}",
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.ICH),
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.DU),
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.MAN),
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.WIR),
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.IHR),
+            VerbAnalyzer.Builder.prasens(prefix, wordRootForm, Person.SIE)
         )
-    }
-
-    private fun wordEndingTransformer(word: String): (Person) -> String = when {
-        word.endsWith(Endings.t) -> ::prasensEndingForTD
-        word.endsWith(Endings.d) -> ::prasensEndingForTD
-        word.endsWith(Endings.m) -> ::prasensEndingForMN
-        word.endsWith(Endings.n) -> ::prasensEndingForMN
-        word.endsWith(Endings.s) -> ::prasensEndingForSSsZ
-        word.endsWith(Endings.ss) -> ::prasensEndingForSSsZ
-        word.endsWith(Endings.z) -> ::prasensEndingForSSsZ
-        word.endsWith(Endings.er) -> ::prasensEndingForErEl
-        word.endsWith(Endings.el) -> ::prasensEndingForErEl
-        else -> ::prasensEndingForUndefined
-    }
-
-    private fun prasensEndingForTD(person: Person): String = when (person) {
-        Person.ICH -> "e"
-        Person.DU -> "est"
-        Person.MAN -> "et"
-        Person.WIR -> "en"
-        Person.IHR -> "et"
-        Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForTD was used")
-    }
-
-    private fun prasensEndingForMN(person: Person): String = when (person) {
-        Person.ICH -> "e"
-        Person.DU -> "est"
-        Person.MAN -> "et"
-        Person.WIR -> "en"
-        Person.IHR -> "et"
-        Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForMN was used")
-    }
-
-    private fun prasensEndingForSSsZ(person: Person): String = when (person) {
-        Person.ICH -> "e"
-        Person.DU -> "t"
-        Person.MAN -> "t"
-        Person.WIR -> "en"
-        Person.IHR -> "t"
-        Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForSSsZ was used")
-    }
-
-    private fun prasensEndingForErEl(person: Person): String = when (person) {
-        Person.ICH -> "e"
-        Person.DU -> "st"
-        Person.MAN -> "t"
-        Person.WIR -> "n"
-        Person.IHR -> "t"
-        Person.SIE -> "n"
-    }.also {
-        Timber.i("prasensEndingForErEl was used")
-    }
-
-    private fun prasensEndingForUndefined(person: Person): String = when (person) {
-        Person.ICH -> "e"
-        Person.DU -> "st"
-        Person.MAN -> "t"
-        Person.WIR -> "en"
-        Person.IHR -> "t"
-        Person.SIE -> "en"
     }
 
     fun onGenderChange(gender: String) {
@@ -489,8 +422,7 @@ class AddWordViewModel(
     fun onVerbFormChange(_form: String?, verbFormType: VerbFormType) {
         Timber.i("onVerbFormChange(form:\"$_form\", verbFormType:$verbFormType)")
 
-        val form = _form
-            ?.lowercase(java.util.Locale.GERMAN)
+        val form = _form?.lowercase(java.util.Locale.GERMAN)
 
         when (verbFormType) {
             VerbFormType.PRASENS_ICH -> verbFormHelper.prasensIch = form
@@ -543,7 +475,7 @@ class AddWordViewModel(
                 }
                 VERB -> repository.saveWordVerb(
                     word.lowercaseGerman(),
-                    translation.asNounString(),
+                    translation.lowercaseGerman(),
                     verbFormHelper
                 )
                 ADJECTIVE -> repository.saveWordAdjective(
@@ -588,12 +520,6 @@ class AddWordViewModel(
 
         val perfekt: String = ""
     )
-
-    private fun String.removeSuffixEn(): String = if (this.removeSuffix(Suffix.en) != this) {
-        this.removeSuffix(Suffix.en)
-    } else {
-        this.removeSuffix(Suffix.n)
-    }
 
     private fun String.asGermanNounString(): String = this
         .lowercase(java.util.Locale.GERMAN)
