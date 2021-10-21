@@ -15,7 +15,14 @@ class TestAddWordRepository : IAddWordRepository {
 
     override suspend fun saveWordPlural(plural: String, translation: String) {}
 
-    override suspend fun saveWordAdjective(word: String, translation: String) {}
+    override suspend fun saveWordAdjective(
+        word: String,
+        translation: String,
+        komparativ: String,
+        superlativ: String
+    ) {
+
+    }
 
     override suspend fun saveWordVerb(
         word: String,

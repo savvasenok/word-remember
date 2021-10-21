@@ -5,8 +5,8 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
@@ -62,8 +62,8 @@ class AddWordViewModel(
 
     val nounGenders = WordGender.values().map { it.toString().lowercase() }
 
-    private val _addWordStatusFlow by lazy { Channel<AddWordStatus>() }
-    val addWordStatusFlow by lazy { _addWordStatusFlow.receiveAsFlow() }
+    private val _addWordStatusFlow by lazy { MutableStateFlow<AddWordStatus?>(null) }
+    val addWordStatusFlow by lazy { _addWordStatusFlow.asStateFlow() }
 
     private fun updateSaveButtonStatus() {
         Timber.i("updateSaveButtonStatus()")
@@ -607,7 +607,7 @@ class AddWordViewModel(
 
     private fun sendStatus(status: AddWordStatus) {
         viewModelScope.launch {
-            _addWordStatusFlow.send(status)
+            _addWordStatusFlow.emit(status)
         }
     }
 }
