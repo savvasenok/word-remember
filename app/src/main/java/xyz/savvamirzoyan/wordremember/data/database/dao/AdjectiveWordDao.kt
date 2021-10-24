@@ -29,4 +29,7 @@ interface AdjectiveWordDao {
 
     @Query("DELETE FROM words_adjective WHERE :wordId == id")
     suspend fun deleteWord(wordId: Long)
+
+    @Query("DELETE FROM words_adjective")
+    suspend fun deleteAllWords()
 }

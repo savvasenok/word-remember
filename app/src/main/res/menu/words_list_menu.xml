@@ -9,31 +9,38 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
-    <!--<item
-        android:icon="@drawable/icon_filter"
-        android:title="@string/words_list_menu_filter"
+    <item
+        android:icon="@drawable/icon_sort"
+        android:title="@string/words_list_menu_sort"
         app:showAsAction="ifRoom">
 
         <menu>
 
             <group android:checkableBehavior="single">
+
                 <item
-                    android:id="@+id/menu_filter_all"
+                    android:id="@+id/menu_sort_alphabetical"
                     android:checked="true"
-                    android:title="@string/words_list_filter_all" />
+                    android:title="@string/words_list_menu_alphabetical_order" />
 
                 <item
-                    android:id="@+id/menu_filter_nouns"
-                    android:title="@string/words_list_filter_nouns" />
-
-                <item
-                    android:id="@+id/menu_filter_verbs"
-                    android:title="@string/words_list_filter_verbs" />
-
-                <item
-                    android:id="@+id/menu_filter_adjectives"
-                    android:title="@string/words_list_filter_adjectives" />
+                    android:id="@+id/menu_sort_type_or_gender"
+                    android:title="@string/words_list_menu_word_type_or_gender" />
             </group>
+
+            <item
+                android:id="@+id/menu_sort_reverse"
+                android:checkable="true"
+                android:checked="false"
+                android:title="@string/words_list_menu_reverse" />
         </menu>
-    </item>-->
+    </item>
+
+    <item
+        android:id="@+id/menu_add_random_words"
+        android:title="@string/debug_add_random_words" />
+
+    <item
+        android:id="@+id/menu_delete_all_words"
+        android:title="@string/debug_delete_all_words" />
 </menu>

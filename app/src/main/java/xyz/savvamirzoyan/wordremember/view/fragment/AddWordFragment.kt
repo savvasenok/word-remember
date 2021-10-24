@@ -8,14 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.data.repository.AddWordRepository
 import xyz.savvamirzoyan.wordremember.data.state.VerbFormType
+import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.databinding.FragmentAddWordBinding
-import xyz.savvamirzoyan.wordremember.extension.flowListen
 import xyz.savvamirzoyan.wordremember.factory.AddWordViewModelFactory
 import xyz.savvamirzoyan.wordremember.viewmodel.AddWordViewModel
 
@@ -46,20 +49,104 @@ class AddWordFragment : Fragment() {
         setOnVerbFormsChangeListeners()
         setOnAdjectiveFormsChangeListener()
 
-        lifecycleScope
-            .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnNounGenderStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnWordStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnVerbFormsVisibilityStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnVerbFormsStatusFlowChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnWordPluralFormStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnTranslationStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnSaveButtonIsEnabledChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnSwitchOnlyPluralVisibilityListener, viewLifecycleOwner)
-            .flowListen(::setOnClearAllInputStatusChangeListener, viewLifecycleOwner)
-            .flowListen(::setOnAdjectiveFormsVisibilityChangeListener, viewLifecycleOwner)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                addWordStatusListener()
+            }
+        }
 
         return binding.root
+    }
+
+    private suspend fun addWordStatusListener() {
+        Timber.i("addWordStatusListener()")
+
+        viewModel.addWordStatusFlow.collect { status ->
+            when (status) {
+                is AddWordStatus.Repeatable.AdjectiveFormsVisibility -> {
+                    binding.linearLayoutAdjectiveForms.visibility = status.value
+                }
+
+                is AddWordStatus.Repeatable.Gender -> binding.textInputLayoutWordGender.apply {
+                    isEnabled = status.value.isEnabled
+                    error = status.value.error?.let { getString(it) }
+                    helperText = getString(status.value.helperText)
+                    visibility = status.value.visibility
+                }
+
+                is AddWordStatus.Repeatable.OnlyPluralSwitchVisibility -> {
+                    binding.switchOnlyPlural.visibility = status.value
+                }
+
+                is AddWordStatus.Repeatable.Plural -> binding.textInputLayoutWordPlural.apply {
+                    isEnabled = status.value.isEnabled
+                    error = status.value.error?.let { getString(it) }
+                    helperText = getString(status.value.helperText)
+                    visibility = status.value.visibility
+                }
+
+                is AddWordStatus.Repeatable.SaveButtonIsEnabled -> if (binding.buttonSave.isEnabled != status.value) {
+                    binding.buttonSave.isEnabled = status.value
+                }
+
+                is AddWordStatus.Repeatable.Translation -> binding.textInputLayoutTranslation.apply {
+                    isEnabled = status.value.isEnabled
+                    error = status.value.error?.let { getString(it) }
+                    helperText = getString(status.value.helperText)
+                    visibility = status.value.visibility
+                }
+
+                is AddWordStatus.Repeatable.VerbForms -> {
+                    binding.textInputPrasensIch.setText(status.value.prasensIch)
+                    binding.textInputPrasensDu.setText(status.value.prasensDu)
+                    binding.textInputPrasensErSieEs.setText(status.value.prasensErSieEs)
+                    binding.textInputPrasensWir.setText(status.value.prasensWir)
+                    binding.textInputPrasensIhr.setText(status.value.prasensIhr)
+                    binding.textInputPrasensSieSie.setText(status.value.prasensSieSie)
+                    binding.textInputPrateritumIch.setText(status.value.prateritumIch)
+                    binding.textInputPrateritumDu.setText(status.value.prateritumDu)
+                    binding.textInputPrateritumErSieEs.setText(status.value.prateritumErSieEs)
+                    binding.textInputPrateritumWir.setText(status.value.prateritumWir)
+                    binding.textInputPrateritumIhr.setText(status.value.prateritumIhr)
+                    binding.textInputPrateritumSieSie.setText(status.value.prateritumSieSie)
+                    binding.textInputPerfect.setText(status.value.perfekt)
+                }
+
+                is AddWordStatus.Repeatable.VerbFormsVisibility ->
+                    binding.linearLayoutVerbForms.visibility = status.value
+
+                is AddWordStatus.Repeatable.Word -> binding.textInputLayoutWord.apply {
+                    isEnabled = status.value.isEnabled
+                    error = status.value.error?.let { getString(it) }
+                    helperText = getString(status.value.helperText)
+                    visibility = status.value.visibility
+                }
+
+                AddWordStatus.Unrepeatable.ClearAllInput -> {
+                    binding.textInputWordGender.text = null
+                    binding.textInputWord.text = null
+                    binding.radioButtonWordTypeNoun.isChecked = true
+                    binding.textInputWordPlural.text = null
+                    binding.switchOnlyPlural.isChecked = false
+                    binding.textInputTranslation.text = null
+                    binding.textInputPrasensIch.text = null
+                    binding.textInputPrasensDu.text = null
+                    binding.textInputPrasensErSieEs.text = null
+                    binding.textInputPrasensWir.text = null
+                    binding.textInputPrasensIhr.text = null
+                    binding.textInputPrasensSieSie.text = null
+                    binding.textInputPrateritumIch.text = null
+                    binding.textInputPrateritumDu.text = null
+                    binding.textInputPrateritumErSieEs.text = null
+                    binding.textInputPrateritumWir.text = null
+                    binding.textInputPrateritumIhr.text = null
+                    binding.textInputPrateritumSieSie.text = null
+                    binding.textInputPerfect.text = null
+                    binding.textInputKomparativ.text = null
+                    binding.textInputSuperlativ.text = null
+                }
+            }
+        }
     }
 
     private fun setNounGenderOptions(items: List<String>) {
@@ -82,21 +169,6 @@ class AddWordFragment : Fragment() {
         })
     }
 
-    private suspend fun setOnNounGenderStatusChangeListener() {
-        Timber.i("setOnNounGenderStatusChangeListener()")
-
-        viewModel.genderStatusFlow.collect { status ->
-            Timber.i("setOnNounGenderStatusChangeListener() -> collect:$status")
-
-            binding.textInputLayoutWordGender.apply {
-                isEnabled = status.isEnabled
-                error = status.error?.let { getString(it) }
-                helperText = getString(status.helperText)
-                visibility = status.visibility
-            }
-        }
-    }
-
     private fun setOnWordChangeListener() {
         Timber.i("setOnWordChangeListener()")
 
@@ -108,21 +180,6 @@ class AddWordFragment : Fragment() {
                 viewModel.onWordChange(s?.toString() ?: "")
             }
         })
-    }
-
-    private suspend fun setOnWordStatusChangeListener() {
-        Timber.i("setOnWordStatusChangeListener()")
-
-        viewModel.wordStatusFlow.collect { status ->
-            Timber.i("setOnWordStatusChangeListener() -> collect:$status")
-
-            binding.textInputLayoutWord.apply {
-                isEnabled = status.isEnabled
-                error = status.error?.let { getString(it) }
-                helperText = getString(status.helperText)
-                visibility = status.visibility
-            }
-        }
     }
 
     private fun setOnWordTypeRadioButtonGroupChangeListener() {
@@ -145,37 +202,6 @@ class AddWordFragment : Fragment() {
         }
     }
 
-    private suspend fun setOnVerbFormsVisibilityStatusChangeListener() {
-        Timber.i("setOnVerbFormsVisibilityStatusChangeListener()")
-
-        viewModel.verbFormsVisibilityStatusFlow.collect { visibility ->
-            Timber.i("setOnVerbFormsVisibilityStatusChangeListener() -> collect:$visibility")
-            binding.linearLayoutVerbForms.visibility = visibility
-        }
-    }
-
-    private suspend fun setOnVerbFormsStatusFlowChangeListener() {
-        Timber.i("setOnVerbFormsStatusFlowChangeListener()")
-
-        viewModel.verbFormsStatusFlow.collect { status ->
-            Timber.i("setOnVerbFormsStatusFlowChangeListener() -> collect:$status")
-
-            binding.textInputPrasensIch.setText(status.prasensIch)
-            binding.textInputPrasensDu.setText(status.prasensDu)
-            binding.textInputPrasensErSieEs.setText(status.prasensErSieEs)
-            binding.textInputPrasensWir.setText(status.prasensWir)
-            binding.textInputPrasensIhr.setText(status.prasensIhr)
-            binding.textInputPrasensSieSie.setText(status.prasensSieSie)
-            binding.textInputPrateritumIch.setText(status.prateritumIch)
-            binding.textInputPrateritumDu.setText(status.prateritumDu)
-            binding.textInputPrateritumErSieEs.setText(status.prateritumErSieEs)
-            binding.textInputPrateritumWir.setText(status.prateritumWir)
-            binding.textInputPrateritumIhr.setText(status.prateritumIhr)
-            binding.textInputPrateritumSieSie.setText(status.prateritumSieSie)
-            binding.textInputPerfect.setText(status.perfekt)
-        }
-    }
-
     private fun setOnWordPluralFormChangeListener() {
         Timber.i("setOnWordPluralFormChangeListener()")
 
@@ -187,20 +213,6 @@ class AddWordFragment : Fragment() {
                 viewModel.onWordPluralFormChange(s?.toString() ?: "")
             }
         })
-    }
-
-    private suspend fun setOnWordPluralFormStatusChangeListener() {
-        Timber.i("setOnWordPluralFormStatusChangeListener()")
-
-        viewModel.wordPluralFormStatusFlow.collect { status ->
-            Timber.i("setOnWordPluralFormStatusChangeListener() -> collect:$status")
-            binding.textInputLayoutWordPlural.apply {
-                isEnabled = status.isEnabled
-                error = status.error?.let { getString(it) }
-                helperText = getString(status.helperText)
-                visibility = status.visibility
-            }
-        }
     }
 
     private fun setOnOnlyPluralSwitchChangeListener() {
@@ -225,76 +237,12 @@ class AddWordFragment : Fragment() {
         })
     }
 
-    private suspend fun setOnTranslationStatusChangeListener() {
-        Timber.i("setOnTranslationStatusChangeListener()")
-
-        viewModel.translationStatusFlow.collect { status ->
-            Timber.i("setOnTranslationStatusChangeListener() -> collect:$status")
-            binding.textInputLayoutTranslation.apply {
-                isEnabled = status.isEnabled
-                error = status.error?.let { getString(it) }
-                helperText = getString(status.helperText)
-                visibility = status.visibility
-            }
-        }
-    }
-
-    private suspend fun setOnSaveButtonIsEnabledChangeListener() {
-        Timber.i("setOnSaveButtonIsEnabledChangeListener()")
-
-        viewModel.saveButtonIsEnabledFlow.collect {
-            Timber.i("setOnSaveButtonIsEnabledChangeListener() -> collect:$it")
-            if (binding.buttonSave.isEnabled != it) {
-                binding.buttonSave.isEnabled = it
-            }
-        }
-    }
-
     private fun setOnButtonSaveClickListener() {
         Timber.i("setOnButtonSaveClickListener()")
 
         binding.buttonSave.setOnClickListener {
             Timber.i("setOnButtonSaveClickListener() -> buttonSave -> click")
             viewModel.onButtonSaveClick()
-        }
-    }
-
-    private suspend fun setOnSwitchOnlyPluralVisibilityListener() {
-        Timber.i("setOnSwitchOnlyPluralVisibilityListener()")
-
-        viewModel.onlyPluralSwitchVisibilityStatusFlow.collect {
-            Timber.i("setOnSwitchOnlyPluralVisibilityListener() -> collect:$it")
-            binding.switchOnlyPlural.visibility = it
-        }
-    }
-
-    private suspend fun setOnClearAllInputStatusChangeListener() {
-        Timber.i("setOnClearAllInputStatusChangeListener()")
-
-        viewModel.clearAllInputStatusFlow.collect {
-            Timber.i("setOnClearAllInputStatusChangeListener() -> collect:$it")
-
-            binding.textInputWordGender.text = null
-            binding.textInputWord.text = null
-            binding.radioButtonWordTypeNoun.isChecked = true
-            binding.textInputWordPlural.text = null
-            binding.switchOnlyPlural.isChecked = false
-            binding.textInputTranslation.text = null
-            binding.textInputPrasensIch.text = null
-            binding.textInputPrasensDu.text = null
-            binding.textInputPrasensErSieEs.text = null
-            binding.textInputPrasensWir.text = null
-            binding.textInputPrasensIhr.text = null
-            binding.textInputPrasensSieSie.text = null
-            binding.textInputPrateritumIch.text = null
-            binding.textInputPrateritumDu.text = null
-            binding.textInputPrateritumErSieEs.text = null
-            binding.textInputPrateritumWir.text = null
-            binding.textInputPrateritumIhr.text = null
-            binding.textInputPrateritumSieSie.text = null
-            binding.textInputPerfect.text = null
-            binding.textInputKomparativ.text = null
-            binding.textInputSuperlativ.text = null
         }
     }
 
@@ -342,16 +290,6 @@ class AddWordFragment : Fragment() {
                 viewModel.onSuperlativChange(s?.toString())
             }
         })
-    }
-
-    private suspend fun setOnAdjectiveFormsVisibilityChangeListener() {
-        Timber.i("setOnAdjectiveFormsVisibilityChangeListener()")
-
-        viewModel.adjectiveFormsVisibilityStatusFlow.collect {
-            Timber.i("setOnAdjectiveFormsVisibilityChangeListener() -> collect:$it")
-
-            binding.linearLayoutAdjectiveForms.visibility = it
-        }
     }
 
     private fun textWatcher(forType: VerbFormType) = object : TextWatcher {

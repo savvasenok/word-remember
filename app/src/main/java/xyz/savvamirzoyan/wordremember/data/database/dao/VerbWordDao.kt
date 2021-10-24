@@ -36,4 +36,7 @@ interface VerbWordDao {
 
     @Query("DELETE FROM words_verb WHERE :wordId == verbId")
     suspend fun deleteWord(wordId: Long)
+
+    @Query("DELETE FROM words_verb")
+    suspend fun deleteAllWords()
 }
