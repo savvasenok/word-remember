@@ -18,7 +18,6 @@
     <string name="add_word_generated_content_consider_check">Створено автоматично. Перевірка рекомендована</string>
     <string name="words_list">Список слів</string>
     <string name="words_list_menu_search">Пошук</string>
-    <string name="words_list_menu_filter">Фільтр</string>
     <string name="words_list_search_hint">Знайти слово</string>
     <string name="words_list_snackbar_word_is_deleted">Слово видалено</string>
     <string name="words_list_snackbar_undo">Скасувати</string>
@@ -28,4 +27,7 @@
     <string name="input_error_word_must_have_translation">Слово повинно мати переклад</string>
     <string name="output_error_not_enough_words">Недостатньо слів, щоб почати 😿</string>
     <string name="content_description_translates_to">Перекладається як</string>
+    <string name="words_list_menu_sort">Відсортувати</string>
+    <string name="words_list_menu_word_type_or_gender">Тип/гендер слова</string>
+    <string name="words_list_menu_reverse">У зворотньому порядку</string>
 </resources>

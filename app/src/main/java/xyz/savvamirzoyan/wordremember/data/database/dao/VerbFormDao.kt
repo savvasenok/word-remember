@@ -20,4 +20,7 @@ interface VerbFormDao {
 
     @Query("DELETE FROM verb_forms WHERE :wordId == id")
     suspend fun deleteWord(wordId: Long)
+
+    @Query("DELETE FROM verb_forms")
+    suspend fun deleteAllWords()
 }

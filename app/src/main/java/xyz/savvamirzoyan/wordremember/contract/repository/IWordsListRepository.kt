@@ -23,4 +23,7 @@ interface IWordsListRepository {
     suspend fun addNoun(nounWord: NounWord)
     suspend fun addVerb(verbForms: VerbWordWithVerbForms)
     suspend fun addAdjective(adjectiveWord: AdjectiveWord)
+
+    suspend fun addRandomWords()
+    suspend fun deleteAllWords()
 }

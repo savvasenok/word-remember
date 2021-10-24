@@ -26,6 +26,7 @@
     <string name="add_word_person_wir" translatable="false">Wir</string>
     <string name="add_word_person_du" translatable="false">Du</string>
     <string name="add_word_person_ihr" translatable="false">Ihr</string>
+    <string name="add_word_person_er_sie_es" translatable="false">man</string>
     <string name="add_word_person_sie_sie" translatable="false">Sie</string>
     <string name="add_word_person_perfect" translatable="false">Perfect</string>
     <string name="add_word_plural_prefix" translatable="false">die ⁠</string>
@@ -41,15 +42,14 @@
     <string name="words_list_subtitle_komparativ" translatable="false">Komparativ</string>
     <string name="words_list_subtitle_superlativ" translatable="false">Superlativ</string>
     <string name="words_list_superlativ_prefix" translatable="false">am ⁠</string>
-    <string name="words_list_menu_search">Search</string>
-    <string name="words_list_menu_filter">Filter</string>
-    <string name="words_list_search_hint">Search word</string>
     <string name="words_list_snackbar_word_is_deleted">Word is deleted</string>
     <string name="words_list_snackbar_undo">Undo</string>
-    <!--    <string name="words_list_filter_all">All types</string>
-    <string name="words_list_filter_nouns">Nouns</string>
-    <string name="words_list_filter_verbs">Verbs</string>
-    <string name="words_list_filter_adjectives">Adjectives</string>-->
+    <string name="words_list_search_hint">Search word</string>
+    <string name="words_list_menu_search">Search</string>
+    <string name="words_list_menu_sort">Sort</string>
+    <string name="words_list_menu_alphabetical_order" translatable="false">A-z</string>
+    <string name="words_list_menu_word_type_or_gender">Word type/gender</string>
+    <string name="words_list_menu_reverse">Reverse</string>
 
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>
@@ -62,5 +62,8 @@
 
     <!-- Content Description -->
     <string name="content_description_translates_to">Translates to</string>
-    <string name="add_word_person_er_sie_es" translatable="false">man</string>
+
+    <!-- DEBUG -->
+    <string name="debug_add_random_words" translatable="false">Add random words</string>
+    <string name="debug_delete_all_words" translatable="false">Delete all words</string>
 </resources>

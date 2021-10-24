@@ -18,7 +18,6 @@
     <string name="add_word_generated_content_consider_check">Создано автоматически. Рекомендуется проверка</string>
     <string name="words_list">Список слов</string>
     <string name="words_list_menu_search">Поиск</string>
-    <string name="words_list_menu_filter">Фильтр</string>
     <string name="words_list_search_hint">Найти слово</string>
     <string name="words_list_snackbar_word_is_deleted">Слово удалено</string>
     <string name="words_list_snackbar_undo">Отменить</string>
@@ -28,4 +27,7 @@
     <string name="input_error_word_must_have_translation">У слова должен быть перевод</string>
     <string name="output_error_not_enough_words">Недостаточно слов, чтобы начать 😿</string>
     <string name="content_description_translates_to">Переводится как</string>
+    <string name="words_list_menu_sort">Отсортировать</string>
+    <string name="words_list_menu_word_type_or_gender">Тип/гендер слова</string>
+    <string name="words_list_menu_reverse">В обратном порядке</string>
 </resources>

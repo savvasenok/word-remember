@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import xyz.savvamirzoyan.wordremember.BuildConfig
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.adapter.WordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
@@ -71,12 +72,69 @@ class WordsListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Timber.i("onCreateOptionsMenu()")
+
+        inflater.inflate(R.menu.words_list_menu, menu)
+
+        menuSearchView = (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
+            isIconified = true
+            maxWidth = Int.MAX_VALUE
+            queryHint = getString(R.string.words_list_search_hint)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = true
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    viewModel.performSearch(newText ?: "")
+
+                    return true
+                }
+            })
+        }
+
+        menu.apply {
+            findItem(R.id.menu_add_random_words).isVisible = BuildConfig.DEBUG
+            findItem(R.id.menu_delete_all_words).isVisible = BuildConfig.DEBUG
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.menu_sort_reverse -> {
+                item.isChecked = !item.isChecked
+                viewModel.reverseWordsUpdated(item.isChecked)
+            }
+            R.id.menu_sort_alphabetical -> {
+                item.isChecked = true
+                viewModel.sortOptionUpdatedToAlphabetical()
+            }
+            R.id.menu_sort_type_or_gender -> {
+                item.isChecked = true
+                viewModel.sortOptionUpdatedToWordTypeOrGender()
+            }
+            R.id.menu_add_random_words -> {
+                viewModel.addRandomWords()
+            }
+            R.id.menu_delete_all_words -> {
+                viewModel.deleteAllWords()
+            }
+            android.R.id.home -> {
+                requireActivity().onBackPressed()
+            }
+        }
+
+        return true
+    }
+
     private suspend fun wordsListStatusListener() {
         Timber.i("wordsListStatusListener()")
 
         viewModel.wordsListStatusFlow.collect { status ->
             when (status) {
                 is WordsListStatus.Words -> {
+                    binding.recyclerViewWordsList.smoothScrollToPosition(0)
                     wordsListRecyclerViewAdapter.updateWords(status.value)
                 }
                 is WordsListStatus.ReturnBack -> {
@@ -98,28 +156,6 @@ class WordsListFragment : Fragment() {
                     }
                 }
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        Timber.i("onCreateOptionsMenu()")
-
-        inflater.inflate(R.menu.words_list_menu, menu)
-
-        menuSearchView = (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
-            isIconified = true
-            maxWidth = Int.MAX_VALUE
-            queryHint = getString(R.string.words_list_search_hint)
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean = true
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    viewModel.performSearch(newText ?: "")
-
-                    return true
-                }
-            })
         }
     }
 

@@ -16,3 +16,15 @@ fun Fragment.snackbar(
         show()
     }
 }
+
+fun Fragment.snackbar(
+    text: String,
+    actionText: String,
+    length: Int = Snackbar.LENGTH_INDEFINITE,
+    action: ((View) -> Unit)? = null
+) {
+    Snackbar.make(requireView(), text, length).apply {
+        action?.let { setAction(actionText, it) }
+        show()
+    }
+}
