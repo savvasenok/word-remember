@@ -1,7 +1,7 @@
 # Word Remember
 
 <p>
-<img alt="version" src="https://img.shields.io/badge/version-1.1.1-green" />
+<img alt="version" src="https://img.shields.io/badge/version-1.2.0-green" />
 <img alt="issues" src="https://img.shields.io/github/issues-raw/savvasenok/word-remember" />
 <a href="https://t.me/savvamirzoyan">
 <img alt="version" src="https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white" />
