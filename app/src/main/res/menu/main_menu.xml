@@ -6,4 +6,9 @@
         android:icon="@drawable/icon_list"
         android:title="@string/words_list"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_info"
+        android:title="@string/app_info"
+        app:showAsAction="never" />
 </menu>

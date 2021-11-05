@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.BuildConfig
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.adapter.WordsListRecyclerViewAdapter
@@ -73,8 +72,6 @@ class WordsListFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        Timber.i("onCreateOptionsMenu()")
-
         inflater.inflate(R.menu.words_list_menu, menu)
 
         menuSearchView = (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
@@ -129,8 +126,6 @@ class WordsListFragment : Fragment() {
     }
 
     private suspend fun wordsListStatusListener() {
-        Timber.i("wordsListStatusListener()")
-
         viewModel.wordsListStatusFlow.collect { status ->
             when (status) {
                 is WordsListStatus.Words -> {
@@ -177,8 +172,6 @@ class WordsListFragment : Fragment() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            Timber.i("onSwiped()")
-
             val word = adapter.getWordByPosition(viewHolder.adapterPosition)
             viewModel.deleteWord(word)
         }

@@ -1,6 +1,5 @@
 package xyz.savvamirzoyan.wordremember.domain
 
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.constants.Endings
 import xyz.savvamirzoyan.wordremember.constants.Person
 import xyz.savvamirzoyan.wordremember.constants.Prefix
@@ -45,8 +44,6 @@ object VerbAnalyzer {
         Person.WIR -> "en"
         Person.IHR -> "et"
         Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForTD was used")
     }
 
     private fun prasensEndingForMN(person: Person): String = when (person) {
@@ -56,8 +53,6 @@ object VerbAnalyzer {
         Person.WIR -> "en"
         Person.IHR -> "et"
         Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForMN was used")
     }
 
     private fun prasensEndingForSSsZ(person: Person): String = when (person) {
@@ -67,8 +62,6 @@ object VerbAnalyzer {
         Person.WIR -> "en"
         Person.IHR -> "t"
         Person.SIE -> "en"
-    }.also {
-        Timber.i("prasensEndingForSSsZ was used")
     }
 
     private fun prasensEndingForErEl(person: Person): String = when (person) {
@@ -78,8 +71,6 @@ object VerbAnalyzer {
         Person.WIR -> "n"
         Person.IHR -> "t"
         Person.SIE -> "n"
-    }.also {
-        Timber.i("prasensEndingForErEl was used")
     }
 
     private fun prasensEndingForUndefined(person: Person): String = when (person) {

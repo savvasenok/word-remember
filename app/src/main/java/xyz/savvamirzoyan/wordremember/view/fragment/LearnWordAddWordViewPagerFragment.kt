@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayoutMediator
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.adapter.viewpager.LearnWordAddWordViewPagerAdapter
 import xyz.savvamirzoyan.wordremember.databinding.FragmentLearnWordAddWordViewPagerBinding
@@ -33,8 +32,6 @@ class LearnWordAddWordViewPagerFragment : Fragment() {
     }
 
     private fun setTabLayoutMediator() {
-        Timber.i("setTabLayoutMediator() called")
-
         TabLayoutMediator(
             binding.tabLayout,
             binding.viewPager,
@@ -59,6 +56,12 @@ class LearnWordAddWordViewPagerFragment : Fragment() {
                 Navigation.findNavController(binding.root).navigate(action)
                 true
             }
+            R.id.menu_info -> {
+                val action = LearnWordAddWordViewPagerFragmentDirections.toAppInfo()
+                Navigation.findNavController(binding.root).navigate(action)
+                true
+            }
+
             else -> false
         }
     }

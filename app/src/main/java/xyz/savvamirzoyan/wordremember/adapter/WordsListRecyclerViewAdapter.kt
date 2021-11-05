@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
@@ -106,8 +105,6 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
     override fun getItemCount(): Int = words.size
 
     override fun updateWords(newWords: List<WordsListItem>) {
-        Timber.i("updateWords(newWords: ${newWords.joinToString(", ")})")
-
         val callback = WordsListDiffCallback(words, newWords)
         val differentWords = DiffUtil.calculateDiff(callback)
         words.clear()

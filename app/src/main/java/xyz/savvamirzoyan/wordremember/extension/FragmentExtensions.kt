@@ -8,7 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 fun Fragment.snackbar(
     @StringRes textRes: Int,
     @StringRes actionText: Int,
-    length: Int = Snackbar.LENGTH_INDEFINITE,
+    length: Int = Snackbar.LENGTH_LONG,
     action: ((View) -> Unit)? = null
 ) {
     Snackbar.make(requireView(), textRes, length).apply {
@@ -19,8 +19,8 @@ fun Fragment.snackbar(
 
 fun Fragment.snackbar(
     text: String,
-    actionText: String,
-    length: Int = Snackbar.LENGTH_INDEFINITE,
+    actionText: String? = null,
+    length: Int = Snackbar.LENGTH_LONG,
     action: ((View) -> Unit)? = null
 ) {
     Snackbar.make(requireView(), text, length).apply {

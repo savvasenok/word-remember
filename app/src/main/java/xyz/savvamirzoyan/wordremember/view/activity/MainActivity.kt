@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 
 fun Activity.hideKeyboard() {
@@ -34,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Timber.i("onCreate() called")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,8 +45,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        Timber.i("onSupportNavigateUp() called")
-
         return NavigationUI.navigateUp(navigationController, appBarConfig)
     }
 }
