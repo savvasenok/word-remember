@@ -127,12 +127,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_ich">
 
@@ -141,10 +143,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -164,12 +162,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_du">
 
@@ -178,10 +178,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -201,12 +197,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_er_sie_es">
 
@@ -215,10 +213,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -268,12 +262,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_ich">
 
@@ -282,10 +278,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -305,12 +297,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_du">
 
@@ -319,10 +313,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -342,12 +332,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:hint="@string/add_word_person_er_sie_es">
 
@@ -356,10 +348,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -383,48 +371,18 @@
                 android:layout_marginBottom="32dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:hint="@string/add_word_person_perfect"
+                    app:prefixText="@string/add_word_sein_haben_prefix">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/add_word_time_perfect"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Caption"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/add_word_generated_content_consider_check"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="@string/add_word_person_perfect">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/textInput_perfect"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInput_perfect"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -469,6 +427,7 @@
             android:id="@+id/linearLayout_adjectiveForms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -476,6 +435,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:hint="@string/add_word_komparativ">
 
@@ -484,10 +444,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Space
-                android:layout_width="4dp"
-                android:layout_height="match_parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_superlativ"
@@ -521,22 +477,12 @@
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/add_word_button_save" />
-        </LinearLayout>
+            android:layout_gravity="end"
+            android:enabled="false"
+            android:text="@string/add_word_button_save" />
     </LinearLayout>
 </ScrollView>

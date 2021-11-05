@@ -34,6 +34,7 @@
     <string name="add_word_komparativ" translatable="false">Komparativ</string>
     <string name="add_word_superlativ" translatable="false">Superlativ</string>
     <string name="add_word_superlativ_prefix" translatable="false">am ⁠</string>
+    <string name="add_word_sein_haben_prefix" translatable="false">sein/haben ⁠</string>
 
     <!--  Words List  -->
     <string name="words_list">Words list</string>
@@ -51,6 +52,21 @@
     <string name="words_list_menu_word_type_or_gender">Word type/gender</string>
     <string name="words_list_menu_reverse">Reverse</string>
 
+    <!-- App Info -->
+    <string name="app_info">App Info</string>
+    <string name="info_version">Version</string>
+    <string name="info_source_code">Source code</string>
+    <string name="info_tap_to_open_github_page">Tap to open Github page</string>
+    <string name="info_rate_this_app">Rate this app</string>
+    <string name="info_tap_to_open_play_market">Tap to open Play Market</string>
+    <string name="info_author">Author</string>
+    <string name="info_author_name">Savva Mirzoyan</string>
+    <string name="info_author_bio">Android developer &amp; guitar player</string>
+    <string name="info_website">Website</string>
+    <string name="info_tap_to_open_profile">Tap to open Savva\'s profile page</string>
+    <string name="info_contact_me">Contact me</string>
+    <string name="info_tap_to_open_telegram">Tap to open Telegram</string>
+
     <!--  Input Errors  -->
     <string name="input_error_no_gender">Word must have gender</string>
     <string name="input_error_word_must_not_be_empty">Word must not be empty or blank</string>
@@ -62,6 +78,7 @@
 
     <!-- Content Description -->
     <string name="content_description_translates_to">Translates to</string>
+    <string name="content_description_icon">Icon</string>
 
     <!-- DEBUG -->
     <string name="debug_add_random_words" translatable="false">Add random words</string>

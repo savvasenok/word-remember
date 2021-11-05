@@ -30,4 +30,18 @@
     <string name="words_list_menu_sort">Відсортувати</string>
     <string name="words_list_menu_word_type_or_gender">Тип/гендер слова</string>
     <string name="words_list_menu_reverse">У зворотньому порядку</string>
+    <string name="app_info">Про додаток</string>
+    <string name="content_description_icon">Іконка</string>
+    <string name="info_version">Версія</string>
+    <string name="info_source_code">Вихідний код </string>
+    <string name="info_tap_to_open_github_page">Натисніть, щоб відкрити сторінку Github </string>
+    <string name="info_rate_this_app">Оцініть цей додаток</string>
+    <string name="info_tap_to_open_play_market">Натисніть, щоб відкрити Play Market</string>
+    <string name="info_author">Розробник</string>
+    <string name="info_author_name">Савва Мірзоян</string>
+    <string name="info_author_bio">Android розробник та гітаріст</string>
+    <string name="info_website">Веб-сайт</string>
+    <string name="info_tap_to_open_profile">Натисніть, щоб відкрити профіль Савви</string>
+    <string name="info_contact_me">Зв\'яжіться зі мною</string>
+    <string name="info_tap_to_open_telegram">Натисніть, щоб відкрити Telegram</string>
 </resources>

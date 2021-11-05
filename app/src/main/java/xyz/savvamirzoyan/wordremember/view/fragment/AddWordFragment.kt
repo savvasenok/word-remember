@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.data.repository.AddWordRepository
 import xyz.savvamirzoyan.wordremember.data.state.VerbFormType
 import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
@@ -59,8 +58,6 @@ class AddWordFragment : Fragment() {
     }
 
     private suspend fun addWordStatusListener() {
-        Timber.i("addWordStatusListener()")
-
         viewModel.addWordStatusFlow.collect { status ->
             when (status) {
                 is AddWordStatus.Repeatable.AdjectiveFormsVisibility -> {
@@ -150,105 +147,78 @@ class AddWordFragment : Fragment() {
     }
 
     private fun setNounGenderOptions(items: List<String>) {
-        Timber.i("setNounGenderOptions(items:$items)")
-
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
         (binding.textInputWordGender).setAdapter(adapter)
     }
 
     private fun setOnNounGenderChangeListener() {
-        Timber.i("setOnNounGenderChangeListener()")
-
         binding.textInputWordGender.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("setOnNounGenderChangeListener() -> afterTextChanged(s:$s)")
                 viewModel.onGenderChange(s?.toString() ?: "")
             }
         })
     }
 
     private fun setOnWordChangeListener() {
-        Timber.i("setOnWordChangeListener()")
-
         binding.textInputWord.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("setOnWordChangeListener() -> afterTextChanged(s:$s)")
                 viewModel.onWordChange(s?.toString() ?: "")
             }
         })
     }
 
     private fun setOnWordTypeRadioButtonGroupChangeListener() {
-        Timber.i("setOnWordTypeRadioButtonGroupChangeListener()")
-
         binding.radioButtonWordTypeNoun.setOnCheckedChangeListener { _, isChecked ->
-            Timber.i("setOnWordTypeRadioButtonGroupChangeListener() -> radioButtonWordTypeNoun:$isChecked")
             binding.switchOnlyPlural.isChecked = false
             viewModel.onWordTypeNounChange(isChecked)
         }
         binding.radioButtonWordTypeVerb.setOnCheckedChangeListener { _, isChecked ->
-            Timber.i("setOnWordTypeRadioButtonGroupChangeListener() -> radioButtonWordTypeVerb:$isChecked")
             binding.switchOnlyPlural.isChecked = false
             viewModel.onWordTypeVerbChange(isChecked)
         }
         binding.radioButtonWordTypeAdjective.setOnCheckedChangeListener { _, isChecked ->
-            Timber.i("setOnWordTypeRadioButtonGroupChangeListener() -> radioButtonWordTypeAdjective:$isChecked")
             binding.switchOnlyPlural.isChecked = false
             viewModel.onWordTypeAdjectiveChange(isChecked)
         }
     }
 
     private fun setOnWordPluralFormChangeListener() {
-        Timber.i("setOnWordPluralFormChangeListener()")
-
         binding.textInputWordPlural.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("setOnWordPluralFormChangeListener() -> afterTextChanged(s:$s)")
                 viewModel.onWordPluralFormChange(s?.toString() ?: "")
             }
         })
     }
 
     private fun setOnOnlyPluralSwitchChangeListener() {
-        Timber.i("setOnOnlyPluralSwitchChangeListener()")
-
         binding.switchOnlyPlural.setOnCheckedChangeListener { _, isChecked ->
-            Timber.i("setOnOnlyPluralSwitchChangeListener() -> switchOnlyPlural:$isChecked")
             viewModel.onOnlyPluralChange(isChecked)
         }
     }
 
     private fun setOnTranslationChangeListener() {
-        Timber.i("setOnTranslationChangeListener()")
-
         binding.textInputTranslation.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("setOnTranslationChangeListener() -> afterTextChanged(s:$s)")
                 viewModel.onTranslationChange(s?.toString() ?: "")
             }
         })
     }
 
     private fun setOnButtonSaveClickListener() {
-        Timber.i("setOnButtonSaveClickListener()")
-
         binding.buttonSave.setOnClickListener {
-            Timber.i("setOnButtonSaveClickListener() -> buttonSave -> click")
             viewModel.onButtonSaveClick()
         }
     }
 
     private fun setOnVerbFormsChangeListeners() {
-        Timber.i("setOnVerbFormsChangeListeners()")
-
         binding.textInputPrasensIch.addTextChangedListener(textWatcher(VerbFormType.PRASENS_ICH))
         binding.textInputPrasensDu.addTextChangedListener(textWatcher(VerbFormType.PRASENS_DU))
         binding.textInputPrasensErSieEs.addTextChangedListener(textWatcher(VerbFormType.PRASENS_ER_SIE_ES))
@@ -267,15 +237,11 @@ class AddWordFragment : Fragment() {
     }
 
     private fun setOnAdjectiveFormsChangeListener() {
-        Timber.i("setOnAdjectiveFormsChangeListener()")
-
         binding.textInputKomparativ.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("textInputKomparativ TextWatcher() afterTextChanged(s:$s)")
-
                 viewModel.onKomparativChange(s?.toString())
             }
         })
@@ -285,8 +251,6 @@ class AddWordFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                Timber.i("textInputSuperlativ TextWatcher() afterTextChanged(s:$s)")
-
                 viewModel.onSuperlativChange(s?.toString())
             }
         })
@@ -297,7 +261,6 @@ class AddWordFragment : Fragment() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            Timber.i("textWatcher(forType:$forType) afterTextChanged(s:$s)")
             viewModel.onVerbFormChange(s?.toString(), forType)
         }
     }

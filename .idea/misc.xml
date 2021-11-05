@@ -3,15 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.125" />
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/activity_list_item.xml" value="0.24114583333333334" />
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/list_content.xml" value="0.24114583333333334" />
         <entry key="../../Android/Sdk/platforms/android-30/data/res/layout/simple_list_item_1.xml" value="0.24114583333333334" />
+        <entry key="app/src/debug/res/drawable/icon_add_random_words.xml" value="0.36615384615384616" />
+        <entry key="app/src/debug/res/menu/words_list_menu.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/icon_arrow_translates_to.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/icon_filter.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/icon_list.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/icon_search.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/icon_sort.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/layout/fragment_add_word.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_answers_3_button.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/fragment_answers_4_button.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/fragment_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_learn_word.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_learn_word_add_word_view_pager.xml" value="0.19739583333333333" />
+        <entry key="app/src/main/res/layout/layout_add_word_fragment_adjective.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/layout_add_word_fragment_noun.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_add_word_fragment_plural.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/layout_add_word_fragment_verb.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/widget_text_input.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/words_list_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20677083333333332" />
+        <entry key="app/src/release/res/menu/words_list_menu.xml" value="0.35572916666666665" />
+        <entry key="app/src/staging/res/drawable/icon_add_random_words.xml" value="0.36615384615384616" />
+        <entry key="app/src/staging/res/menu/words_list_menu.xml" value="0.35572916666666665" />
       </map>
     </option>
   </component>

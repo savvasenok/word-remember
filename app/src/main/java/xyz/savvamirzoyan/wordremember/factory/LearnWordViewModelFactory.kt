@@ -7,8 +7,9 @@ import xyz.savvamirzoyan.wordremember.viewmodel.LearnWordViewModel
 
 class LearnWordViewModelFactory(private val repository: ILearnWordRepository) :
     ViewModelProvider.Factory {
+
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return LearnWordViewModel(repository) as T
     }
 }

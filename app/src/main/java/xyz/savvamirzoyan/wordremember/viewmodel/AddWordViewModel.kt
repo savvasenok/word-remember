@@ -1,14 +1,11 @@
 package xyz.savvamirzoyan.wordremember.viewmodel
 
 import android.view.View
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.constants.Person
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
@@ -20,6 +17,7 @@ import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.data.types.WordType
 import xyz.savvamirzoyan.wordremember.data.types.WordType.*
 import xyz.savvamirzoyan.wordremember.domain.VerbAnalyzer
+import java.util.*
 
 class AddWordViewModel(
     private val repository: IAddWordRepository
@@ -64,14 +62,10 @@ class AddWordViewModel(
     val addWordStatusFlow by lazy { _addWordStatusFlow.asStateFlow() }
 
     private fun updateSaveButtonStatus() {
-        Timber.i("updateSaveButtonStatus()")
-
         sendStatus(AddWordStatus.Repeatable.SaveButtonIsEnabled(isSaveEnabled))
     }
 
     private fun processVerbForms(word: String): VerbFormStatus {
-        Timber.i("processVerbForms(word: $word)")
-
         val prefix = VerbAnalyzer.prefix(word)
         val wordWithoutPrefix = VerbAnalyzer.removePrefix(word)
         val wordRootForm = VerbAnalyzer.removeSuffixEn(wordWithoutPrefix)
@@ -87,8 +81,6 @@ class AddWordViewModel(
     }
 
     fun onGenderChange(gender: String) {
-        Timber.i("onGenderChange(gender:$gender)")
-
         if (gender.lowercase() in nounGenders) {
             wordGender = WordGender.valueOf(gender.uppercase())
             sendStatus(
@@ -117,12 +109,11 @@ class AddWordViewModel(
     }
 
     fun onWordChange(newWord: String) {
-        Timber.i("onWordChange(newWord:$newWord)")
-
         when (wordType) {
             NOUN -> {
 
-                word = newWord.capitalize(Locale.current)
+                word =
+                    newWord.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 
                 if (newWord.isNotBlank() && !isOnlyPlural) {
                     sendStatus(
@@ -173,7 +164,8 @@ class AddWordViewModel(
                 }
             }
             ADJECTIVE -> {
-                word = newWord.capitalize(Locale.current)
+                word =
+                    newWord.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 
                 if (word.isBlank()) {
                     sendStatus(
@@ -203,8 +195,6 @@ class AddWordViewModel(
     }
 
     fun onWordTypeNounChange(isChecked: Boolean) {
-        Timber.i("onWordTypeNounChange(isChecked:$isChecked)")
-
         if (isChecked) {
             wordType = NOUN
             sendStatus(
@@ -234,8 +224,6 @@ class AddWordViewModel(
     }
 
     fun onWordTypeVerbChange(isChecked: Boolean) {
-        Timber.i("onWordTypeVerbChange(isChecked:$isChecked)")
-
         if (isChecked) {
             wordType = VERB
             sendStatus(
@@ -276,8 +264,6 @@ class AddWordViewModel(
     }
 
     fun onWordTypeAdjectiveChange(isChecked: Boolean) {
-        Timber.i("onWordTypeAdjectiveChange(isChecked:$isChecked)")
-
         if (isChecked) {
             wordType = ADJECTIVE
             sendStatus(
@@ -298,8 +284,6 @@ class AddWordViewModel(
     }
 
     fun onWordPluralFormChange(newWordPluralForm: String) {
-        Timber.i("onWordPluralFormChange(newWordPluralForm:$newWordPluralForm)")
-
         wordPluralForm = newWordPluralForm
 
         when {
@@ -339,8 +323,6 @@ class AddWordViewModel(
     }
 
     fun onOnlyPluralChange(isChecked: Boolean) {
-        Timber.i("onOnlyPluralChange(isChecked:$isChecked)")
-
         isOnlyPlural = isChecked
 
         val wordState = if (isOnlyPlural) {
@@ -391,8 +373,6 @@ class AddWordViewModel(
     }
 
     fun onTranslationChange(newTranslation: String) {
-        Timber.i("onTranslationChange(newTranslation:$newTranslation)")
-
         translation = newTranslation
         if (newTranslation.isNotBlank()) {
             sendStatus(
@@ -420,9 +400,7 @@ class AddWordViewModel(
     }
 
     fun onVerbFormChange(_form: String?, verbFormType: VerbFormType) {
-        Timber.i("onVerbFormChange(form:\"$_form\", verbFormType:$verbFormType)")
-
-        val form = _form?.lowercase(java.util.Locale.GERMAN)
+        val form = _form?.lowercase(Locale.GERMAN)
 
         when (verbFormType) {
             VerbFormType.PRASENS_ICH -> verbFormHelper.prasensIch = form
@@ -442,20 +420,14 @@ class AddWordViewModel(
     }
 
     fun onKomparativChange(newKomparativ: String?) {
-        Timber.i("onKomparativChange(newKomparativ:\"$newKomparativ\")")
-
         komparativ = newKomparativ ?: ""
     }
 
     fun onSuperlativChange(newSuperlativ: String?) {
-        Timber.i("newSuperlativ(newSuperlativ:\"$newSuperlativ\")")
-
         superlativ = newSuperlativ ?: ""
     }
 
     fun onButtonSaveClick() {
-        Timber.i("onButtonSaveClick()")
-
         sendStatus(AddWordStatus.Repeatable.SaveButtonIsEnabled(false))
 
         viewModelScope.launch {
@@ -491,8 +463,6 @@ class AddWordViewModel(
     }
 
     private fun clearInput() {
-        Timber.i("clearInput()")
-
         sendStatus(AddWordStatus.Unrepeatable.ClearAllInput)
         sendStatus(AddWordStatus.Repeatable.Gender(initWordGenderTextInputState))
         sendStatus(AddWordStatus.Repeatable.Word(initWordTextInputState))
@@ -522,14 +492,14 @@ class AddWordViewModel(
     )
 
     private fun String.asGermanNounString(): String = this
-        .lowercase(java.util.Locale.GERMAN)
+        .lowercase(Locale.GERMAN)
         .replaceFirstChar { it.uppercase() }
 
     private fun String.asNounString(): String = this
         .lowercase()
         .replaceFirstChar { it.uppercase() }
 
-    private fun String.lowercaseGerman(): String = this.lowercase(java.util.Locale.GERMAN)
+    private fun String.lowercaseGerman(): String = this.lowercase(Locale.GERMAN)
 
     private fun sendStatus(status: AddWordStatus) {
         viewModelScope.launch {
