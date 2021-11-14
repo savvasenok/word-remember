@@ -103,7 +103,8 @@ class WordsListViewModel(
             id,
             word ?: plural ?: "",
             translation,
-            gender
+            gender,
+            plural
         )
     }
 
@@ -112,8 +113,7 @@ class WordsListViewModel(
             verb.verbId, // only verbId, because verbForms id is the same
             verb.word,
             verb.translation,
-            verbForm.prateritumSieSie ?: "",
-            verbForm.perfekt ?: "",
+            verbForm
         )
     }
 

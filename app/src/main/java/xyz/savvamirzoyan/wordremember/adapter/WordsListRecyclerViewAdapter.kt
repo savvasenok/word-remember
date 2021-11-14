@@ -1,6 +1,7 @@
 package xyz.savvamirzoyan.wordremember.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +17,11 @@ import xyz.savvamirzoyan.wordremember.databinding.LayoutWordsListItemVerbBinding
 class WordsListNounViewHolder(
     private val viewBinding: LayoutWordsListItemNounBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
-    fun bind(data: WordsListItem.WordsListItemNoun) {
+    fun bind(data: WordsListItem.WordsListItemNoun, changeNotifier: () -> Unit) {
         viewBinding.textViewWord.text = data.word
         viewBinding.textViewTranslation.text = data.translation
+        viewBinding.textViewWordPlural.text = data.plural ?: ""
+
         viewBinding.textViewWordGender.apply {
             text = data.gender?.toString()?.lowercase() ?: "die"
             val color = when (data.gender) {
@@ -32,17 +35,67 @@ class WordsListNounViewHolder(
                 viewBinding.textViewWordGender.context.getColor(color)
             )
         }
+
+        if (data.isSubContentVisible) {
+            viewBinding.linearLayoutNounPlural.visibility = View.VISIBLE
+        } else {
+            viewBinding.linearLayoutNounPlural.visibility = View.GONE
+        }
+
+        viewBinding.cardView.setOnClickListener {
+            if (viewBinding.linearLayoutNounPlural.visibility == View.GONE) {
+                viewBinding.linearLayoutNounPlural.visibility = View.VISIBLE
+                data.isSubContentVisible = true
+            } else {
+                viewBinding.linearLayoutNounPlural.visibility = View.GONE
+                data.isSubContentVisible = false
+            }
+
+            changeNotifier()
+        }
     }
 }
 
 class WordsListVerbViewHolder(
     private val viewBinding: LayoutWordsListItemVerbBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
-    fun bind(data: WordsListItem.WordsListItemVerb) {
+    fun bind(data: WordsListItem.WordsListItemVerb, changeNotifier: () -> Unit) {
         viewBinding.textViewWord.text = data.word
         viewBinding.textViewTranslation.text = data.translation
-        viewBinding.textViewWordsListItemVerbPrateritum.text = data.prateritum
-        viewBinding.textViewWordsListItemVerbPerfect.text = data.perfect
+        viewBinding.textViewWordsListItemVerbPrateritum.text = data.verbForms.prateritumSieSie
+        viewBinding.textViewWordsListItemVerbPerfect.text = data.verbForms.perfekt
+
+        data.verbForms.apply {
+            viewBinding.textViewVerbFormIchPrasens.text = this.prasensIch
+            viewBinding.textViewVerbFormDuPrasens.text = this.prasensDu
+            viewBinding.textViewVerbFormErSieEsPrasens.text = this.prasensErSieEs
+            viewBinding.textViewVerbFormWirPrasens.text = this.prasensWir
+            viewBinding.textViewVerbFormIhrPrasens.text = this.prasensIhr
+            viewBinding.textViewVerbFormSieSiePrasens.text = this.prasensSieSie
+
+            viewBinding.textViewVerbFormIchPrateritum.text = this.prateritumIch
+            viewBinding.textViewVerbFormDuPrateritum.text = this.prateritumDu
+            viewBinding.textViewVerbFormErSieEsPrateritum.text = this.prateritumErSieEs
+            viewBinding.textViewVerbFormWirPrateritum.text = this.prateritumWir
+            viewBinding.textViewVerbFormIhrPrateritum.text = this.prateritumIhr
+            viewBinding.textViewVerbFormSieSiePrateritum.text = this.prateritumSieSie
+        }
+
+        if (data.isSubContentVisible) {
+            viewBinding.linearLayoutVerbForms.visibility = View.VISIBLE
+        }
+
+        viewBinding.cardView.setOnClickListener {
+            if (viewBinding.linearLayoutVerbForms.visibility == View.GONE) {
+                viewBinding.linearLayoutVerbForms.visibility = View.VISIBLE
+                data.isSubContentVisible = true
+            } else {
+                viewBinding.linearLayoutVerbForms.visibility = View.GONE
+                data.isSubContentVisible = false
+            }
+
+            changeNotifier()
+        }
     }
 }
 
@@ -96,8 +149,12 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is WordsListNounViewHolder -> holder.bind(words[position] as WordsListItem.WordsListItemNoun)
-            is WordsListVerbViewHolder -> holder.bind(words[position] as WordsListItem.WordsListItemVerb)
+            is WordsListNounViewHolder -> holder.bind(words[position] as WordsListItem.WordsListItemNoun) {
+                notifyItemChanged(position, Unit)
+            }
+            is WordsListVerbViewHolder -> holder.bind(words[position] as WordsListItem.WordsListItemVerb) {
+                notifyItemChanged(position, Unit)
+            }
             is WordsListAdjectiveViewHolder -> holder.bind(words[position] as WordsListItem.WordsListItemAdjective)
         }
     }

@@ -83,4 +83,5 @@
     <!-- DEBUG -->
     <string name="debug_add_random_words" translatable="false">Add random words</string>
     <string name="debug_delete_all_words" translatable="false">Delete all words</string>
+    <string name="gender_plural" translatable="false">die</string>
 </resources>
