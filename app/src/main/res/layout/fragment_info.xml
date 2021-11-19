@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.fragment.InfoFragment">
+    tools:context=".ui.view.fragment.InfoFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

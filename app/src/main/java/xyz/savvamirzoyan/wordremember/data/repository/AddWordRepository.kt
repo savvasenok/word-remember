@@ -1,10 +1,10 @@
 package xyz.savvamirzoyan.wordremember.data.repository
 
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWord
-import xyz.savvamirzoyan.wordremember.data.database.model.NounWord
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbForm
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbWord
+import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
+import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbFormData
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordData
 import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
@@ -17,7 +17,7 @@ object AddWordRepository : Repository(), IAddWordRepository {
         translation: String
     ) {
         db.nounWordDao.saveWord(
-            NounWord(
+            NounWordData(
                 gender = gender,
                 word = word,
                 plural = plural.stringOrNull(),
@@ -29,7 +29,7 @@ object AddWordRepository : Repository(), IAddWordRepository {
 
     override suspend fun saveWordPlural(plural: String, translation: String) {
         db.nounWordDao.saveWord(
-            NounWord(
+            NounWordData(
                 gender = null,
                 word = null,
                 plural = plural,
@@ -46,7 +46,7 @@ object AddWordRepository : Repository(), IAddWordRepository {
         superlativ: String
     ) {
         db.adjectiveWordDao.saveWord(
-            AdjectiveWord(
+            AdjectiveWordData(
                 word = word,
                 translation = translation,
                 komparativ = komparativ,
@@ -56,11 +56,11 @@ object AddWordRepository : Repository(), IAddWordRepository {
     }
 
     override suspend fun saveWordVerb(word: String, translation: String, verbForm: VerbFormHelper) {
-        val verbId = db.verbWordDao.saveWord(VerbWord(word = word, translation = translation))
+        val verbId = db.verbWordDao.saveWord(VerbWordData(word = word, translation = translation))
         db.verbFormDao.saveForm(verbForm.toVerbWord(verbId))
     }
 
-    private fun VerbFormHelper.toVerbWord(verbWordId: Long): VerbForm = VerbForm(
+    private fun VerbFormHelper.toVerbWord(verbWordId: Long): VerbFormData = VerbFormData(
         verbWordId = verbWordId,
         prasensIch = prasensIch.stringOrNull(),
         prasensDu = prasensDu.stringOrNull(),

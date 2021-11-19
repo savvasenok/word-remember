@@ -1,9 +1,9 @@
 package xyz.savvamirzoyan.wordremember.domain
 
-import xyz.savvamirzoyan.wordremember.constants.Endings
-import xyz.savvamirzoyan.wordremember.constants.Person
-import xyz.savvamirzoyan.wordremember.constants.Prefix
-import xyz.savvamirzoyan.wordremember.constants.Suffix
+import xyz.savvamirzoyan.wordremember.utils.constants.Endings
+import xyz.savvamirzoyan.wordremember.utils.constants.Person
+import xyz.savvamirzoyan.wordremember.utils.constants.Prefix
+import xyz.savvamirzoyan.wordremember.utils.constants.Suffix
 
 object VerbAnalyzer {
 

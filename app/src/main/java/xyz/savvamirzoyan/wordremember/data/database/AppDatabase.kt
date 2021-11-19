@@ -8,17 +8,17 @@ import xyz.savvamirzoyan.wordremember.data.database.dao.AdjectiveWordDao
 import xyz.savvamirzoyan.wordremember.data.database.dao.NounWordDao
 import xyz.savvamirzoyan.wordremember.data.database.dao.VerbFormDao
 import xyz.savvamirzoyan.wordremember.data.database.dao.VerbWordDao
-import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWord
-import xyz.savvamirzoyan.wordremember.data.database.model.NounWord
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbForm
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbWord
+import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
+import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbFormData
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordData
 
 @Database(
     entities = [
-        NounWord::class,
-        VerbWord::class,
-        AdjectiveWord::class,
-        VerbForm::class
+        NounWordData::class,
+        VerbWordData::class,
+        AdjectiveWordData::class,
+        VerbFormData::class
     ],
     exportSchema = true,
     version = 1,

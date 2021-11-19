@@ -9,10 +9,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.state.DataInputState
 import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.testimpl.TestAddWordRepository
-import xyz.savvamirzoyan.wordremember.viewmodel.AddWordViewModel
+import xyz.savvamirzoyan.wordremember.ui.state.DataInputState
+import xyz.savvamirzoyan.wordremember.ui.viewmodel.AddWordViewModel
 
 /**
  * Example local unit test, which will execute on the development machine (host).

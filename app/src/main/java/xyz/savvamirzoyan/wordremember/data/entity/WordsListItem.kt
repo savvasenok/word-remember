@@ -1,6 +1,6 @@
 package xyz.savvamirzoyan.wordremember.data.entity
 
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbForm
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbFormData
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
 sealed class WordsListItem(
@@ -22,7 +22,7 @@ sealed class WordsListItem(
         override val id: Long,
         override val word: String,
         override val translation: String,
-        val verbForms: VerbForm,
+        val verbFormsData: VerbFormData,
         var isSubContentVisible: Boolean = false
     ) : WordsListItem(id, word, translation)
 
@@ -33,5 +33,4 @@ sealed class WordsListItem(
         val komparativ: String,
         val superlativ: String
     ) : WordsListItem(id, word, translation)
-
 }

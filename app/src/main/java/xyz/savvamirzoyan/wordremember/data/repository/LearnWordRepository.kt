@@ -1,14 +1,16 @@
 package xyz.savvamirzoyan.wordremember.data.repository
 
 import xyz.savvamirzoyan.wordremember.contract.repository.ILearnWordRepository
-import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWord
-import xyz.savvamirzoyan.wordremember.data.database.model.NounWord
-import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbForms
+import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
+import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
+import xyz.savvamirzoyan.wordremember.data.entity.VerbWordWithVerbFormsBusiness
 
 object LearnWordRepository : Repository(), ILearnWordRepository {
-    override suspend fun getAllNouns(): List<NounWord> = db.nounWordDao.getAllWords()
+    override suspend fun getAllNouns(): List<NounWordData> = db.nounWordDao.getAllWords()
 
-    override suspend fun getAllVerbs(): List<VerbWordWithVerbForms> = db.verbWordDao.getAllWords()
+    override suspend fun getAllVerbs(): List<VerbWordWithVerbFormsBusiness> =
+        db.verbWordDao.getAllWords()
 
-    override suspend fun getAllAdjectives(): List<AdjectiveWord> = db.adjectiveWordDao.getAllWords()
+    override suspend fun getAllAdjectives(): List<AdjectiveWordData> =
+        db.adjectiveWordDao.getAllWords()
 }

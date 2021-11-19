@@ -3,7 +3,7 @@ package xyz.savvamirzoyan.wordremember.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import xyz.savvamirzoyan.wordremember.contract.repository.IWordsListRepository
-import xyz.savvamirzoyan.wordremember.viewmodel.WordsListViewModel
+import xyz.savvamirzoyan.wordremember.ui.viewmodel.WordsListViewModel
 
 class WordsListViewModelFactory(
     private val repository: IWordsListRepository,

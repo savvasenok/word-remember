@@ -6,7 +6,7 @@
     app:startDestination="@id/learnWordAddWordViewPagerFragment">
     <fragment
         android:id="@+id/learnWordAddWordViewPagerFragment"
-        android:name="xyz.savvamirzoyan.wordremember.view.fragment.LearnWordAddWordViewPagerFragment"
+        android:name="xyz.savvamirzoyan.wordremember.ui.view.fragment.LearnWordAddWordViewPagerFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_learn_word_add_word_view_pager">
         <action
@@ -26,12 +26,12 @@
     </fragment>
     <fragment
         android:id="@+id/wordsListFragment"
-        android:name="xyz.savvamirzoyan.wordremember.view.fragment.WordsListFragment"
+        android:name="xyz.savvamirzoyan.wordremember.ui.view.fragment.WordsListFragment"
         android:label="@string/words_list"
         tools:layout="@layout/fragment_words_list" />
     <fragment
         android:id="@+id/infoFragment"
-        android:name="xyz.savvamirzoyan.wordremember.view.fragment.InfoFragment"
+        android:name="xyz.savvamirzoyan.wordremember.ui.view.fragment.InfoFragment"
         android:label="@string/app_info"
         tools:layout="@layout/fragment_info" />
 </navigation>
