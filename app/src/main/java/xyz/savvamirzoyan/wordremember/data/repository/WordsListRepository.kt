@@ -11,7 +11,6 @@ import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.entity.domain.AdjectiveWordDomain
 import xyz.savvamirzoyan.wordremember.data.entity.domain.NounWordDomain
 import xyz.savvamirzoyan.wordremember.data.entity.domain.VerbWordWithVerbFormsDomain
-import xyz.savvamirzoyan.wordremember.data.types.WordGender
 
 object WordsListRepository : Repository(), IWordsListRepository {
 
@@ -109,27 +108,8 @@ object WordsListRepository : Repository(), IWordsListRepository {
 //        db.adjectiveWordDao.saveWord(adjectiveWordData)
 //    }
 
-    override suspend fun addRandomWords() {
-
-        val allowedChars = ('A'..'Z') + ('a'..'z')
-
-        for (i in 1..30) {
-
-            val isOnlyPlural = listOf(true, false).random()
-            val word = NounWordData(
-                gender = listOf(WordGender.DER, WordGender.DIE, WordGender.DAS).random(),
-                isOnlyPlural = isOnlyPlural,
-                plural = (1..15)
-                    .map { allowedChars.random() }
-                    .joinToString(""),
-                word = if (!isOnlyPlural) (1..15)
-                    .map { allowedChars.random() }
-                    .joinToString("") else null,
-                translation = (1..15)
-                    .map { allowedChars.random() }
-                    .joinToString("")
-            )
-
+    override suspend fun addRandomWords(words: List<NounWordData>) {
+        words.forEach { word ->
             db.nounWordDao.saveWord(word)
         }
     }

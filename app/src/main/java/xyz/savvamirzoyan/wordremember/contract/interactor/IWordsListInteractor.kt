@@ -5,4 +5,7 @@ import xyz.savvamirzoyan.wordremember.data.entity.ui.WordsListItemUI
 
 interface IWordsListInteractor {
     fun wordsFlow(): Flow<List<WordsListItemUI>>
+
+    suspend fun addRandomWords()
+    suspend fun deleteAllWords()
 }

@@ -1,6 +1,7 @@
 package xyz.savvamirzoyan.wordremember.contract.repository
 
 import kotlinx.coroutines.flow.Flow
+import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.entity.domain.AdjectiveWordDomain
 import xyz.savvamirzoyan.wordremember.data.entity.domain.NounWordDomain
 import xyz.savvamirzoyan.wordremember.data.entity.domain.VerbWordWithVerbFormsDomain
@@ -24,6 +25,6 @@ interface IWordsListRepository {
     suspend fun addVerb(verbForms: VerbWordWithVerbFormsDomain)
     suspend fun addAdjective(adjectiveWordData: AdjectiveWordDomain)
 
-    suspend fun addRandomWords()
+    suspend fun addRandomWords(words: List<NounWordData>)
     suspend fun deleteAllWords()
 }

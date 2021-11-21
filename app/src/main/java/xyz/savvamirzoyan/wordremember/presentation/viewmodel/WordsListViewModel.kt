@@ -135,13 +135,13 @@ class WordsListViewModel(
 
     fun addRandomWords() {
         viewModelScope.launch(Dispatchers.IO) {
-//            TODO() interactor.addRandomWords()
+            interactor.addRandomWords()
         }
     }
 
     fun deleteAllWords() {
         viewModelScope.launch(Dispatchers.IO) {
-//            TODO() interactor.deleteAllWords()
+            interactor.deleteAllWords()
         }
     }
 }
