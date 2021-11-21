@@ -42,7 +42,7 @@
     <string name="words_list_subtitle_perfect" translatable="false">Perfect</string>
     <string name="words_list_subtitle_komparativ" translatable="false">Komparativ</string>
     <string name="words_list_subtitle_superlativ" translatable="false">Superlativ</string>
-    <string name="words_list_superlativ_prefix" translatable="false">am ⁠</string>
+    <string name="words_list_superlativ_prefix" translatable="false">am %1$s</string>
     <string name="words_list_snackbar_word_is_deleted">Word is deleted</string>
     <string name="words_list_snackbar_undo">Undo</string>
     <string name="words_list_search_hint">Search word</string>

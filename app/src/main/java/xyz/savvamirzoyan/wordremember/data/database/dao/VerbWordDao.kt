@@ -6,30 +6,30 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordData
-import xyz.savvamirzoyan.wordremember.data.entity.VerbWordWithVerbFormsBusiness
+import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbFormsData
 
 @Dao
 interface VerbWordDao {
 
     @Transaction
     @Query("SELECT * FROM words_verb WHERE :id = verbId")
-    suspend fun getWord(id: Long): VerbWordWithVerbFormsBusiness?
+    suspend fun getWord(id: Long): VerbWordWithVerbFormsData?
 
     @Transaction
     @Query("SELECT * FROM words_verb WHERE :word = word")
-    suspend fun getWord(word: String): VerbWordWithVerbFormsBusiness?
+    suspend fun getWord(word: String): VerbWordWithVerbFormsData?
 
     @Transaction
     @Query("SELECT * FROM words_verb")
-    suspend fun getAllWords(): List<VerbWordWithVerbFormsBusiness>
+    suspend fun getAllWords(): List<VerbWordWithVerbFormsData>
 
     @Transaction
     @Query("SELECT * FROM words_verb")
-    fun allWordsFlow(): Flow<List<VerbWordWithVerbFormsBusiness>>
+    fun allWordsFlow(): Flow<List<VerbWordWithVerbFormsData>>
 
     @Transaction
     @Query("SELECT * FROM words_verb WHERE :translation = translation")
-    suspend fun getWordByTranslation(translation: String): VerbWordWithVerbFormsBusiness?
+    suspend fun getWordByTranslation(translation: String): VerbWordWithVerbFormsData?
 
     @Insert
     suspend fun saveWord(wordData: VerbWordData): Long

@@ -7,9 +7,16 @@ abstract class Abstract {
         fun map(mapper: M): T
     }
 
+    // Object from above uses this Mapper interface.
+    // Different realisations of this interface could transform
+    // Abstract.Object to any other type
     interface Mapper {
-        interface Data<S, R> : Mapper {
-            fun map(data: S): R
-        }
+
+//        interface Base<R, T> : Mapper {
+//            fun map(data: R): T
+//            fun map(e: Exception): T
+//        }
+
+        interface Empty : Mapper
     }
 }

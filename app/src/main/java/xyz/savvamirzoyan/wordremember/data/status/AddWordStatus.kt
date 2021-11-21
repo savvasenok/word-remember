@@ -1,7 +1,7 @@
 package xyz.savvamirzoyan.wordremember.data.status
 
-import xyz.savvamirzoyan.wordremember.ui.state.DataInputState
-import xyz.savvamirzoyan.wordremember.ui.viewmodel.AddWordViewModel
+import xyz.savvamirzoyan.wordremember.presentation.state.DataInputState
+import xyz.savvamirzoyan.wordremember.presentation.viewmodel.AddWordViewModel
 
 sealed class AddWordStatus {
 
