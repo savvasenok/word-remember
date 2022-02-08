@@ -5,35 +5,27 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import xyz.savvamirzoyan.wordremember.BuildConfig
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
 import xyz.savvamirzoyan.wordremember.contract.viewmodel.IViewModelDeleteSwipedItem
-import xyz.savvamirzoyan.wordremember.data.repository.WordsListRepository
-import xyz.savvamirzoyan.wordremember.data.status.WordsListStatus
 import xyz.savvamirzoyan.wordremember.databinding.FragmentWordsListBinding
-import xyz.savvamirzoyan.wordremember.domain.interactors.WordsListInteractor
-import xyz.savvamirzoyan.wordremember.factory.WordsListViewModelFactory
+import xyz.savvamirzoyan.wordremember.domain.WordRememberApplication
 import xyz.savvamirzoyan.wordremember.presentation.adapter.WordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.WordsListViewModel
-import xyz.savvamirzoyan.wordremember.utils.extension.snackbar
 
 class WordsListFragment : Fragment() {
 
     private var _binding: FragmentWordsListBinding? = null
     private val binding get() = _binding!!
 
-    private var _viewModel: WordsListViewModel? = null
-    private val viewModel get() = _viewModel!!
+    private lateinit var viewModel: WordsListViewModel
 
     private var menuSearchView: SearchView? = null
 
@@ -45,11 +37,7 @@ class WordsListFragment : Fragment() {
     ): View {
 
         _binding = FragmentWordsListBinding.inflate(inflater, container, false)
-
-        _viewModel = ViewModelProvider(
-            this,
-            WordsListViewModelFactory(WordsListInteractor(WordsListRepository))
-        ).get(WordsListViewModel::class.java)
+        viewModel = (requireActivity().application as WordRememberApplication).wordsListViewModel
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -127,32 +115,32 @@ class WordsListFragment : Fragment() {
     }
 
     private suspend fun wordsListStatusListener() {
-        viewModel.wordsListStatusFlow.collect { status ->
-            when (status) {
-                is WordsListStatus.Words -> {
-                    binding.recyclerViewWordsList.smoothScrollToPosition(0)
-                    wordsListRecyclerViewAdapter.updateWords(status.value)
-                }
-                is WordsListStatus.ReturnBack -> {
-                    snackbar(
-                        R.string.words_list_snackbar_word_is_deleted,
-                        R.string.words_list_snackbar_undo,
-                        Snackbar.LENGTH_SHORT
-                    ) {
-                        when (status) {
-                            is WordsListStatus.ReturnBack.Adjective ->
-                                viewModel.returnAdjectiveToDB(status.adjectiveWordData)
-                            is WordsListStatus.ReturnBack.Noun ->
-                                viewModel.returnNounToDB(status.nounWordData)
-                            is WordsListStatus.ReturnBack.Verb ->
-                                viewModel.returnVerbToDB(status.verb)
-                            is WordsListStatus.Words -> {
-                            } // bug in intellij idea
-                        }
-                    }
-                }
-            }
-        }
+//        viewModel.wordsListStatusFlow.collect { status ->
+//            when (status) {
+//                is WordsListStatus.Words -> {
+//                    binding.recyclerViewWordsList.smoothScrollToPosition(0)
+//                    wordsListRecyclerViewAdapter.updateWords(status.value)
+//                }
+//                is WordsListStatus.ReturnBack -> {
+//                    snackbar(
+//                        R.string.words_list_snackbar_word_is_deleted,
+//                        R.string.words_list_snackbar_undo,
+//                        Snackbar.LENGTH_SHORT
+//                    ) {
+//                        when (status) {
+//                            is WordsListStatus.ReturnBack.Adjective ->
+//                                viewModel.returnAdjectiveToDB(status.adjectiveWordData)
+//                            is WordsListStatus.ReturnBack.Noun ->
+//                                viewModel.returnNounToDB(status.nounWordData)
+//                            is WordsListStatus.ReturnBack.Verb ->
+//                                viewModel.returnVerbToDB(status.verb)
+//                            is WordsListStatus.Words -> {
+//                            } // bug in intellij idea
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     private class SwipeToDeleteWordCallback(

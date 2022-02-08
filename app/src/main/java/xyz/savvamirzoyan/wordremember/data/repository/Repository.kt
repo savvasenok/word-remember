@@ -4,5 +4,5 @@ import xyz.savvamirzoyan.wordremember.data.database.AppDatabase
 
 abstract class Repository {
 
-    val db = AppDatabase.getInstance()
+    val db = AppDatabase.invoke()//.getInstance()
 }

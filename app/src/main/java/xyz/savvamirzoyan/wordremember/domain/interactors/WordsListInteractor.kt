@@ -2,55 +2,74 @@ package xyz.savvamirzoyan.wordremember.domain.interactors
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import xyz.savvamirzoyan.wordremember.contract.data.IAdjectiveWordDomainToUiMapper
-import xyz.savvamirzoyan.wordremember.contract.data.INounWordDomainToUiMapper
-import xyz.savvamirzoyan.wordremember.contract.data.IVerbWordWithVerbFormsDomainToUiMapper
-import xyz.savvamirzoyan.wordremember.contract.interactor.IWordsListInteractor
-import xyz.savvamirzoyan.wordremember.contract.repository.IWordsListRepository
+import xyz.savvamirzoyan.wordremember.contract.data.AdjectiveWordDomainToUiMapper
+import xyz.savvamirzoyan.wordremember.contract.data.NounWordDomainToUiMapper
+import xyz.savvamirzoyan.wordremember.contract.data.VerbWordWithVerbFormsDomainToNoFormsUiMapper
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
-import xyz.savvamirzoyan.wordremember.data.entity.ui.WordsListItemUI
+import xyz.savvamirzoyan.wordremember.data.repository.WordsListRepository
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
+import xyz.savvamirzoyan.wordremember.presentation.model.WordsListItemUI
+import xyz.savvamirzoyan.wordremember.utils.constants.SortOrder
 
-class WordsListInteractor(
-    private val repository: IWordsListRepository
-) : IWordsListInteractor {
+interface WordsListInteractor {
+    suspend fun wordsFlow(
+        sortOrderFlow: Flow<SortOrder>
+    ): Flow<List<WordsListItemUI>>
 
-    private val chars = ('A'..'Z') + ('a'..'z')
+    suspend fun addRandomWords()
+    suspend fun deleteAllWords()
 
-    override fun wordsFlow(
-    ): Flow<List<WordsListItemUI>> = combine(
-        repository.wordsList,
-        repository.verbsList,
-        repository.adjectivesList
-    ) { nouns, verbs, adjectives ->
-        nouns.map { it.map(INounWordDomainToUiMapper.Base()) } +
-                adjectives.map { it.map(IAdjectiveWordDomainToUiMapper.Base()) } +
-                verbs.map { it.map(IVerbWordWithVerbFormsDomainToUiMapper.Base()) }
-    }
+    class Base(
+        private val repository: WordsListRepository,
+        private val nounWordDomainToUiMapper: NounWordDomainToUiMapper,
+        private val adjectiveWordDomainToUiMapper: AdjectiveWordDomainToUiMapper,
+        private val verbWordWithVerbFormsDomainToNoFormsUiMapper: VerbWordWithVerbFormsDomainToNoFormsUiMapper
+    ) : WordsListInteractor {
 
-    override suspend fun addRandomWords() {
-        val words = Array(100) {
-            // TODO: Domain knows about Data layer?
-            NounWordData(
-                gender = listOf(WordGender.DER, WordGender.DIE, WordGender.DAS).random(),
-                word = generateRandomString(),
-                plural = generateRandomString(),
-                isOnlyPlural = listOf(true, false).random(),
-                translation = generateRandomString()
-            )
-        }.toList()
+        private val chars = ('A'..'Z') + ('a'..'z')
 
-        repository.addRandomWords(words)
-    }
+        override suspend fun wordsFlow(
+            sortOrderFlow: Flow<SortOrder>
+        ): Flow<List<WordsListItemUI>> = combine(
+            repository.wordsList,
+            repository.verbsList,
+            repository.adjectivesList,
+            sortOrderFlow
+        ) { nouns, verbs, adjectives, order ->
+            val words = (nouns.map { nounWordDomainToUiMapper.map(it) } +
+                    adjectives.map { adjectiveWordDomainToUiMapper.map(it) } +
+                    verbs.map { verbWordWithVerbFormsDomainToNoFormsUiMapper.map(it) })
 
-    override suspend fun deleteAllWords() {
-        repository.deleteAllWords()
-    }
+            when (order) {
+                SortOrder.Alphabetical -> words.sortedBy { it.alphabeticalValue() }
+                SortOrder.WordTypeOrGender -> words
+            }
+        }
 
-    private fun generateRandomString(): String {
-        var string = ""
-        repeat(10) { string += chars.random() }
+        override suspend fun addRandomWords() {
+            val words = Array(100) {
+                // TODO: Domain knows about Data layer?
+                NounWordData(
+                    gender = listOf(WordGender.DER, WordGender.DIE, WordGender.DAS).random(),
+                    word = generateRandomString(),
+                    plural = generateRandomString(),
+                    isOnlyPlural = listOf(true, false).random(),
+                    translation = generateRandomString()
+                )
+            }.toList()
 
-        return string
+            repository.addRandomWords(words)
+        }
+
+        override suspend fun deleteAllWords() {
+            repository.deleteAllWords()
+        }
+
+        private fun generateRandomString(): String {
+            var string = ""
+            repeat(10) { string += chars.random() }
+
+            return string
+        }
     }
 }

@@ -1,9 +1,9 @@
-package xyz.savvamirzoyan.wordremember.data.status
+package xyz.savvamirzoyan.wordremember.domain.status
 
 import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbFormsData
-import xyz.savvamirzoyan.wordremember.data.entity.ui.WordsListItemUI
+import xyz.savvamirzoyan.wordremember.presentation.model.WordsListItemUI
 
 sealed class WordsListStatus {
 

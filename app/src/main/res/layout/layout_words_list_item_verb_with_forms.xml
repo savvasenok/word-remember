@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_word"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/material_on_background_emphasis_high_type"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="gehen" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="@string/content_description_translates_to"
+                android:src="@drawable/icon_arrow_translates_to" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_translation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textSize="18sp"
+                tools:text="идти" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/words_list_subtitle_prateritum"
+                    android:textAlignment="center" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textView_wordsListItem_verbPrateritum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/material_on_background_emphasis_high_type"
+                    android:textStyle="bold"
+                    tools:text="ging" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/words_list_subtitle_perfect"
+                    android:textAlignment="center" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textView_wordsListItem_verbPerfect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/material_on_background_emphasis_high_type"
+                    android:textStyle="bold"
+                    tools:text="gegangen" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/linearLayout_verbForms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="6"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_ich"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_ich_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="bin" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_ich_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="war" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_du"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_du_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="bist" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_du_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="warst" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_er_sie_es"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_er_sie_es_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="ist" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_er_sie_es_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="war" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_wir"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_wir_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="sind" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_wir_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="waren" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_ihr"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_ihr_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="seid" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_ihr_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="wart" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="@string/add_word_person_sie_sie"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_sie_sie_prasens"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="sind" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_verbForm_sie_sie_prateritum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                tools:text="waren" />
+        </GridLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

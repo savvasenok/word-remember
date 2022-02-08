@@ -15,8 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import xyz.savvamirzoyan.wordremember.data.repository.AddWordRepository
-import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.databinding.FragmentAddWordBinding
+import xyz.savvamirzoyan.wordremember.domain.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.factory.AddWordViewModelFactory
 import xyz.savvamirzoyan.wordremember.presentation.state.VerbFormType
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.AddWordViewModel
@@ -141,6 +141,8 @@ class AddWordFragment : Fragment() {
                     binding.textInputPerfect.text = null
                     binding.textInputKomparativ.text = null
                     binding.textInputSuperlativ.text = null
+                }
+                else -> {
                 }
             }
         }

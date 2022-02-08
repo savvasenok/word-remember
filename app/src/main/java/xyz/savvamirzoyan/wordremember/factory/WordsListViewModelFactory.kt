@@ -2,11 +2,11 @@ package xyz.savvamirzoyan.wordremember.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import xyz.savvamirzoyan.wordremember.contract.interactor.IWordsListInteractor
+import xyz.savvamirzoyan.wordremember.domain.interactors.WordsListInteractor
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.WordsListViewModel
 
 class WordsListViewModelFactory(
-    private val interactor: IWordsListInteractor,
+    private val interactor: WordsListInteractor,
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

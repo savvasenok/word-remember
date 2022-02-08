@@ -1,4 +1,4 @@
-package xyz.savvamirzoyan.wordremember.data.status
+package xyz.savvamirzoyan.wordremember.domain.status
 
 import xyz.savvamirzoyan.wordremember.presentation.state.DataInputState
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.AddWordViewModel

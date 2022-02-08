@@ -1,4 +1,4 @@
-package xyz.savvamirzoyan.wordremember.data.entity
+package xyz.savvamirzoyan.wordremember.domain.model
 
 data class VerbFormHelper(
     var prasensIch: String? = null,

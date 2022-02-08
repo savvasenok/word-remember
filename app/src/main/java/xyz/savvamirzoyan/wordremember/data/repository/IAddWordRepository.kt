@@ -1,7 +1,7 @@
-package xyz.savvamirzoyan.wordremember.contract.repository
+package xyz.savvamirzoyan.wordremember.data.repository
 
-import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
+import xyz.savvamirzoyan.wordremember.domain.model.VerbFormHelper
 
 interface IAddWordRepository {
 

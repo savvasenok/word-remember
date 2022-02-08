@@ -2,7 +2,7 @@ package xyz.savvamirzoyan.wordremember.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
+import xyz.savvamirzoyan.wordremember.data.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.AddWordViewModel
 
 class AddWordViewModelFactory(

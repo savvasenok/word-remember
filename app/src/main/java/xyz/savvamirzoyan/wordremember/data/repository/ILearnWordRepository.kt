@@ -1,4 +1,4 @@
-package xyz.savvamirzoyan.wordremember.contract.repository
+package xyz.savvamirzoyan.wordremember.data.repository
 
 import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData

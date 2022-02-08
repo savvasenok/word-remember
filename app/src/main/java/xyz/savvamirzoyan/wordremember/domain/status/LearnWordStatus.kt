@@ -1,7 +1,7 @@
-package xyz.savvamirzoyan.wordremember.data.status
+package xyz.savvamirzoyan.wordremember.domain.status
 
 import androidx.annotation.StringRes
-import xyz.savvamirzoyan.wordremember.data.entity.QuestionAnswer
+import xyz.savvamirzoyan.wordremember.domain.model.QuestionAnswer
 
 sealed class LearnWordStatus {
 

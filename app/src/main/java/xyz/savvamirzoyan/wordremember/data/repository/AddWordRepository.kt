@@ -1,12 +1,11 @@
 package xyz.savvamirzoyan.wordremember.data.repository
 
-import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbFormData
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordData
-import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
+import xyz.savvamirzoyan.wordremember.domain.model.VerbFormHelper
 
 object AddWordRepository : Repository(), IAddWordRepository {
 

@@ -1,8 +1,8 @@
 package xyz.savvamirzoyan.wordremember.testimpl
 
-import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
+import xyz.savvamirzoyan.wordremember.data.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
+import xyz.savvamirzoyan.wordremember.domain.model.VerbFormHelper
 
 class TestAddWordRepository : IAddWordRepository {
     override suspend fun saveWord(

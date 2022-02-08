@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.data.repository.LearnWordRepository
-import xyz.savvamirzoyan.wordremember.data.status.LearnWordStatus
 import xyz.savvamirzoyan.wordremember.databinding.FragmentLearnWordBinding
+import xyz.savvamirzoyan.wordremember.domain.status.LearnWordStatus
 import xyz.savvamirzoyan.wordremember.factory.LearnWordViewModelFactory
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.LearnWordViewModel
 

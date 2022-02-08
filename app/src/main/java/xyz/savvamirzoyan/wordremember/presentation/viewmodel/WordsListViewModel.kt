@@ -5,20 +5,21 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import xyz.savvamirzoyan.wordremember.contract.interactor.IWordsListInteractor
 import xyz.savvamirzoyan.wordremember.contract.viewmodel.IViewModelDeleteSwipedItem
 import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbFormsData
-import xyz.savvamirzoyan.wordremember.data.entity.ui.WordsListItemUI
-import xyz.savvamirzoyan.wordremember.data.status.WordsListStatus
+import xyz.savvamirzoyan.wordremember.domain.interactors.WordsListInteractor
+import xyz.savvamirzoyan.wordremember.domain.status.WordsListStatus
+import xyz.savvamirzoyan.wordremember.presentation.model.WordsListItemUI
 import xyz.savvamirzoyan.wordremember.utils.constants.SortOrder
 
 class WordsListViewModel(
-    private val interactor: IWordsListInteractor
+    private val interactor: WordsListInteractor
 ) : ViewModel(), IViewModelDeleteSwipedItem {
 
     private val searchQueryFlow by lazy { MutableStateFlow("") }
@@ -32,7 +33,7 @@ class WordsListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             interactor.wordsFlow(
 //                searchQueryFlow,
-//                sortOrderFlow,
+                sortOrderFlow.asStateFlow(),
 //                isReversedFlow
             ).collect {
                 _wordsListStatusFlow.send(WordsListStatus.Words(it))

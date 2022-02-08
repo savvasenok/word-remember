@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import xyz.savvamirzoyan.wordremember.R
-import xyz.savvamirzoyan.wordremember.contract.repository.ILearnWordRepository
 import xyz.savvamirzoyan.wordremember.data.database.model.AdjectiveWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.NounWordData
 import xyz.savvamirzoyan.wordremember.data.database.model.VerbWordWithVerbFormsData
-import xyz.savvamirzoyan.wordremember.data.entity.QuestionAnswer
-import xyz.savvamirzoyan.wordremember.data.status.LearnWordStatus
+import xyz.savvamirzoyan.wordremember.data.repository.ILearnWordRepository
+import xyz.savvamirzoyan.wordremember.domain.model.QuestionAnswer
+import xyz.savvamirzoyan.wordremember.domain.status.LearnWordStatus
 import kotlin.math.min
 
 class LearnWordViewModel(

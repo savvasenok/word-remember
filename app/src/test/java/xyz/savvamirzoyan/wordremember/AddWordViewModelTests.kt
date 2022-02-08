@@ -8,8 +8,8 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
+import xyz.savvamirzoyan.wordremember.data.repository.IAddWordRepository
+import xyz.savvamirzoyan.wordremember.domain.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.presentation.state.DataInputState
 import xyz.savvamirzoyan.wordremember.presentation.viewmodel.AddWordViewModel
 import xyz.savvamirzoyan.wordremember.testimpl.TestAddWordRepository

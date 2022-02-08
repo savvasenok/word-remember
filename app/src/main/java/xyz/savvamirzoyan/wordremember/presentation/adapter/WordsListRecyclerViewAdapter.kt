@@ -4,20 +4,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import timber.log.Timber
 import xyz.savvamirzoyan.wordremember.R
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewAdapter
 import xyz.savvamirzoyan.wordremember.contract.adapter.IWordsListRecyclerViewSwipeGetWord
-import xyz.savvamirzoyan.wordremember.data.entity.ui.WordsListItemUI
 import xyz.savvamirzoyan.wordremember.databinding.LayoutWordsListItemAdjectiveBinding
 import xyz.savvamirzoyan.wordremember.databinding.LayoutWordsListItemNounBinding
 import xyz.savvamirzoyan.wordremember.databinding.LayoutWordsListItemVerbBinding
+import xyz.savvamirzoyan.wordremember.presentation.model.WordsListItemUI
 
 class WordsListNounViewHolder(
     private val viewBinding: LayoutWordsListItemNounBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
     fun bind(data: WordsListItemUI.WordsListItemNounUI) {
-        data.map(viewBinding, this.itemView.context)
+
+        viewBinding.textViewWord.text = data.word
+        viewBinding.textViewTranslation.text = data.translation
+
+        viewBinding.textViewWordGender.text = data.gender
+        viewBinding.textViewWordGender.setTextColor(data.color)
     }
 }
 
@@ -25,43 +29,10 @@ class WordsListVerbViewHolder(
     private val viewBinding: LayoutWordsListItemVerbBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
     fun bind(data: WordsListItemUI.WordsListItemVerbUI) {
-        data.map(viewBinding, this.itemView.context)
-//        viewBinding.textViewWord.text = data.word
-//        viewBinding.textViewTranslation.text = data.translation
-//        viewBinding.textViewWordsListItemVerbPrateritum.text = data.prateritum
-//        viewBinding.textViewWordsListItemVerbPerfect.text = data.perfekt
-
-//        data.verbFormsData.apply {
-//            viewBinding.textViewVerbFormIchPrasens.text = this.prasensIch
-//            viewBinding.textViewVerbFormDuPrasens.text = this.prasensDu
-//            viewBinding.textViewVerbFormErSieEsPrasens.text = this.prasensErSieEs
-//            viewBinding.textViewVerbFormWirPrasens.text = this.prasensWir
-//            viewBinding.textViewVerbFormIhrPrasens.text = this.prasensIhr
-//            viewBinding.textViewVerbFormSieSiePrasens.text = this.prasensSieSie
-//
-//            viewBinding.textViewVerbFormIchPrateritum.text = this.prateritumIch
-//            viewBinding.textViewVerbFormDuPrateritum.text = this.prateritumDu
-//            viewBinding.textViewVerbFormErSieEsPrateritum.text = this.prateritumErSieEs
-//            viewBinding.textViewVerbFormWirPrateritum.text = this.prateritumWir
-//            viewBinding.textViewVerbFormIhrPrateritum.text = this.prateritumIhr
-//            viewBinding.textViewVerbFormSieSiePrateritum.text = this.prateritumSieSie
-//        }
-//
-//        if (data.isSubContentVisible) {
-//            viewBinding.linearLayoutVerbForms.visibility = View.VISIBLE
-//        }
-//
-//        viewBinding.cardView.setOnClickListener {
-//            if (viewBinding.linearLayoutVerbForms.visibility == View.GONE) {
-//                viewBinding.linearLayoutVerbForms.visibility = View.VISIBLE
-//                data.isSubContentVisible = true
-//            } else {
-//                viewBinding.linearLayoutVerbForms.visibility = View.GONE
-//                data.isSubContentVisible = false
-//            }
-//
-//            changeNotifier()
-//        }
+        viewBinding.textViewWord.text = data.word
+        viewBinding.textViewTranslation.text = data.translation
+        viewBinding.textViewWordsListItemVerbPerfect.text = data.perfekt
+        viewBinding.textViewWordsListItemVerbPrateritum.text = data.prateritum
     }
 }
 
@@ -69,8 +40,10 @@ class WordsListAdjectiveViewHolder(
     private val viewBinding: LayoutWordsListItemAdjectiveBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
     fun bind(data: WordsListItemUI.WordsListItemAdjectiveUI) {
-        data.map(viewBinding, null)
-//            if (data.superlativ.isNotBlank()) "am ${data.superlativ}" else ""
+        viewBinding.textViewWord.text = data.word
+        viewBinding.textViewTranslation.text = data.translation
+        viewBinding.textViewWordsListItemAdjectiveKomparativ.text = data.komparativ
+        viewBinding.textViewWordsListItemAdjectiveSuperlativ.text = data.superlativ
     }
 }
 
@@ -78,6 +51,7 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
     IWordsListRecyclerViewAdapter, IWordsListRecyclerViewSwipeGetWord {
 
     private companion object {
+        private const val ITEM_UNKNOWN = -1
         private const val ITEM_NOUN = 0
         private const val ITEM_NOUN_PLURAL = 1
         private const val ITEM_VERB = 2
@@ -129,7 +103,6 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         val differentWords = DiffUtil.calculateDiff(callback)
         words.clear()
         words.addAll(newWords)
-        Timber.i("updateWords!")
         differentWords.dispatchUpdatesTo(this)
     }
 
@@ -139,6 +112,7 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         is WordsListItemUI.WordsListItemAdjectiveUI -> ITEM_ADJECTIVE
         is WordsListItemUI.WordsListItemNounUI -> ITEM_NOUN
         is WordsListItemUI.WordsListItemVerbUI -> ITEM_VERB
+        else -> ITEM_UNKNOWN
     }
 
     override fun getWordByPosition(position: Int): WordsListItemUI = words[position]
@@ -152,7 +126,7 @@ class WordsListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         override fun getNewListSize(): Int = newList.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] === newList[newItemPosition]
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

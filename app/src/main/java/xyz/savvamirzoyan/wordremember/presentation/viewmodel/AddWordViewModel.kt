@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import xyz.savvamirzoyan.wordremember.R
-import xyz.savvamirzoyan.wordremember.contract.repository.IAddWordRepository
-import xyz.savvamirzoyan.wordremember.data.entity.VerbFormHelper
-import xyz.savvamirzoyan.wordremember.data.status.AddWordStatus
+import xyz.savvamirzoyan.wordremember.data.repository.IAddWordRepository
 import xyz.savvamirzoyan.wordremember.data.types.WordGender
 import xyz.savvamirzoyan.wordremember.data.types.WordType
 import xyz.savvamirzoyan.wordremember.data.types.WordType.*
 import xyz.savvamirzoyan.wordremember.domain.VerbAnalyzer
+import xyz.savvamirzoyan.wordremember.domain.model.VerbFormHelper
+import xyz.savvamirzoyan.wordremember.domain.status.AddWordStatus
 import xyz.savvamirzoyan.wordremember.presentation.state.DataInputState
 import xyz.savvamirzoyan.wordremember.presentation.state.VerbFormType
 import xyz.savvamirzoyan.wordremember.utils.constants.Person
