@@ -1,4 +1,5 @@
-# Word Remember
+# Word Remember | 
+## Archived, because was developed long time ago
 
 <p>
 <img alt="version" src="https://img.shields.io/badge/version-1.2.0-green" />
